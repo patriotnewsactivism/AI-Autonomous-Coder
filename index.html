@@ -462,6 +462,23 @@
       font-size: 0.8rem;
       color: #94a3b8;
       margin-top: 0.5rem;
+      line-height: 1.5;
+    }
+
+    .form-help a {
+      color: #3b82f6;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .form-help a:hover {
+      color: #1d4ed8;
+      text-decoration: underline;
+      transform: translateX(2px);
     }
 
     /* Responsive Design */
@@ -832,7 +849,13 @@ Ready to revolutionize your coding workflow! 🚀
         <div class="form-group" id="apiKeyGroup">
           <label id="apiKeyLabel">Groq API Key (Optional)</label>
           <input type="password" id="apiKeyInput" placeholder="Enter your API key (optional for free tier)">
-          <div class="form-help">API key is optional for free providers. Leave empty to use free tier.</div>
+          <div class="form-help">
+            API key is optional for free providers. Leave empty to use free tier.
+            <br>
+            <a id="apiKeyLink" href="https://console.groq.com/keys" target="_blank" style="color: #3b82f6; text-decoration: none; font-weight: 600;">
+              🔗 Get your API key here →
+            </a>
+          </div>
         </div>
 
         <div class="form-group">
@@ -1276,6 +1299,86 @@ Ready to revolutionize your coding workflow! 🚀
     elements.githubRepoInput.value = CONFIG.githubRepo;
     elements.userEmailInput.value = CONFIG.userEmail;
 
+    // Provider configuration with API key links
+    const providerConfigs = {
+      groq: {
+        name: 'Groq API Key',
+        placeholder: 'Enter your Groq API key (optional for free tier)',
+        link: 'https://console.groq.com/keys',
+        help: 'Get your free Groq API key for ultra-fast inference'
+      },
+      gemini: {
+        name: 'Google AI Studio API Key',
+        placeholder: 'Enter your Google AI Studio API key (optional for free tier)',
+        link: 'https://aistudio.google.com/app/apikey',
+        help: 'Get your free Google AI Studio API key'
+      },
+      huggingface: {
+        name: 'Hugging Face API Key',
+        placeholder: 'Enter your Hugging Face API key (optional for free tier)',
+        link: 'https://huggingface.co/settings/tokens',
+        help: 'Get your free Hugging Face API token'
+      },
+      ollama: {
+        name: 'Ollama (Local)',
+        placeholder: 'No API key needed - runs locally',
+        link: 'https://ollama.ai/',
+        help: 'Download Ollama for 100% local AI processing'
+      },
+      claude: {
+        name: 'Anthropic Claude API Key',
+        placeholder: 'Enter your Claude API key (required)',
+        link: 'https://console.anthropic.com/',
+        help: 'Get your Claude API key for advanced AI capabilities'
+      },
+      openai: {
+        name: 'OpenAI API Key',
+        placeholder: 'Enter your OpenAI API key (required)',
+        link: 'https://platform.openai.com/api-keys',
+        help: 'Get your OpenAI API key for GPT models'
+      }
+    };
+
+    // Update API key section when provider changes
+    function updateApiKeySection() {
+      const provider = elements.providerSelect.value;
+      const config = providerConfigs[provider];
+      const apiKeyLabel = document.getElementById('apiKeyLabel');
+      const apiKeyInput = document.getElementById('apiKeyInput');
+      const apiKeyLink = document.getElementById('apiKeyLink');
+      const apiKeyGroup = document.getElementById('apiKeyGroup');
+
+      if (config) {
+        apiKeyLabel.textContent = config.name;
+        apiKeyInput.placeholder = config.placeholder;
+        apiKeyLink.href = config.link;
+        apiKeyLink.innerHTML = `🔗 Get your API key here →`;
+        
+        // Update help text
+        const helpDiv = apiKeyGroup.querySelector('.form-help');
+        helpDiv.innerHTML = `
+          ${config.help}
+          <br>
+          <a id="apiKeyLink" href="${config.link}" target="_blank" style="color: #3b82f6; text-decoration: none; font-weight: 600;">
+            🔗 Get your API key here →
+          </a>
+        `;
+
+        // Show/hide based on provider
+        if (provider === 'ollama') {
+          apiKeyGroup.style.display = 'none';
+        } else {
+          apiKeyGroup.style.display = 'block';
+        }
+      }
+    }
+
+    // Add event listener for provider changes
+    elements.providerSelect.addEventListener('change', updateApiKeySection);
+
+    // Initialize API key section
+    updateApiKeySection();
+
     // Register service worker
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js')
@@ -1284,4 +1387,5 @@ Ready to revolutionize your coding workflow! 🚀
     }
   </script>
 </body>
+</html>
 </html>
