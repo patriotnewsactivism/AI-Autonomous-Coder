@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Autonomous Agent System - Simple Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            color: #f1f5f9;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 50%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .status {
+            background: rgba(30, 41, 59, 0.8);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        .btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        .btn:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+        }
+        .test-results {
+            background: rgba(30, 41, 59, 0.6);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .success { color: #10b981; }
+        .error { color: #ef4444; }
+        .warning { color: #f59e0b; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 AI Autonomous Agent System</h1>
+            <p>Simple Test Version - Debugging Deployment Issues</p>
+        </div>
+
+        <div class="status">
+            <h2>System Status</h2>
+            <div id="system-status">Initializing...</div>
+        </div>
+
+        <div class="status">
+            <h2>JavaScript Tests</h2>
+            <button onclick="runTests()">Run Tests</button>
+            <div id="test-results" class="test-results">Click "Run Tests" to check system status</div>
+        </div>
+
+        <div class="status">
+            <h2>Quick Actions</h2>
+            <button onclick="testBasicFunctionality()">Test Basic Functionality</button>
+            <button onclick="testAPIConnection()">Test API Connection</button>
+            <button onclick="loadMainApp()">Load Main App</button>
+        </div>
+
+        <div class="status">
+            <h2>Debug Information</h2>
+            <div id="debug-info">
+                <p><strong>User Agent:</strong> <span id="user-agent"></span></p>
+                <p><strong>Screen Size:</strong> <span id="screen-size"></span></p>
+                <p><strong>Local Storage:</strong> <span id="local-storage"></span></p>
+                <p><strong>Console Errors:</strong> <span id="console-errors">None detected</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Capture console errors
+        const originalError = console.error;
+        const originalWarn = console.warn;
+        const errors = [];
+        const warnings = [];
+
+        console.error = function(...args) {
+            errors.push(args.join(' '));
+            originalError.apply(console, args);
+            updateDebugInfo();
+        };
+
+        console.warn = function(...args) {
+            warnings.push(args.join(' '));
+            originalWarn.apply(console, args);
+            updateDebugInfo();
+        };
+
+        function updateDebugInfo() {
+            document.getElementById('console-errors').textContent = 
+                errors.length > 0 ? `${errors.length} errors` : 'None detected';
+        }
+
+        function updateSystemStatus(message, type = 'info') {
+            const status = document.getElementById('system-status');
+            const className = type === 'success' ? 'success' : type === 'error' ? 'error' : 'warning';
+            status.innerHTML = `<span class="${className}">${message}</span>`;
+        }
+
+        function addTestResult(message, type = 'info') {
+            const results = document.getElementById('test-results');
+            const className = type === 'success' ? 'success' : type === 'error' ? 'error' : 'warning';
+            results.innerHTML += `<div class="${className}">${message}</div>`;
+        }
+
+        function runTests() {
+            document.getElementById('test-results').innerHTML = '';
+            
+            // Test 1: Basic JavaScript
+            try {
+                const test = 'JavaScript is working';
+                test.toUpperCase();
+                addTestResult('✅ Basic JavaScript functionality working', 'success');
+            } catch (error) {
+                addTestResult(`❌ Basic JavaScript test failed: ${error.message}`, 'error');
+            }
+
+            // Test 2: DOM manipulation
+            try {
+                const testElement = document.createElement('div');
+                testElement.textContent = 'DOM test';
+                addTestResult('✅ DOM manipulation working', 'success');
+            } catch (error) {
+                addTestResult(`❌ DOM manipulation test failed: ${error.message}`, 'error');
+            }
+
+            // Test 3: Fetch API
+            fetch('/')
+                .then(response => {
+                    if (response.ok) {
+                        addTestResult('✅ Fetch API working', 'success');
+                    } else {
+                        addTestResult('⚠️ Fetch API working but got non-200 response', 'warning');
+                    }
+                })
+                .catch(error => {
+                    addTestResult(`❌ Fetch API test failed: ${error.message}`, 'error');
+                });
+
+            // Test 4: Local Storage
+            try {
+                localStorage.setItem('test', 'value');
+                const retrieved = localStorage.getItem('test');
+                localStorage.removeItem('test');
+                if (retrieved === 'value') {
+                    addTestResult('✅ Local Storage working', 'success');
+                } else {
+                    addTestResult('❌ Local Storage test failed', 'error');
+                }
+            } catch (error) {
+                addTestResult(`❌ Local Storage test failed: ${error.message}`, 'error');
+            }
+
+            // Test 5: Check for required classes
+            const requiredClasses = ['AutonomousAgentSystem', 'EnhancedAIProvider', 'EnhancedUISystem'];
+            let classesFound = 0;
+            
+            requiredClasses.forEach(className => {
+                if (window[className]) {
+                    classesFound++;
+                }
+            });
+
+            if (classesFound === requiredClasses.length) {
+                addTestResult('✅ All required classes loaded', 'success');
+            } else {
+                addTestResult(`⚠️ Only ${classesFound}/${requiredClasses.length} required classes found`, 'warning');
+            }
+        }
+
+        function testBasicFunctionality() {
+            updateSystemStatus('Testing basic functionality...', 'info');
+            
+            try {
+                // Test if we can create basic objects
+                const testObj = { test: 'value' };
+                const testArray = [1, 2, 3];
+                const testFunction = () => 'test';
+                
+                updateSystemStatus('✅ Basic functionality test passed', 'success');
+            } catch (error) {
+                updateSystemStatus(`❌ Basic functionality test failed: ${error.message}`, 'error');
+            }
+        }
+
+        function testAPIConnection() {
+            updateSystemStatus('Testing API connection...', 'info');
+            
+            // Test a simple API call
+            fetch('https://httpbin.org/get')
+                .then(response => response.json())
+                .then(data => {
+                    updateSystemStatus('✅ API connection test passed', 'success');
+                })
+                .catch(error => {
+                    updateSystemStatus(`❌ API connection test failed: ${error.message}`, 'error');
+                });
+        }
+
+        function loadMainApp() {
+            updateSystemStatus('Loading main application...', 'info');
+            
+            try {
+                // Try to load the main scripts
+                const scripts = [
+                    'autonomous-agents.js',
+                    'ai-providers.js',
+                    'enhanced-ui.js',
+                    'deployment-manager.js',
+                    'setup-autonomous.js',
+                    'demo-script.js'
+                ];
+
+                let loadedCount = 0;
+                let failedCount = 0;
+
+                scripts.forEach(script => {
+                    const scriptElement = document.createElement('script');
+                    scriptElement.src = script;
+                    scriptElement.onload = () => {
+                        loadedCount++;
+                        checkLoadingComplete();
+                    };
+                    scriptElement.onerror = () => {
+                        failedCount++;
+                        checkLoadingComplete();
+                    };
+                    document.head.appendChild(scriptElement);
+                });
+
+                function checkLoadingComplete() {
+                    if (loadedCount + failedCount === scripts.length) {
+                        if (failedCount === 0) {
+                            updateSystemStatus('✅ All scripts loaded successfully', 'success');
+                        } else {
+                            updateSystemStatus(`⚠️ ${loadedCount} scripts loaded, ${failedCount} failed`, 'warning');
+                        }
+                    }
+                }
+            } catch (error) {
+                updateSystemStatus(`❌ Failed to load main app: ${error.message}`, 'error');
+            }
+        }
+
+        // Initialize debug information
+        function initializeDebugInfo() {
+            document.getElementById('user-agent').textContent = navigator.userAgent;
+            document.getElementById('screen-size').textContent = `${screen.width}x${screen.height}`;
+            
+            try {
+                localStorage.setItem('test', 'test');
+                localStorage.removeItem('test');
+                document.getElementById('local-storage').textContent = 'Available';
+            } catch (error) {
+                document.getElementById('local-storage').textContent = 'Not available';
+            }
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', () => {
+            initializeDebugInfo();
+            updateSystemStatus('System initialized successfully', 'success');
+        });
+    </script>
+</body>
+</html>

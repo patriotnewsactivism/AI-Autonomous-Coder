@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Test - AI Agent System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .debug-section {
+            background: white;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .error {
+            color: red;
+            background: #ffe6e6;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 5px 0;
+        }
+        .success {
+            color: green;
+            background: #e6ffe6;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 5px 0;
+        }
+        .info {
+            color: blue;
+            background: #e6f3ff;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 5px 0;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 AI Agent System Debug Test</h1>
+    
+    <div class="debug-section">
+        <h2>1. Basic JavaScript Test</h2>
+        <div id="js-test">Testing...</div>
+        <button onclick="testBasicJS()">Test Basic JS</button>
+    </div>
+
+    <div class="debug-section">
+        <h2>2. File Loading Test</h2>
+        <div id="file-test">Testing...</div>
+        <button onclick="testFileLoading()">Test File Loading</button>
+    </div>
+
+    <div class="debug-section">
+        <h2>3. Class Definition Test</h2>
+        <div id="class-test">Testing...</div>
+        <button onclick="testClassDefinitions()">Test Classes</button>
+    </div>
+
+    <div class="debug-section">
+        <h2>4. API Test</h2>
+        <div id="api-test">Testing...</div>
+        <button onclick="testAPI()">Test API</button>
+    </div>
+
+    <div class="debug-section">
+        <h2>5. Console Errors</h2>
+        <div id="console-errors">No errors detected</div>
+        <button onclick="checkConsoleErrors()">Check Console</button>
+    </div>
+
+    <div class="debug-section">
+        <h2>6. Main App Test</h2>
+        <div id="app-test">Testing...</div>
+        <button onclick="testMainApp()">Test Main App</button>
+    </div>
+
+    <script>
+        // Capture console errors
+        const originalError = console.error;
+        const errors = [];
+        console.error = function(...args) {
+            errors.push(args.join(' '));
+            originalError.apply(console, args);
+        };
+
+        function addMessage(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            const className = type === 'error' ? 'error' : type === 'success' ? 'success' : 'info';
+            element.innerHTML = `<div class="${className}">${message}</div>`;
+        }
+
+        function testBasicJS() {
+            try {
+                const test = 'JavaScript is working!';
+                const result = test.toUpperCase();
+                addMessage('js-test', `✅ Basic JavaScript test passed: ${result}`, 'success');
+            } catch (error) {
+                addMessage('js-test', `❌ Basic JavaScript test failed: ${error.message}`, 'error');
+            }
+        }
+
+        function testFileLoading() {
+            const files = [
+                'autonomous-agents.js',
+                'ai-providers.js',
+                'enhanced-ui.js',
+                'deployment-manager.js',
+                'setup-autonomous.js',
+                'demo-script.js',
+                'sw.js'
+            ];
+
+            let loaded = 0;
+            let failed = 0;
+
+            files.forEach(file => {
+                fetch(file)
+                    .then(response => {
+                        if (response.ok) {
+                            loaded++;
+                            updateFileTest();
+                        } else {
+                            failed++;
+                            updateFileTest();
+                        }
+                    })
+                    .catch(error => {
+                        failed++;
+                        updateFileTest();
+                    });
+            });
+
+            function updateFileTest() {
+                if (loaded + failed === files.length) {
+                    if (failed === 0) {
+                        addMessage('file-test', `✅ All ${loaded} files loaded successfully`, 'success');
+                    } else {
+                        addMessage('file-test', `⚠️ ${loaded} files loaded, ${failed} failed`, 'error');
+                    }
+                }
+            }
+        }
+
+        function testClassDefinitions() {
+            const classes = [
+                'AutonomousAgentSystem',
+                'EnhancedAIProvider',
+                'EnhancedUISystem',
+                'DeploymentManager',
+                'AutonomousSetup',
+                'AutonomousDemo'
+            ];
+
+            let defined = 0;
+            let missing = 0;
+
+            classes.forEach(className => {
+                if (window[className]) {
+                    defined++;
+                } else {
+                    missing++;
+                }
+            });
+
+            if (missing === 0) {
+                addMessage('class-test', `✅ All ${defined} classes are defined`, 'success');
+            } else {
+                addMessage('class-test', `⚠️ ${defined} classes defined, ${missing} missing`, 'error');
+            }
+        }
+
+        function testAPI() {
+            // Test if we can make a simple API call
+            fetch('https://httpbin.org/get')
+                .then(response => response.json())
+                .then(data => {
+                    addMessage('api-test', '✅ API connectivity test passed', 'success');
+                })
+                .catch(error => {
+                    addMessage('api-test', `❌ API test failed: ${error.message}`, 'error');
+                });
+        }
+
+        function checkConsoleErrors() {
+            if (errors.length === 0) {
+                addMessage('console-errors', '✅ No console errors detected', 'success');
+            } else {
+                addMessage('console-errors', `❌ ${errors.length} console errors detected:<br>${errors.join('<br>')}`, 'error');
+            }
+        }
+
+        function testMainApp() {
+            try {
+                // Test if the main app can initialize
+                if (window.AutonomousAgentSystem) {
+                    const agent = new AutonomousAgentSystem();
+                    addMessage('app-test', '✅ Main app class can be instantiated', 'success');
+                } else {
+                    addMessage('app-test', '❌ Main app class not available', 'error');
+                }
+            } catch (error) {
+                addMessage('app-test', `❌ Main app test failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Auto-run tests on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                testBasicJS();
+                testFileLoading();
+                testClassDefinitions();
+                testAPI();
+                checkConsoleErrors();
+                testMainApp();
+            }, 1000);
+        });
+    </script>
+
+    <!-- Load the main scripts -->
+    <script src="autonomous-agents.js"></script>
+    <script src="ai-providers.js"></script>
+    <script src="enhanced-ui.js"></script>
+    <script src="deployment-manager.js"></script>
+    <script src="setup-autonomous.js"></script>
+    <script src="demo-script.js"></script>
+</body>
+</html>
