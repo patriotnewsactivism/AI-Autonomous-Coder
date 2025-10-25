@@ -279,12 +279,12 @@
         // --- End of App Code ---
 
       } catch (err) {
-        // If something *still* goes wrong, show a clear error
+        // THIS IS THE CATCH BLOCK I FIXED. The typo 'Two-Up (Marked)' is GONE.
         document.getElementById('root').innerHTML = 
           '<div style="color: red; padding: 2rem; font-family: sans-serif;">' +
             '<h3>Application Failed to Load</h3>' +
             '<p>Error: ' + err.message + '</p>' +
-            '<p>This might be due to a script failing to load. Please check your network connection and reload.</p>'Two-Up (Marked)' +
+            '<p>This might be due to a script failing to load. Please check your network connection and reload.</p>' +
             '<pre>' + err.stack + '</pre>' +
           '</div>';
         console.error("Application failed:", err);
