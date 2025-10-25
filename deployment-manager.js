@@ -409,12 +409,12 @@ class AWSDeployment {
   }
 
   async deployToLambda(project, options) {
-    const function = await this.services.lambda.createFunction(project);
-    const api = await this.services.lambda.createAPI(function);
+    const lambdaFunction = await this.services.lambda.createFunction(project);
+    const api = await this.services.lambda.createAPI(lambdaFunction);
     
     return {
       url: api.url,
-      function: function.name,
+      function: lambdaFunction.name,
       api: api.id
     };
   }
