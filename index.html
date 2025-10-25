@@ -871,8 +871,8 @@ Ready to work with real AI! 🚀
         <div class="form-group">
           <label>Model</label>
           <select id="modelSelect">
-            <option value="llama3-8b-8192">Llama 3 8B (FREE - Recommended)</option>
-            <option value="llama3-70b-8192">Llama 3 70B (FREE)</option>
+            <option value="llama-3.1-8b-instant">Llama 3.1 8B Instant (FREE - Recommended)</option>
+            <option value="llama-3.1-70b-versatile">Llama 3.1 70B Versatile (FREE)</option>
             <option value="mixtral-8x7b-32768">Mixtral 8x7B (FREE)</option>
             <option value="gemma-7b-it">Gemma 7B (FREE)</option>
           </select>
@@ -924,7 +924,7 @@ Ready to work with real AI! 🚀
     const CONFIG = {
       provider: localStorage.getItem('provider') || 'groq',
       apiKey: localStorage.getItem('apiKey') || '',
-      model: localStorage.getItem('model') || 'llama3-8b-8192',
+      model: localStorage.getItem('model') || 'llama-3.1-8b-instant',
       maxConcurrentAgents: parseInt(localStorage.getItem('maxConcurrent')) || 3,
       costOptimization: localStorage.getItem('costOptimization') || 'free',
       githubToken: localStorage.getItem('githubToken') || '',
