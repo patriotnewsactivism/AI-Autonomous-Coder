@@ -44,7 +44,8 @@ class EnhancedUISystem {
     
     // Initialize all components
     for (const [name, component] of Object.entries(this.components)) {
-      await component.initialize(this);
+            try {
+        await component.initialize(this);
       console.log(`✅ ${name} component initialized`);
     }
     
