@@ -399,6 +399,12 @@
       gap: 0.75rem;
       margin-bottom: 0.75rem;
     }
+
+    @media (max-width: 1200px) {
+      .cost-breakdown {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
     .cost-item {
       background: rgba(30, 41, 59, 0.6);
       padding: 0.75rem;
@@ -628,15 +634,424 @@
       border-color: #6b7280;
       color: #6b7280;
     }
+    
+    /* Mobile-First Responsive Design Enhancements */
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: #e2e8f0;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 6px;
+      transition: background-color 0.2s;
+      min-height: 44px;
+      min-width: 44px;
+    }
+    
+    .mobile-menu-toggle:hover {
+      background: rgba(59, 130, 246, 0.2);
+    }
+    
+    .mobile-sidebar {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100vh;
+      background: rgba(15, 23, 42, 0.98);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      transition: left 0.3s ease;
+      overflow-y: auto;
+      padding: 1rem;
+    }
+    
+    .mobile-sidebar.open {
+      left: 0;
+    }
+    
+    .mobile-sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+    }
+    
+    .mobile-close-btn {
+      background: none;
+      border: none;
+      color: #e2e8f0;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 6px;
+      min-height: 44px;
+      min-width: 44px;
+    }
+    
+    .touch-target {
+      min-height: 44px;
+      min-width: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .mobile-optimized-btn {
+      padding: 1rem 1.5rem;
+      font-size: 1.1rem;
+      border-radius: 12px;
+      min-height: 48px;
+    }
+    
+    .mobile-input {
+      font-size: 16px; /* Prevents zoom on iOS */
+      padding: 1rem;
+      border-radius: 12px;
+      min-height: 48px;
+    }
+    
+    .voice-button-mobile {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+      z-index: 100;
+      transition: all 0.3s ease;
+    }
+    
+    .voice-button-mobile:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 25px rgba(139, 92, 246, 0.6);
+    }
+    
+    .voice-button-mobile.listening {
+      animation: pulse 1s infinite;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    }
+    
+    /* Enhanced Touch Targets */
+    .btn, .btn-primary, .btn-success, .btn-danger, .btn-voice, .btn-github {
+      min-height: 44px;
+      min-width: 44px;
+      touch-action: manipulation;
+    }
+    
+    /* Improved Mobile Typography */
     @media (max-width: 768px) {
-      .sidebar {
-        display: none;
+      body {
+        font-size: 16px;
+        line-height: 1.6;
       }
+      
+      h1, h2, h3, h4, h5, h6 {
+        line-height: 1.3;
+      }
+    }
+    /* Mobile-First Responsive Design */
+    @media (max-width: 1024px) {
+      .main-content {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        max-height: 40vh;
+        overflow-y: auto;
+        border-right: none;
+        border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+      }
+      .chat-area {
+        flex: 1;
+        min-height: 60vh;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        height: 100vh;
+        overflow: hidden;
+      }
+      
       .header {
         padding: 0.75rem 1rem;
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: stretch;
       }
+      
       .header h1 {
         font-size: 1.2rem;
+        text-align: center;
+        margin-bottom: 0.5rem;
+      }
+      
+      .header > div {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      
+      .provider-badge, .status-badge {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.6rem;
+      }
+      
+      .btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.875rem;
+      }
+      
+      .sidebar {
+        width: 100%;
+        max-height: 35vh;
+        padding: 0.75rem;
+        border-right: none;
+        border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+      }
+      
+      .section {
+        margin-bottom: 1rem;
+        padding: 0.75rem;
+      }
+      
+      .section h3 {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+      }
+      
+      .agent-item, .task-item {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+      }
+      
+      .chat-area {
+        flex: 1;
+        min-height: 65vh;
+        padding: 0.75rem;
+      }
+      
+      .messages {
+        padding: 0.75rem;
+        gap: 0.75rem;
+      }
+      
+      .message {
+        max-width: 95%;
+        gap: 0.75rem;
+      }
+      
+      .message-avatar {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+      }
+      
+      .message-content {
+        padding: 0.75rem;
+        font-size: 0.875rem;
+        line-height: 1.5;
+      }
+      
+      .input-area {
+        padding: 1rem;
+      }
+      
+      .input-form {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      
+      .input-form input {
+        padding: 0.875rem;
+        font-size: 1rem;
+        border-radius: 12px;
+      }
+      
+      .input-form .btn {
+        padding: 0.875rem;
+        font-size: 1rem;
+        border-radius: 12px;
+        justify-content: center;
+      }
+      
+      .modal-content {
+        width: 95%;
+        max-height: 95vh;
+        margin: 1rem;
+      }
+      
+      .modal-header {
+        padding: 1rem;
+      }
+      
+      .modal-body {
+        padding: 1rem;
+      }
+      
+      .form-group {
+        margin-bottom: 1rem;
+      }
+      
+      .form-group input, .form-group select {
+        padding: 0.875rem;
+        font-size: 1rem;
+        border-radius: 8px;
+      }
+      
+      .cost-breakdown {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+      }
+      
+      .pricing-tiers {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+      }
+      
+      .feature-grid {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+      }
+      
+      .github-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .btn-github {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header {
+        padding: 0.5rem;
+      }
+      
+      .header h1 {
+        font-size: 1rem;
+      }
+      
+      .provider-badge, .status-badge {
+        font-size: 0.6rem;
+        padding: 0.25rem 0.5rem;
+      }
+      
+      .btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+      }
+      
+      .sidebar {
+        max-height: 30vh;
+        padding: 0.5rem;
+      }
+      
+      .section {
+        padding: 0.5rem;
+        margin-bottom: 0.75rem;
+      }
+      
+      .chat-area {
+        min-height: 70vh;
+        padding: 0.5rem;
+      }
+      
+      .messages {
+        padding: 0.5rem;
+      }
+      
+      .message-content {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+      }
+      
+      .input-area {
+        padding: 0.75rem;
+      }
+      
+      .input-form input {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+      }
+      
+      .input-form .btn {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+      }
+    }
+
+    /* Touch-friendly improvements */
+    @media (hover: none) and (pointer: coarse) {
+      .btn {
+        min-height: 44px;
+        min-width: 44px;
+      }
+      
+      .agent-item, .task-item {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+      }
+      
+      .message-avatar {
+        min-width: 44px;
+        min-height: 44px;
+      }
+      
+      .input-form input {
+        min-height: 44px;
+      }
+    }
+
+    /* Dark mode optimizations for mobile */
+    @media (prefers-color-scheme: dark) {
+      .message-content {
+        background: rgba(30, 41, 59, 0.8);
+      }
+      
+      .message.user .message-content {
+        background: rgba(59, 130, 246, 0.3);
+      }
+    }
+
+    /* High contrast mode support */
+    @media (prefers-contrast: high) {
+      .btn {
+        border: 2px solid currentColor;
+      }
+      
+      .message-content {
+        border: 1px solid rgba(59, 130, 246, 0.5);
+      }
+    }
+
+    /* Reduced motion support */
+    @media (prefers-reduced-motion: reduce) {
+      .message {
+        animation: none;
+      }
+      
+      .status-dot.active {
+        animation: none;
+      }
+      
+      .btn:hover {
+        transform: none;
       }
     }
   </style>
@@ -644,6 +1059,7 @@
 <body>
   <div class="container">
     <div class="header">
+      <button id="mobileMenuToggle" class="mobile-menu-toggle">☰</button>
       <h1>🤖 Multi-Provider Agent System</h1>
       <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
         <div id="providerBadge" class="provider-badge gemini">
@@ -688,15 +1104,27 @@
             <h4>💡 Pre-Execution Cost Estimate</h4>
             <div class="cost-breakdown" id="costBreakdown">
               <div class="cost-item">
-                <div class="provider">Google Gemini</div>
+                <div class="provider">⚡ Groq</div>
                 <div class="amount free">FREE</div>
               </div>
               <div class="cost-item">
-                <div class="provider">Claude</div>
+                <div class="provider">🔮 Gemini</div>
+                <div class="amount free">FREE</div>
+              </div>
+              <div class="cost-item">
+                <div class="provider">🤗 Hugging Face</div>
+                <div class="amount free">FREE</div>
+              </div>
+              <div class="cost-item">
+                <div class="provider">🏠 Ollama</div>
+                <div class="amount free">FREE</div>
+              </div>
+              <div class="cost-item">
+                <div class="provider">🎭 Claude</div>
                 <div class="amount paid" id="claudeCost">$0.00</div>
               </div>
               <div class="cost-item">
-                <div class="provider">OpenAI</div>
+                <div class="provider">🤖 OpenAI</div>
                 <div class="amount paid" id="openaiCost">$0.00</div>
               </div>
             </div>
@@ -775,36 +1203,54 @@
             <h4>💎 Choose Your Plan</h4>
             <div class="pricing-tiers">
               <div class="pricing-tier">
-                <h5>Free</h5>
+                <h5>🆓 Free</h5>
                 <div class="price">$0</div>
                 <div class="features">
-                  • 1,000 tokens/day<br>
-                  • Basic agents<br>
-                  • Text only<br>
-                  • Community support
+                  • 5,000 tokens/day<br>
+                  • All FREE AI providers<br>
+                  • Voice control<br>
+                  • Basic GitHub integration<br>
+                  • Community support<br>
+                  • Mobile optimized
                 </div>
+                <button class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">Current Plan</button>
               </div>
               <div class="pricing-tier featured">
-                <h5>Pro</h5>
-                <div class="price">$19/mo</div>
+                <h5>💎 Pro</h5>
+                <div class="price">$9/mo</div>
                 <div class="features">
-                  • 50,000 tokens/day<br>
-                  • All agents<br>
-                  • Voice control<br>
-                  • GitHub integration<br>
-                  • Priority support
+                  • 100,000 tokens/day<br>
+                  • All AI providers<br>
+                  • Advanced voice control<br>
+                  • Full GitHub integration<br>
+                  • Priority support<br>
+                  • API access<br>
+                  • Custom agents
                 </div>
+                <button class="btn btn-success" style="width: 100%; margin-top: 0.5rem;">Upgrade Now</button>
               </div>
               <div class="pricing-tier">
-                <h5>Enterprise</h5>
-                <div class="price">$99/mo</div>
+                <h5>🏢 Enterprise</h5>
+                <div class="price">$49/mo</div>
                 <div class="features">
                   • Unlimited tokens<br>
-                  • Custom agents<br>
+                  • White-label options<br>
                   • Team collaboration<br>
-                  • API access<br>
-                  • Dedicated support
+                  • Advanced analytics<br>
+                  • Dedicated support<br>
+                  • Custom integrations<br>
+                  • Revenue sharing
                 </div>
+                <button class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">Contact Sales</button>
+              </div>
+            </div>
+            <div style="background: rgba(16, 185, 129, 0.1); padding: 1rem; border-radius: 8px; margin-top: 1rem; border: 1px solid rgba(16, 185, 129, 0.2);">
+              <h4 style="color: #10b981; margin-bottom: 0.5rem;">💡 Revenue Opportunities</h4>
+              <div style="font-size: 0.875rem; color: #94a3b8;">
+                <div>• <strong>Affiliate Program:</strong> Earn 30% commission on referrals</div>
+                <div>• <strong>API Reselling:</strong> Mark up AI costs by 20-50%</div>
+                <div>• <strong>White-label Licensing:</strong> $500/month per client</div>
+                <div>• <strong>Custom Development:</strong> $150/hour consulting</div>
               </div>
             </div>
           </div>
@@ -869,6 +1315,75 @@
     </div>
   </div>
 
+  <!-- Mobile Sidebar -->
+  <div id="mobileSidebar" class="mobile-sidebar">
+    <div class="mobile-sidebar-header">
+      <h3>🤖 AI Agent System</h3>
+      <button id="mobileCloseBtn" class="mobile-close-btn">✕</button>
+    </div>
+    <div class="section">
+      <h3>🤖 Active Agents</h3>
+      <div id="mobileAgentsList"></div>
+    </div>
+    
+    <div class="section">
+      <h3>📋 Task Queue</h3>
+      <div id="mobileTaskQueue"></div>
+    </div>
+
+    <div class="section">
+      <h3>📊 Statistics</h3>
+      <div id="mobileStats" style="font-size: 0.875rem; color: #94a3b8;">
+        <div>✅ Completed: <span id="mobileCompletedCount">0</span></div>
+        <div>❌ Failed: <span id="mobileFailedCount">0</span></div>
+        <div>⚡ Running: <span id="mobileRunningCount">0</span></div>
+        <div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(59, 130, 246, 0.2);">
+          💰 Estimated Cost: <span id="mobileCostEstimate">$0.00</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>💰 Cost Analysis</h3>
+      <div id="mobileCostAnalysis" class="cost-analysis">
+        <h4>💡 Pre-Execution Cost Estimate</h4>
+        <div class="cost-breakdown" id="mobileCostBreakdown">
+          <div class="cost-item">
+            <div class="provider">Google Gemini</div>
+            <div class="amount free">FREE</div>
+          </div>
+          <div class="cost-item">
+            <div class="provider">Claude</div>
+            <div class="amount paid" id="mobileClaudeCost">$0.00</div>
+          </div>
+          <div class="cost-item">
+            <div class="provider">OpenAI</div>
+            <div class="amount paid" id="mobileOpenaiCost">$0.00</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>🎤 Voice Control</h3>
+      <div class="voice-controls">
+        <h4>🗣️ Natural Conversation</h4>
+        <div id="mobileVoiceStatus" class="voice-status idle">
+          <span>●</span>
+          <span>Voice Ready</span>
+        </div>
+        <div>
+          <button id="mobileStartVoiceBtn" class="btn btn-voice mobile-optimized-btn">
+            🎤 Start Listening
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Voice Button for Mobile -->
+  <button id="floatingVoiceBtn" class="voice-button-mobile">🎤</button>
+
   <div id="configModal" class="config-modal hidden">
     <div class="modal-content">
       <div class="modal-header">
@@ -878,11 +1393,14 @@
         <div class="form-group">
           <label>AI Provider</label>
           <select id="providerSelect">
-            <option value="gemini">Google Gemini (FREE - Recommended)</option>
-            <option value="claude">Anthropic Claude (Paid)</option>
-            <option value="openai">OpenAI GPT (Paid)</option>
+            <option value="gemini">🔮 Google Gemini (FREE - Recommended)</option>
+            <option value="groq">⚡ Groq (FREE - Ultra Fast)</option>
+            <option value="huggingface">🤗 Hugging Face (FREE - 1000+ Models)</option>
+            <option value="ollama">🏠 Ollama (100% FREE - Local)</option>
+            <option value="claude">🎭 Anthropic Claude (Paid)</option>
+            <option value="openai">🤖 OpenAI GPT (Paid)</option>
           </select>
-          <div class="form-help">Gemini offers a generous free tier</div>
+          <div class="form-help">Choose FREE providers to minimize costs. Ollama runs locally for maximum privacy.</div>
         </div>
 
         <div id="providerInfo"></div>
@@ -950,9 +1468,9 @@
   <script>
     // System Configuration
     const CONFIG = {
-      provider: localStorage.getItem('provider') || 'gemini',
+      provider: localStorage.getItem('provider') || 'groq', // Default to free Groq
       apiKey: localStorage.getItem('apiKey') || '',
-      model: localStorage.getItem('model') || 'gemini-1.5-flash',
+      model: localStorage.getItem('model') || 'llama3-8b-8192', // Default to free Groq model
       maxConcurrentAgents: parseInt(localStorage.getItem('maxConcurrent')) || 3,
       estimatedCost: 0,
       tokenCount: 0,
@@ -962,7 +1480,7 @@
       costOptimization: localStorage.getItem('costOptimization') || 'free',
       userEmail: localStorage.getItem('userEmail') || '',
       userTier: localStorage.getItem('userTier') || 'free',
-      dailyTokenLimit: parseInt(localStorage.getItem('dailyTokenLimit')) || 1000,
+      dailyTokenLimit: parseInt(localStorage.getItem('dailyTokenLimit')) || 5000, // Increased free limit
       tokensUsedToday: parseInt(localStorage.getItem('tokensUsedToday')) || 0,
       lastResetDate: localStorage.getItem('lastResetDate') || new Date().toDateString()
     };
@@ -1022,6 +1540,63 @@
             '✅ 1M+ tokens per minute',
             '✅ No credit card required',
             '✅ Get key at aistudio.google.com'
+          ]
+        }
+      },
+      huggingface: {
+        name: 'Hugging Face',
+        endpoint: 'https://api-inference.huggingface.co/models',
+        models: {
+          'microsoft/DialoGPT-large': { name: 'DialoGPT Large', cost: 0, free: true },
+          'microsoft/CodeGPT-small-py': { name: 'CodeGPT Python', cost: 0, free: true },
+          'bigcode/starcoder': { name: 'StarCoder', cost: 0, free: true }
+        },
+        info: {
+          title: 'Hugging Face (FREE)',
+          features: [
+            '✅ Completely FREE inference API',
+            '✅ 1000+ free models available',
+            '✅ No credit card required',
+            '✅ Great for coding tasks',
+            '✅ Get key at huggingface.co/settings/tokens'
+          ]
+        }
+      },
+      ollama: {
+        name: 'Ollama (Local)',
+        endpoint: 'http://localhost:11434/api',
+        models: {
+          'llama2': { name: 'Llama 2', cost: 0, free: true },
+          'codellama': { name: 'Code Llama', cost: 0, free: true },
+          'mistral': { name: 'Mistral', cost: 0, free: true }
+        },
+        info: {
+          title: 'Ollama (100% FREE)',
+          features: [
+            '✅ 100% FREE - runs locally',
+            '✅ No internet required after setup',
+            '✅ Privacy-first - data stays local',
+            '✅ Install: ollama.ai',
+            '✅ Perfect for mobile/offline use'
+          ]
+        }
+      },
+      groq: {
+        name: 'Groq (FREE)',
+        endpoint: 'https://api.groq.com/openai/v1/chat/completions',
+        models: {
+          'llama3-8b-8192': { name: 'Llama 3 8B', cost: 0, free: true },
+          'llama3-70b-8192': { name: 'Llama 3 70B', cost: 0, free: true },
+          'mixtral-8x7b-32768': { name: 'Mixtral 8x7B', cost: 0, free: true }
+        },
+        info: {
+          title: 'Groq (FREE)',
+          features: [
+            '✅ FREE tier with generous limits',
+            '✅ Ultra-fast inference',
+            '✅ 30 requests per minute',
+            '✅ No credit card required',
+            '✅ Get key at console.groq.com'
           ]
         }
       },
@@ -1286,9 +1861,89 @@ Provide working solutions with explanations.`
       return data.content[0].text;
     }
 
+    async function callHuggingFaceAPI(messages, systemPrompt) {
+      const model = CONFIG.model;
+      const url = `${PROVIDERS.huggingface.endpoint}/${model}`;
+      
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${CONFIG.apiKey}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          inputs: systemPrompt + '\n\n' + messages[0].content,
+          parameters: {
+            max_length: 1000,
+            temperature: 0.7,
+            return_full_text: false
+          }
+        })
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Hugging Face API call failed');
+      }
+
+      const data = await response.json();
+      return Array.isArray(data) ? data[0].generated_text : data.generated_text;
+    }
+
+    async function callOllamaAPI(messages, systemPrompt) {
+      const model = CONFIG.model;
+      const url = `${PROVIDERS.ollama.endpoint}/generate`;
+      
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: model,
+          prompt: systemPrompt + '\n\n' + messages[0].content,
+          stream: false
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Ollama API call failed - make sure Ollama is running locally');
+      }
+
+      const data = await response.json();
+      return data.response;
+    }
+
+    async function callGroqAPI(messages, systemPrompt) {
+      const response = await fetch(PROVIDERS.groq.endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${CONFIG.apiKey}`
+        },
+        body: JSON.stringify({
+          model: CONFIG.model,
+          messages: [
+            { role: 'system', content: systemPrompt },
+            ...messages
+          ],
+          temperature: 0.7,
+          max_tokens: 1000
+        })
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error?.message || 'Groq API call failed');
+      }
+
+      const data = await response.json();
+      return data.choices[0].message.content;
+    }
+
     async function callOpenAIAPI(messages, systemPrompt) {
       const response = await fetch(PROVIDERS.openai.endpoint, {
-                    method: 'POST',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${CONFIG.apiKey}`
@@ -1302,18 +1957,19 @@ Provide working solutions with explanations.`
         })
       });
 
-                if (!response.ok) {
+      if (!response.ok) {
         const error = await response.json();
         throw new Error(error.error?.message || 'OpenAI API call failed');
-                }
+      }
 
-                const data = await response.json();
+      const data = await response.json();
       updateCost(data.usage?.prompt_tokens || 0, PROVIDERS.openai.models[CONFIG.model].cost);
       return data.choices[0].message.content;
     }
 
     async function callAI(messages, systemPrompt, agentType) {
-      if (!CONFIG.apiKey) {
+      // Skip API key check for Ollama (local) and some free providers
+      if (CONFIG.provider !== 'ollama' && !CONFIG.apiKey) {
         throw new Error('API key not configured');
       }
 
@@ -1325,6 +1981,12 @@ Provide working solutions with explanations.`
       switch (CONFIG.provider) {
         case 'gemini':
           return await callGeminiAPI(formattedMessages, systemPrompt);
+        case 'huggingface':
+          return await callHuggingFaceAPI(formattedMessages, systemPrompt);
+        case 'ollama':
+          return await callOllamaAPI(formattedMessages, systemPrompt);
+        case 'groq':
+          return await callGroqAPI(formattedMessages, systemPrompt);
         case 'claude':
           return await callClaudeAPI(formattedMessages, systemPrompt);
         case 'openai':
@@ -1359,17 +2021,28 @@ Provide working solutions with explanations.`
         localStorage.setItem('lastResetDate', today);
       }
 
+      // Free providers in order of preference
+      const freeProviders = ['ollama', 'groq', 'huggingface', 'gemini'];
+      const paidProviders = ['claude', 'openai'];
+
       switch (CONFIG.costOptimization) {
         case 'free':
-          return 'gemini'; // Always use free Gemini
+          // Always use free providers, prefer local Ollama for privacy
+          return freeProviders[0];
         case 'balanced':
-          // Use Gemini for 80% of requests, paid for complex tasks
-          return CONFIG.tokensUsedToday < CONFIG.dailyTokenLimit * 0.8 ? 'gemini' : 'claude';
+          // Use free providers for 90% of requests, paid for complex tasks
+          if (CONFIG.tokensUsedToday < CONFIG.dailyTokenLimit * 0.9) {
+            return freeProviders[Math.floor(Math.random() * freeProviders.length)];
+          }
+          return paidProviders[0];
         case 'performance':
-          // Use best available model
-          return CONFIG.userTier === 'enterprise' ? 'claude' : 'gemini';
+          // Use best available model based on tier
+          if (CONFIG.userTier === 'enterprise') {
+            return paidProviders[0];
+          }
+          return freeProviders[1]; // Groq for speed
         default:
-          return 'gemini';
+          return freeProviders[0]; // Default to Ollama
       }
     }
 
@@ -1387,10 +2060,10 @@ Provide working solutions with explanations.`
       // Update limits based on tier
       switch (tier) {
         case 'free':
-          CONFIG.dailyTokenLimit = 1000;
+          CONFIG.dailyTokenLimit = 5000; // Increased free limit
           break;
         case 'pro':
-          CONFIG.dailyTokenLimit = 50000;
+          CONFIG.dailyTokenLimit = 100000; // Increased pro limit
           break;
         case 'enterprise':
           CONFIG.dailyTokenLimit = 999999999; // Effectively unlimited
@@ -1409,12 +2082,48 @@ Provide working solutions with explanations.`
         elements.startVoiceBtn.disabled = true;
         elements.stopVoiceBtn.disabled = false;
         elements.voiceInputBtn.disabled = true;
+        
+        // Update mobile voice status
+        const mobileVoiceStatus = document.getElementById('mobileVoiceStatus');
+        const floatingVoiceBtn = document.getElementById('floatingVoiceBtn');
+        const mobileStartVoiceBtn = document.getElementById('mobileStartVoiceBtn');
+        
+        if (mobileVoiceStatus) {
+          mobileVoiceStatus.className = 'voice-status listening';
+          mobileVoiceStatus.innerHTML = '<span>●</span><span>Listening...</span>';
+        }
+        if (floatingVoiceBtn) {
+          floatingVoiceBtn.classList.add('listening');
+          floatingVoiceBtn.innerHTML = '🛑';
+        }
+        if (mobileStartVoiceBtn) {
+          mobileStartVoiceBtn.disabled = true;
+          mobileStartVoiceBtn.innerHTML = '🛑 Stop Listening';
+        }
       } else {
         elements.voiceStatus.className = 'voice-status idle';
         elements.voiceStatus.innerHTML = '<span>●</span><span>Voice Ready</span>';
         elements.startVoiceBtn.disabled = false;
         elements.stopVoiceBtn.disabled = true;
         elements.voiceInputBtn.disabled = false;
+        
+        // Update mobile voice status
+        const mobileVoiceStatus = document.getElementById('mobileVoiceStatus');
+        const floatingVoiceBtn = document.getElementById('floatingVoiceBtn');
+        const mobileStartVoiceBtn = document.getElementById('mobileStartVoiceBtn');
+        
+        if (mobileVoiceStatus) {
+          mobileVoiceStatus.className = 'voice-status idle';
+          mobileVoiceStatus.innerHTML = '<span>●</span><span>Voice Ready</span>';
+        }
+        if (floatingVoiceBtn) {
+          floatingVoiceBtn.classList.remove('listening');
+          floatingVoiceBtn.innerHTML = '🎤';
+        }
+        if (mobileStartVoiceBtn) {
+          mobileStartVoiceBtn.disabled = false;
+          mobileStartVoiceBtn.innerHTML = '🎤 Start Listening';
+        }
       }
     }
 
@@ -1530,7 +2239,10 @@ Provide working solutions with explanations.`
 
     function estimateTaskCost(userQuery) {
       const estimates = {
+        groq: { cost: 0, tokens: 0, free: true },
         gemini: { cost: 0, tokens: 0, free: true },
+        huggingface: { cost: 0, tokens: 0, free: true },
+        ollama: { cost: 0, tokens: 0, free: true },
         claude: { cost: 0, tokens: 0, free: false },
         openai: { cost: 0, tokens: 0, free: false }
       };
@@ -1543,8 +2255,17 @@ Provide working solutions with explanations.`
       const totalTokens = orchestrationTokens + (avgAgentTokens * 3);
 
       // Calculate costs for each provider
+      estimates.groq.tokens = totalTokens;
+      estimates.groq.cost = 0; // FREE
+
       estimates.gemini.tokens = totalTokens;
       estimates.gemini.cost = 0; // FREE
+
+      estimates.huggingface.tokens = totalTokens;
+      estimates.huggingface.cost = 0; // FREE
+
+      estimates.ollama.tokens = totalTokens;
+      estimates.ollama.cost = 0; // FREE
 
       estimates.claude.tokens = totalTokens;
       estimates.claude.cost = (totalTokens / 1000000) * PROVIDERS.claude.models['claude-sonnet-4-20250514'].cost;
@@ -1562,20 +2283,135 @@ Provide working solutions with explanations.`
       // Update cost breakdown with token counts
       const costItems = elements.costBreakdown.children;
       costItems[0].innerHTML = `
-        <div class="provider">Google Gemini</div>
+        <div class="provider">⚡ Groq</div>
+        <div class="amount free">FREE</div>
+        <div style="font-size: 0.7rem; color: #94a3b8;">~${estimates.groq.tokens.toLocaleString()} tokens</div>
+      `;
+      costItems[1].innerHTML = `
+        <div class="provider">🔮 Gemini</div>
         <div class="amount free">FREE</div>
         <div style="font-size: 0.7rem; color: #94a3b8;">~${estimates.gemini.tokens.toLocaleString()} tokens</div>
       `;
-      costItems[1].innerHTML = `
-        <div class="provider">Claude</div>
+      costItems[2].innerHTML = `
+        <div class="provider">🤗 Hugging Face</div>
+        <div class="amount free">FREE</div>
+        <div style="font-size: 0.7rem; color: #94a3b8;">~${estimates.huggingface.tokens.toLocaleString()} tokens</div>
+      `;
+      costItems[3].innerHTML = `
+        <div class="provider">🏠 Ollama</div>
+        <div class="amount free">FREE</div>
+        <div style="font-size: 0.7rem; color: #94a3b8;">~${estimates.ollama.tokens.toLocaleString()} tokens</div>
+      `;
+      costItems[4].innerHTML = `
+        <div class="provider">🎭 Claude</div>
         <div class="amount paid">$${estimates.claude.cost.toFixed(4)}</div>
         <div style="font-size: 0.7rem; color: #94a3b8;">~${estimates.claude.tokens.toLocaleString()} tokens</div>
       `;
-      costItems[2].innerHTML = `
-        <div class="provider">OpenAI</div>
+      costItems[5].innerHTML = `
+        <div class="provider">🤖 OpenAI</div>
         <div class="amount paid">$${estimates.openai.cost.toFixed(4)}</div>
         <div style="font-size: 0.7rem; color: #94a3b8;">~${estimates.openai.tokens.toLocaleString()} tokens</div>
       `;
+      
+      // Update mobile cost analysis
+      updateMobileCostAnalysis(estimates);
+    }
+
+    // Mobile Update Functions
+    function updateMobileCostAnalysis(estimates) {
+      const mobileClaudeCost = document.getElementById('mobileClaudeCost');
+      const mobileOpenaiCost = document.getElementById('mobileOpenaiCost');
+      const mobileCostEstimate = document.getElementById('mobileCostEstimate');
+      
+      if (mobileClaudeCost) mobileClaudeCost.textContent = `$${estimates.claude.cost.toFixed(4)}`;
+      if (mobileOpenaiCost) mobileOpenaiCost.textContent = `$${estimates.openai.cost.toFixed(4)}`;
+      
+      const totalCost = estimates.claude.cost + estimates.openai.cost;
+      if (mobileCostEstimate) mobileCostEstimate.textContent = `$${totalCost.toFixed(4)}`;
+      
+      // Update mobile cost breakdown
+      const mobileCostBreakdown = document.getElementById('mobileCostBreakdown');
+      if (mobileCostBreakdown) {
+        const costItems = mobileCostBreakdown.children;
+        if (costItems[0]) {
+          costItems[0].innerHTML = `
+            <div class="provider">⚡ Groq</div>
+            <div class="amount free">FREE</div>
+          `;
+        }
+        if (costItems[1]) {
+          costItems[1].innerHTML = `
+            <div class="provider">🔮 Gemini</div>
+            <div class="amount free">FREE</div>
+          `;
+        }
+        if (costItems[2]) {
+          costItems[2].innerHTML = `
+            <div class="provider">🤗 Hugging Face</div>
+            <div class="amount free">FREE</div>
+          `;
+        }
+      }
+    }
+
+    function updateMobileStats() {
+      const mobileCompletedCount = document.getElementById('mobileCompletedCount');
+      const mobileFailedCount = document.getElementById('mobileFailedCount');
+      const mobileRunningCount = document.getElementById('mobileRunningCount');
+      
+      if (mobileCompletedCount) mobileCompletedCount.textContent = STATE.completedTasks.length;
+      if (mobileFailedCount) mobileFailedCount.textContent = STATE.failedTasks.length;
+      if (mobileRunningCount) mobileRunningCount.textContent = STATE.runningTasks.length;
+    }
+
+    function updateMobileAgentsList() {
+      const mobileAgentsList = document.getElementById('mobileAgentsList');
+      if (!mobileAgentsList) return;
+      
+      mobileAgentsList.innerHTML = '';
+      STATE.activeAgents.forEach(agent => {
+        const agentDiv = document.createElement('div');
+        agentDiv.className = 'agent-item';
+        agentDiv.innerHTML = `
+          <div class="agent-info">
+            <div class="agent-name">${agent.name}</div>
+            <div class="agent-status ${agent.status}">${agent.status}</div>
+          </div>
+        `;
+        mobileAgentsList.appendChild(agentDiv);
+      });
+    }
+
+    function updateMobileTaskQueue() {
+      const mobileTaskQueue = document.getElementById('mobileTaskQueue');
+      if (!mobileTaskQueue) return;
+      
+      mobileTaskQueue.innerHTML = '';
+      const allTasks = [...STATE.pendingTasks, ...STATE.runningTasks];
+      
+      if (allTasks.length === 0) {
+        mobileTaskQueue.innerHTML = '<div style="color: #94a3b8; font-size: 0.875rem;">No pending tasks</div>';
+        return;
+      }
+      
+      allTasks.slice(0, 5).forEach(task => {
+        const taskDiv = document.createElement('div');
+        taskDiv.className = 'task-item';
+        taskDiv.innerHTML = `
+          <div class="task-info">
+            <div class="task-name">${task.name}</div>
+            <div class="task-status ${task.status}">${task.status}</div>
+          </div>
+        `;
+        mobileTaskQueue.appendChild(taskDiv);
+      });
+      
+      if (allTasks.length > 5) {
+        const moreDiv = document.createElement('div');
+        moreDiv.style.cssText = 'color: #94a3b8; font-size: 0.875rem; margin-top: 0.5rem;';
+        moreDiv.textContent = `+${allTasks.length - 5} more tasks`;
+        mobileTaskQueue.appendChild(moreDiv);
+      }
     }
 
     // GitHub Integration Functions
@@ -1867,6 +2703,11 @@ IMPORTANT: Consider project context, previous results, and lessons learned. Prov
 
           addMessage('assistant', `✅ ${agent.emoji} ${agent.name} completed (Quality: ${qualityCheck.score}/10):\n\n${result}`);
 
+          // Update mobile UI
+          updateMobileStats();
+          updateMobileAgentsList();
+          updateMobileTaskQueue();
+
           // Auto-save after successful completion
           saveState();
         } else {
@@ -1901,6 +2742,11 @@ IMPORTANT: Consider project context, previous results, and lessons learned. Prov
         });
 
         addMessage('system', `❌ ${agent.emoji} ${agent.name} failed: ${error.message}`);
+        
+        // Update mobile UI
+        updateMobileStats();
+        updateMobileAgentsList();
+        updateMobileTaskQueue();
       } finally {
         agent.isActive = false;
         agent.currentTask = null;
@@ -2039,14 +2885,27 @@ Return ONLY a JSON object:
       // Update API key label
       const keyLabels = {
         gemini: 'Google AI Studio API Key',
+        groq: 'Groq API Key',
+        huggingface: 'Hugging Face API Key',
+        ollama: 'Ollama (No API Key Required)',
         claude: 'Anthropic API Key',
         openai: 'OpenAI API Key'
       };
       elements.apiKeyLabel.textContent = keyLabels[CONFIG.provider];
 
+      // Show/hide API key input based on provider
+      if (CONFIG.provider === 'ollama') {
+        elements.apiKeyGroup.style.display = 'none';
+      } else {
+        elements.apiKeyGroup.style.display = 'block';
+      }
+
       // Update provider badge
       const badges = {
         gemini: '🔮 Google Gemini (FREE)',
+        groq: '⚡ Groq (FREE)',
+        huggingface: '🤗 Hugging Face (FREE)',
+        ollama: '🏠 Ollama (100% FREE)',
         claude: '🎭 Anthropic Claude',
         openai: '🤖 OpenAI GPT'
       };
@@ -2145,6 +3004,75 @@ Return ONLY a JSON object:
       }
     });
 
+    // Mobile Event Listeners
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mobileSidebar = document.getElementById('mobileSidebar');
+    const mobileCloseBtn = document.getElementById('mobileCloseBtn');
+    const floatingVoiceBtn = document.getElementById('floatingVoiceBtn');
+    const mobileStartVoiceBtn = document.getElementById('mobileStartVoiceBtn');
+
+    if (mobileMenuToggle) {
+      mobileMenuToggle.addEventListener('click', () => {
+        mobileSidebar.classList.add('open');
+      });
+    }
+
+    if (mobileCloseBtn) {
+      mobileCloseBtn.addEventListener('click', () => {
+        mobileSidebar.classList.remove('open');
+      });
+    }
+
+    if (floatingVoiceBtn) {
+      floatingVoiceBtn.addEventListener('click', () => {
+        if (isListening) {
+          stopVoiceRecognition();
+        } else {
+          startVoiceRecognition();
+        }
+      });
+    }
+
+    if (mobileStartVoiceBtn) {
+      mobileStartVoiceBtn.addEventListener('click', () => {
+        if (isListening) {
+          stopVoiceRecognition();
+        } else {
+          startVoiceRecognition();
+        }
+      });
+    }
+
+    // Close mobile sidebar when clicking outside
+    document.addEventListener('click', (e) => {
+      if (mobileSidebar && mobileSidebar.classList.contains('open')) {
+        if (!mobileSidebar.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+          mobileSidebar.classList.remove('open');
+        }
+      }
+    });
+
+    // Handle mobile viewport changes
+    function handleMobileLayout() {
+      const isMobile = window.innerWidth <= 768;
+      if (isMobile) {
+        // Show mobile menu toggle, hide desktop sidebar
+        if (mobileMenuToggle) mobileMenuToggle.style.display = 'block';
+        if (floatingVoiceBtn) floatingVoiceBtn.style.display = 'block';
+        document.querySelector('.sidebar').style.display = 'none';
+      } else {
+        // Show desktop sidebar, hide mobile elements
+        if (mobileMenuToggle) mobileMenuToggle.style.display = 'none';
+        if (floatingVoiceBtn) floatingVoiceBtn.style.display = 'none';
+        document.querySelector('.sidebar').style.display = 'block';
+        if (mobileSidebar) mobileSidebar.classList.remove('open');
+      }
+    }
+
+    // Initial mobile layout check
+    handleMobileLayout();
+    window.addEventListener('resize', handleMobileLayout);
+
     // Cost Analysis Event Handler
     elements.analyzeCostBtn.addEventListener('click', () => {
       const query = elements.userInput.value.trim();
@@ -2157,7 +3085,7 @@ Return ONLY a JSON object:
       const estimates = estimateTaskCost(query);
       updateCostAnalysis(estimates);
       
-      addMessage('system', `💡 Cost Analysis Complete:\n\n🔮 Google Gemini: FREE (~${estimates.gemini.tokens.toLocaleString()} tokens)\n🎭 Claude: $${estimates.claude.cost.toFixed(4)} (~${estimates.claude.tokens.toLocaleString()} tokens)\n🤖 OpenAI: $${estimates.openai.cost.toFixed(4)} (~${estimates.openai.tokens.toLocaleString()} tokens)\n\n💡 Recommendation: ${estimates.claude.cost < estimates.openai.cost ? 'Claude is cheaper' : 'OpenAI is cheaper'} than the other paid option.`);
+      addMessage('system', `💡 Cost Analysis Complete:\n\n🆓 FREE PROVIDERS:\n⚡ Groq: FREE (~${estimates.groq.tokens.toLocaleString()} tokens)\n🔮 Gemini: FREE (~${estimates.gemini.tokens.toLocaleString()} tokens)\n🤗 Hugging Face: FREE (~${estimates.huggingface.tokens.toLocaleString()} tokens)\n🏠 Ollama: FREE (~${estimates.ollama.tokens.toLocaleString()} tokens)\n\n💳 PAID PROVIDERS:\n🎭 Claude: $${estimates.claude.cost.toFixed(4)} (~${estimates.claude.tokens.toLocaleString()} tokens)\n🤖 OpenAI: $${estimates.openai.cost.toFixed(4)} (~${estimates.openai.tokens.toLocaleString()} tokens)\n\n💡 Recommendation: Use FREE providers to minimize costs! Groq is fastest, Ollama is most private.`);
     });
 
     // GitHub Integration Event Handlers
@@ -2181,7 +3109,7 @@ Return ONLY a JSON object:
 
     // User Account Event Handlers
     elements.upgradeBtn.addEventListener('click', () => {
-      addMessage('system', '💎 Upgrade options:\n\n🆓 Free: $0/month - 1,000 tokens/day\n💎 Pro: $19/month - 50,000 tokens/day\n🏢 Enterprise: $99/month - Unlimited\n\nContact support to upgrade your account!');
+      addMessage('system', '💎 Upgrade options:\n\n🆓 Free: $0/month - 5,000 tokens/day\n💎 Pro: $9/month - 100,000 tokens/day\n🏢 Enterprise: $49/month - Unlimited\n\n💰 Revenue Opportunities:\n• 30% affiliate commission\n• API reselling with 20-50% markup\n• White-label licensing at $500/mo\n• Custom development at $150/hour\n\nContact support to upgrade your account!');
     });
 
     // Enhanced Configuration Event Handlers
@@ -2235,36 +3163,55 @@ Return ONLY a JSON object:
       updateUI();
     }
 
+    // Initialize mobile UI
+    updateMobileStats();
+    updateMobileAgentsList();
+    updateMobileTaskQueue();
+
     // Update usage stats
     elements.tokensUsed.textContent = CONFIG.tokensUsedToday.toLocaleString();
     elements.tasksCompleted.textContent = STATE.completedTasks.length;
     
-    addMessage('system', `🚀 Multi-Provider Autonomous Agent System
+    addMessage('system', `🚀 Mobile-Optimized AI Agent System
 
-✨ FEATURES:
-• 6 specialized AI agents working autonomously
-• Support for Google Gemini (FREE), Claude, and OpenAI
-• Real-time task orchestration
-• Concurrent agent execution
-• Cost tracking and pre-execution analysis
-• GitHub integration for two-way sync
+✨ NEW FEATURES:
+• 📱 Fully mobile-responsive design
+• 🆓 4 FREE AI providers (Groq, Gemini, Hugging Face, Ollama)
+• 🎤 Voice control optimized for mobile
+• 💰 Enhanced monetization with revenue opportunities
+• ⚡ Ultra-fast Groq integration (default)
+• 🏠 Local Ollama support for privacy
+• 💎 Improved pricing: $9/mo Pro, $49/mo Enterprise
 
 🎯 AGENTS AVAILABLE:
 ${Array.from(STATE.agents.values()).map(a => `  ${a.emoji} ${a.name} - ${a.role}`).join('\n')}
 
+📱 MOBILE-FIRST DESIGN:
+• Touch-optimized interface
+• Responsive layout for all screen sizes
+• Voice commands for hands-free operation
+• Offline capability with Ollama
+• PWA support for app-like experience
+
+💰 REVENUE OPPORTUNITIES:
+• 30% affiliate commission
+• API reselling with 20-50% markup
+• White-label licensing at $500/mo
+• Custom development at $150/hour
+
 📋 QUICK START:
-1. Click "Config" to set up your API key and GitHub integration
+1. Click "Config" to set up your API key (or use Ollama for free)
 2. Click "Start" to activate the system
-3. Use "Analyze Cost" to estimate costs before execution
-4. Enter any coding task or query
+3. Use voice commands or type your requests
+4. Watch agents work autonomously
 
 💡 EXAMPLE TASKS:
-• "Create a React component for a todo list"
+• "Create a mobile-friendly React component"
 • "Build a REST API with authentication"
 • "Analyze this code for performance issues"
 • "Write unit tests for a sorting function"
 
-Current provider: ${PROVIDERS[CONFIG.provider].name}${CONFIG.apiKey ? '\n✅ API key configured' : '\n⚠️ API key not configured'}`);
+Current provider: ${PROVIDERS[CONFIG.provider].name}${CONFIG.apiKey || CONFIG.provider === 'ollama' ? '\n✅ Ready to use' : '\n⚠️ API key needed'}`);
 
     updateUI();
   </script>
