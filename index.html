@@ -2,732 +2,296 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#3b82f6">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>AI Agent - Mobile Coding Assistant</title>
-  <link rel="manifest" href="/manifest.json">
-  <link rel="icon" href="/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Autonomous Agent System - Mobile Optimized</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    :root {
-      --primary: #3b82f6;
-      --primary-dark: #2563eb;
-      --secondary: #10b981;
-      --danger: #ef4444;
-      --warning: #f59e0b;
-      --bg-dark: #0f172a;
-      --bg-card: #1e293b;
-      --text: #e2e8f0;
-      --text-dim: #94a3b8;
-      --border: rgba(59, 130, 246, 0.2);
+    /* Reset and Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: var(--bg-dark);
-      color: var(--text);
-      height: 100vh;
-      overflow: hidden;
-      -webkit-font-smoothing: antialiased;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+      color: #f1f5f9;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
-    
-    /* App Container */
-    .app {
+
+    /* Container Layout */
+    .container {
       display: flex;
       flex-direction: column;
-      height: 100vh;
+      min-height: 100vh;
       max-width: 100vw;
-      overflow: hidden;
     }
-    
-    /* Top Header */
+
+    /* Header */
     .header {
-      background: var(--bg-card);
-      padding: 0.75rem 1rem;
-      border-bottom: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid rgba(59, 130, 246, 0.3);
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      min-height: 56px;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
       position: sticky;
       top: 0;
       z-index: 100;
     }
-    
-    .header-title {
-      font-size: 1.1rem;
+
+    .header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 50%, #8b5cf6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+      flex: 1;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* Badges */
+    .badge {
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
       font-weight: 600;
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      border: 1px solid;
+      white-space: nowrap;
     }
-    
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--danger);
-      animation: pulse 2s infinite;
+
+    .provider-badge {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: #10b981;
+      color: #10b981;
     }
-    
-    .status-dot.running { background: var(--secondary); }
-    
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
+
+    .status-badge {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: #ef4444;
+      color: #ef4444;
     }
-    
-    .header-actions {
-      display: flex;
-      gap: 0.5rem;
+
+    .status-badge.running {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: #10b981;
+      color: #10b981;
     }
-    
-    .icon-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
+
+    /* Buttons */
+    .btn {
+      padding: 0.75rem 1.5rem;
       border: none;
-      background: rgba(59, 130, 246, 0.1);
-      color: var(--primary);
-      font-size: 1.2rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
       display: flex;
       align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.2s;
-      -webkit-tap-highlight-color: transparent;
+      gap: 0.5rem;
+      text-decoration: none;
+      min-height: 44px;
+      min-width: 44px;
     }
-    
-    .icon-btn:active {
-      transform: scale(0.95);
-      background: rgba(59, 130, 246, 0.2);
+
+    .btn-primary {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      color: white;
     }
-    
-    /* Main Content Area */
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+      transform: translateY(-1px);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      transform: translateY(-1px);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+      transform: translateY(-1px);
+    }
+
+    /* Main Content */
     .main-content {
+      display: flex;
       flex: 1;
-      overflow: hidden;
+      min-height: 0;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 350px;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(10px);
+      border-right: 1px solid rgba(59, 130, 246, 0.2);
+      padding: 1.5rem;
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
+      gap: 1.5rem;
     }
-    
-    /* Tab Views */
-    .tab-view {
-      display: none;
+
+    .section {
+      background: rgba(30, 41, 59, 0.5);
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 1px solid rgba(59, 130, 246, 0.1);
+    }
+
+    .section h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Chat Area */
+    .chat-area {
       flex: 1;
-      overflow-y: auto;
-      padding: 1rem;
-      padding-bottom: 80px;
-      -webkit-overflow-scrolling: touch;
+      display: flex;
+      flex-direction: column;
+      background: rgba(15, 23, 42, 0.3);
+      min-height: 0;
     }
-    
-    .tab-view.active { display: flex; flex-direction: column; }
-    
-    /* Chat View */
+
     .messages {
+      flex: 1;
+      padding: 1.5rem;
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
       gap: 1rem;
     }
-    
+
     .message {
       display: flex;
-      gap: 0.75rem;
-      animation: slideIn 0.3s ease-out;
-    }
-    
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-    }
-    
-    .message.user {
-      flex-direction: row-reverse;
-    }
-    
-    .message-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      flex-shrink: 0;
-    }
-    
-    .message.system .message-avatar { background: linear-gradient(135deg, #8b5cf6, #a855f7); }
-    .message.assistant .message-avatar { background: linear-gradient(135deg, #3b82f6, #06b6d4); }
-    .message.user .message-avatar { background: linear-gradient(135deg, #10b981, #059669); }
-    
-    .message-content {
-      background: var(--bg-card);
-      padding: 0.875rem;
-      border-radius: 16px;
-      max-width: 80%;
-      line-height: 1.5;
-      word-wrap: break-word;
-    }
-    
-    .message.user .message-content {
-      background: var(--primary);
-    }
-    
-    /* Cards */
-    .card {
-      background: var(--bg-card);
-      border-radius: 12px;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      border: 1px solid var(--border);
-    }
-    
-    .card-title {
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 0.75rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    
-    /* Provider Cards */
-    .provider-card {
-      background: var(--bg-card);
-      border-radius: 12px;
-      padding: 1rem;
-      margin-bottom: 0.75rem;
-      border: 2px solid var(--border);
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    
-    .provider-card.selected {
-      border-color: var(--primary);
-      background: rgba(59, 130, 246, 0.1);
-    }
-    
-    .provider-card:active {
-      transform: scale(0.98);
-    }
-    
-    .provider-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.5rem;
-    }
-    
-    .provider-name {
-      font-weight: 600;
-      font-size: 1rem;
-    }
-    
-    .free-badge {
-      background: var(--secondary);
-      color: white;
-      padding: 0.25rem 0.5rem;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      font-weight: 600;
-    }
-    
-    .provider-info {
-      font-size: 0.875rem;
-      color: var(--text-dim);
-    }
-    
-    /* Form Elements */
-    .form-group {
-      margin-bottom: 1rem;
-    }
-    
-    .form-label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--text-dim);
-    }
-    
-    .form-input {
-      width: 100%;
-      padding: 0.875rem;
-      background: rgba(30, 41, 59, 0.6);
-      border: 2px solid var(--border);
-      border-radius: 12px;
-      color: var(--text);
-      font-size: 1rem;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    
-    .form-input:focus {
-      border-color: var(--primary);
-    }
-    
-    .form-help {
-      font-size: 0.75rem;
-      color: var(--text-dim);
-      margin-top: 0.25rem;
-    }
-    
-    .form-help a {
-      color: var(--primary);
-      text-decoration: none;
-    }
-    
-    /* Buttons */
-    .btn {
-      width: 100%;
-      padding: 1rem;
-      border: none;
-      border-radius: 12px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      -webkit-tap-highlight-color: transparent;
-    }
-    
-    .btn:active {
-      transform: scale(0.98);
-    }
-    
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary), #06b6d4);
-      color: white;
-    }
-    
-    .btn-secondary {
-      background: var(--bg-card);
-      color: var(--text);
-      border: 2px solid var(--border);
-    }
-    
-    .btn-success {
-      background: linear-gradient(135deg, var(--secondary), #059669);
-      color: white;
-    }
-    
-    .btn-danger {
-      background: linear-gradient(135deg, var(--danger), #dc2626);
-      color: white;
-    }
-    
-    .btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    
-    /* Voice Button - Large and Central */
-    .voice-fab {
-      position: fixed;
-      bottom: 80px;
-      right: 1rem;
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #8b5cf6, #a855f7);
-      color: white;
-      border: none;
-      font-size: 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
-      cursor: pointer;
-      z-index: 90;
-      transition: all 0.2s;
-      -webkit-tap-highlight-color: transparent;
-    }
-    
-    .voice-fab:active {
-      transform: scale(0.95);
-    }
-    
-    .voice-fab.listening {
-      animation: voicePulse 1s infinite;
-      background: linear-gradient(135deg, var(--danger), #dc2626);
-    }
-    
-    @keyframes voicePulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4); }
-      50% { transform: scale(1.1); box-shadow: 0 8px 30px rgba(239, 68, 68, 0.6); }
-    }
-    
-    /* Input Area */
-    .input-area {
-      position: fixed;
-      bottom: 60px;
-      left: 0;
-      right: 0;
-      background: var(--bg-card);
-      border-top: 1px solid var(--border);
-      padding: 0.75rem;
-      z-index: 80;
-    }
-    
-    .input-form {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-    }
-    
-    .input-form input {
-      flex: 1;
-      padding: 0.875rem;
-      background: rgba(30, 41, 59, 0.6);
-      border: 2px solid var(--border);
-      border-radius: 24px;
-      color: var(--text);
-      font-size: 1rem;
-      outline: none;
-    }
-    
-    .input-form input:focus {
-      border-color: var(--primary);
-    }
-    
-    .send-btn {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      border: none;
-      background: var(--primary);
-      color: white;
-      font-size: 1.2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      flex-shrink: 0;
-      transition: all 0.2s;
-    }
-    
-    .send-btn:active {
-      transform: scale(0.95);
-    }
-    
-    /* Bottom Navigation */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: var(--bg-card);
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-around;
-      padding: 0.5rem 0;
-      z-index: 100;
-    }
-    
-    .nav-item {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.25rem;
-      padding: 0.5rem;
-      color: var(--text-dim);
-      font-size: 0.7rem;
-      cursor: pointer;
-      border: none;
-      background: none;
-      transition: all 0.2s;
-      -webkit-tap-highlight-color: transparent;
-    }
-    
-    .nav-item.active {
-      color: var(--primary);
-    }
-    
-    .nav-item-icon {
-      font-size: 1.5rem;
-    }
-    
-    .nav-item:active {
-      transform: scale(0.95);
-    }
-    
-    /* Agent List */
-    .agent-item {
-      background: rgba(59, 130, 246, 0.1);
-      padding: 0.875rem;
-      border-radius: 12px;
-      margin-bottom: 0.75rem;
-      border: 1px solid var(--border);
-    }
-    
-    .agent-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .cost-breakdown {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 0.75rem;
-      margin-bottom: 0.75rem;
+      gap: 1rem;
+      max-width: 100%;
+      animation: fadeIn 0.3s ease;
     }
 
-    @media (max-width: 1200px) {
-      .cost-breakdown {
-        grid-template-columns: 1fr 1fr;
-      }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-    .cost-item {
-      background: rgba(30, 41, 59, 0.6);
-      padding: 0.75rem;
-      border-radius: 6px;
-      text-align: center;
-      border: 1px solid rgba(59, 130, 246, 0.2);
-    }
-    .cost-item .provider {
-      font-size: 0.75rem;
-      color: #94a3b8;
-      margin-bottom: 0.25rem;
-    }
-    
-    .agent-name {
-      font-weight: 600;
+
+    .message-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-    }
-    
-    .agent-status {
-      font-size: 0.75rem;
-      padding: 0.25rem 0.5rem;
-      border-radius: 6px;
-      background: var(--bg-card);
-    }
-    
-    .agent-status.active {
-      background: var(--secondary);
-      color: white;
-    }
-    
-    .agent-task {
-      font-size: 0.875rem;
-      color: var(--text-dim);
-    }
-    
-    /* Stats */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.75rem;
-    }
-    
-    .stat-card {
-      background: rgba(59, 130, 246, 0.1);
-      padding: 1rem;
-      border-radius: 12px;
-      text-align: center;
-      border: 1px solid var(--border);
-    }
-    
-    .stat-value {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 0.25rem;
-    }
-    
-    .stat-label {
-      font-size: 0.75rem;
-      color: var(--text-dim);
-    }
-    
-    /* Modal */
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.8);
-      display: flex;
-      align-items: flex-end;
       justify-content: center;
-      z-index: 200;
-      backdrop-filter: blur(4px);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s;
-    }
-    
-    .modal.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-    
-    .modal-content {
-      background: var(--bg-dark);
-      border-radius: 24px 24px 0 0;
-      width: 100%;
-      max-height: 90vh;
-      overflow-y: auto;
-      transform: translateY(100%);
-      transition: transform 0.3s;
-      -webkit-overflow-scrolling: touch;
-    }
-    
-    .modal.active .modal-content {
-      transform: translateY(0);
-    }
-    
-    .modal-header {
-      padding: 1.5rem 1rem;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      background: var(--bg-dark);
-      z-index: 10;
-    }
-    
-    .modal-title {
       font-size: 1.25rem;
-      font-weight: 600;
+      flex-shrink: 0;
     }
-    
-    .modal-body {
-      padding: 1rem;
-      padding-bottom: 2rem;
+
+    .message.system .message-avatar {
+      background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
     }
-    
-    .close-btn {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      border: none;
-      background: rgba(255, 255, 255, 0.1);
-      color: var(--text);
-      font-size: 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
+
+    .message.user .message-avatar {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
     }
-    
-    /* Loading */
-    .loading {
-      display: inline-flex;
-      gap: 0.25rem;
+
+    .message.assistant .message-avatar {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
     }
-    
-    .loading-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--primary);
-      animation: loadingDot 1.4s infinite;
-    }
-    
-    .loading-dot:nth-child(2) { animation-delay: 0.2s; }
-    .loading-dot:nth-child(3) { animation-delay: 0.4s; }
-    
-    @keyframes loadingDot {
-      0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
-      40% { opacity: 1; transform: scale(1); }
-    }
-    
-    /* Empty State */
-    .empty-state {
-      text-align: center;
-      padding: 3rem 1rem;
-      color: var(--text-dim);
-    }
-    
-    .empty-state-icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
-    
-    .empty-state-text {
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
-    }
-    
-    .empty-state-subtext {
-      font-size: 0.875rem;
-    }
-    
-    /* Utility Classes */
-    .hidden { display: none !important; }
-    .text-center { text-align: center; }
-    .mt-1 { margin-top: 0.5rem; }
-    .mt-2 { margin-top: 1rem; }
-    .mb-1 { margin-bottom: 0.5rem; }
-    .mb-2 { margin-bottom: 1rem; }
-    
-    /* Toast Notifications */
-    .toast {
-      position: fixed;
-      top: 70px;
-      left: 50%;
-      transform: translateX(-50%) translateY(-100px);
-      background: var(--bg-card);
-      padding: 1rem 1.5rem;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-      z-index: 300;
-      opacity: 0;
-      transition: all 0.3s;
-      max-width: 90%;
-    }
-    
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-    
-    .toast.error { border-color: var(--danger); }
-    .toast.success { border-color: var(--secondary); }
-    
-    /* Install Prompt */
-    .install-prompt {
-      background: linear-gradient(135deg, var(--primary), #06b6d4);
-      padding: 1rem;
-      border-radius: 12px;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    
-    .install-prompt-text {
+
+    .message-content {
       flex: 1;
-      margin-right: 1rem;
+      background: rgba(30, 41, 59, 0.6);
+      padding: 1rem 1.25rem;
+      border-radius: 12px;
+      border: 1px solid rgba(59, 130, 246, 0.1);
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-size: 0.9rem;
+      line-height: 1.6;
     }
-    
-    .install-prompt-title {
-      font-weight: 600;
-      margin-bottom: 0.25rem;
+
+    .message.user .message-content {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(29, 78, 216, 0.2) 100%);
+      border-color: rgba(59, 130, 246, 0.3);
     }
-    
-    .install-prompt-subtitle {
-      font-size: 0.875rem;
-      opacity: 0.9;
+
+    .message.assistant .message-content {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
+      border-color: rgba(16, 185, 129, 0.2);
     }
-    
-    /* Mobile-First Responsive Design Enhancements */
+
+    /* Input Area */
+    .input-area {
+      padding: 1.5rem;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(59, 130, 246, 0.2);
+    }
+
+    .input-form {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-end;
+    }
+
+    .input-form input {
+      flex: 1;
+      padding: 1rem 1.25rem;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 12px;
+      background: rgba(30, 41, 59, 0.6);
+      color: #f1f5f9;
+      font-size: 1rem;
+      min-height: 48px;
+      transition: all 0.2s ease;
+    }
+
+    .input-form input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .input-form input::placeholder {
+      color: #94a3b8;
+    }
+
+    /* Mobile Menu Toggle */
     .mobile-menu-toggle {
       display: none;
       background: none;
@@ -736,16 +300,17 @@
       font-size: 1.5rem;
       cursor: pointer;
       padding: 0.5rem;
-      border-radius: 6px;
+      border-radius: 8px;
       transition: background-color 0.2s;
       min-height: 44px;
       min-width: 44px;
     }
-    
+
     .mobile-menu-toggle:hover {
       background: rgba(59, 130, 246, 0.2);
     }
-    
+
+    /* Mobile Sidebar */
     .mobile-sidebar {
       position: fixed;
       top: 0;
@@ -759,11 +324,11 @@
       overflow-y: auto;
       padding: 1rem;
     }
-    
+
     .mobile-sidebar.open {
       left: 0;
     }
-    
+
     .mobile-sidebar-header {
       display: flex;
       justify-content: space-between;
@@ -772,7 +337,7 @@
       padding-bottom: 1rem;
       border-bottom: 1px solid rgba(59, 130, 246, 0.2);
     }
-    
+
     .mobile-close-btn {
       background: none;
       border: none;
@@ -780,33 +345,12 @@
       font-size: 1.5rem;
       cursor: pointer;
       padding: 0.5rem;
-      border-radius: 6px;
+      border-radius: 8px;
       min-height: 44px;
       min-width: 44px;
     }
-    
-    .touch-target {
-      min-height: 44px;
-      min-width: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .mobile-optimized-btn {
-      padding: 1rem 1.5rem;
-      font-size: 1.1rem;
-      border-radius: 12px;
-      min-height: 48px;
-    }
-    
-    .mobile-input {
-      font-size: 16px; /* Prevents zoom on iOS */
-      padding: 1rem;
-      border-radius: 12px;
-      min-height: 48px;
-    }
-    
+
+    /* Floating Voice Button */
     .voice-button-mobile {
       position: fixed;
       bottom: 2rem;
@@ -822,37 +366,105 @@
       box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
       z-index: 100;
       transition: all 0.3s ease;
+      display: none;
     }
-    
+
     .voice-button-mobile:hover {
       transform: scale(1.1);
       box-shadow: 0 6px 25px rgba(139, 92, 246, 0.6);
     }
-    
+
     .voice-button-mobile.listening {
       animation: pulse 1s infinite;
       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
     }
-    
-    /* Enhanced Touch Targets */
-    .btn, .btn-primary, .btn-success, .btn-danger, .btn-voice, .btn-github {
-      min-height: 44px;
-      min-width: 44px;
-      touch-action: manipulation;
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
     }
-    
-    /* Improved Mobile Typography */
-    @media (max-width: 768px) {
-      body {
-        font-size: 16px;
-        line-height: 1.6;
-      }
-      
-      h1, h2, h3, h4, h5, h6 {
-        line-height: 1.3;
-      }
+
+    /* Modal */
+    .config-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 1rem;
     }
-    /* Mobile-First Responsive Design */
+
+    .config-modal.hidden {
+      display: none;
+    }
+
+    .modal-content {
+      background: rgba(15, 23, 42, 0.95);
+      border-radius: 16px;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      max-width: 600px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+    }
+
+    .modal-header h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+
+    .form-group select,
+    .form-group input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 8px;
+      background: rgba(30, 41, 59, 0.6);
+      color: #f1f5f9;
+      font-size: 0.9rem;
+    }
+
+    .form-group select:focus,
+    .form-group input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .form-help {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      margin-top: 0.5rem;
+    }
+
+    /* Responsive Design */
     @media (max-width: 1024px) {
       .main-content {
         flex-direction: column;
@@ -871,90 +483,62 @@
     }
 
     @media (max-width: 768px) {
-      .container {
-        height: 100vh;
-        overflow: hidden;
+      .sidebar {
+        display: none;
+      }
+      
+      .mobile-menu-toggle {
+        display: block;
       }
       
       .header {
-        padding: 0.75rem 1rem;
+        padding: 1rem;
         flex-direction: column;
-        gap: 0.5rem;
-        align-items: stretch;
+        gap: 0.75rem;
       }
       
       .header h1 {
-        font-size: 1.2rem;
-        text-align: center;
-        margin-bottom: 0.5rem;
+        font-size: 1.25rem;
+        order: 1;
       }
       
-      .header > div {
-        display: flex;
+      .header-controls {
+        order: 2;
         justify-content: center;
         flex-wrap: wrap;
-        gap: 0.5rem;
       }
       
-      .provider-badge, .status-badge {
-        font-size: 0.7rem;
-        padding: 0.3rem 0.6rem;
+      .badge {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.8rem;
       }
       
       .btn {
-        padding: 0.6rem 1rem;
-        font-size: 0.875rem;
-      }
-      
-      .sidebar {
-        width: 100%;
-        max-height: 35vh;
-        padding: 0.75rem;
-        border-right: none;
-        border-bottom: 1px solid rgba(59, 130, 246, 0.2);
-      }
-      
-      .section {
-        margin-bottom: 1rem;
-        padding: 0.75rem;
-      }
-      
-      .section h3 {
-        font-size: 0.9rem;
-        margin-bottom: 0.5rem;
-      }
-      
-      .agent-item, .task-item {
-        padding: 0.5rem;
+        padding: 0.6rem 1.2rem;
         font-size: 0.8rem;
       }
       
       .chat-area {
-        flex: 1;
-        min-height: 65vh;
-        padding: 0.75rem;
+        height: calc(100vh - 200px);
       }
       
       .messages {
-        padding: 0.75rem;
-        gap: 0.75rem;
+        padding: 1rem;
       }
       
       .message {
         max-width: 95%;
-        gap: 0.75rem;
       }
       
       .message-avatar {
-        width: 32px;
-        height: 32px;
+        width: 36px;
+        height: 36px;
         font-size: 1rem;
       }
       
       .message-content {
-        padding: 0.75rem;
-        font-size: 0.875rem;
-        line-height: 1.5;
+        padding: 0.75rem 1rem;
+        font-size: 0.85rem;
       }
       
       .input-area {
@@ -967,108 +551,45 @@
       }
       
       .input-form input {
-        padding: 0.875rem;
-        font-size: 1rem;
-        border-radius: 12px;
+        font-size: 16px; /* Prevents zoom on iOS */
+        padding: 0.875rem 1rem;
       }
       
-      .input-form .btn {
-        padding: 0.875rem;
-        font-size: 1rem;
-        border-radius: 12px;
-        justify-content: center;
+      .voice-button-mobile {
+        display: block;
       }
       
       .modal-content {
-        width: 95%;
-        max-height: 95vh;
         margin: 1rem;
-      }
-      
-      .modal-header {
-        padding: 1rem;
-      }
-      
-      .modal-body {
-        padding: 1rem;
-      }
-      
-      .form-group {
-        margin-bottom: 1rem;
-      }
-      
-      .form-group input, .form-group select {
-        padding: 0.875rem;
-        font-size: 1rem;
-        border-radius: 8px;
-      }
-      
-      .cost-breakdown {
-        grid-template-columns: 1fr;
-        gap: 0.5rem;
-      }
-      
-      .pricing-tiers {
-        grid-template-columns: 1fr;
-        gap: 0.5rem;
-      }
-      
-      .feature-grid {
-        grid-template-columns: 1fr;
-        gap: 0.5rem;
-      }
-      
-      .github-actions {
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-      
-      .btn-github {
-        width: 100%;
-        justify-content: center;
+        max-height: 90vh;
       }
     }
 
     @media (max-width: 480px) {
       .header {
-        padding: 0.5rem;
+        padding: 0.75rem;
       }
       
       .header h1 {
-        font-size: 1rem;
+        font-size: 1.1rem;
       }
       
-      .provider-badge, .status-badge {
-        font-size: 0.6rem;
-        padding: 0.25rem 0.5rem;
+      .badge {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.6rem;
       }
       
       .btn {
-        padding: 0.5rem 0.75rem;
-        font-size: 0.8rem;
-      }
-      
-      .sidebar {
-        max-height: 30vh;
-        padding: 0.5rem;
-      }
-      
-      .section {
-        padding: 0.5rem;
-        margin-bottom: 0.75rem;
-      }
-      
-      .chat-area {
-        min-height: 70vh;
-        padding: 0.5rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.75rem;
       }
       
       .messages {
-        padding: 0.5rem;
+        padding: 0.75rem;
       }
       
       .message-content {
-        padding: 0.5rem;
+        padding: 0.6rem 0.8rem;
         font-size: 0.8rem;
       }
       
@@ -1076,89 +597,79 @@
         padding: 0.75rem;
       }
       
-      .input-form input {
-        padding: 0.75rem;
-        font-size: 0.9rem;
-      }
-      
-      .input-form .btn {
-        padding: 0.75rem;
-        font-size: 0.9rem;
+      .voice-button-mobile {
+        width: 56px;
+        height: 56px;
+        bottom: 1.5rem;
+        right: 1.5rem;
+        font-size: 1.3rem;
       }
     }
 
-    /* Touch-friendly improvements */
-    @media (hover: none) and (pointer: coarse) {
-      .btn {
-        min-height: 44px;
-        min-width: 44px;
-      }
-      
-      .agent-item, .task-item {
-        min-height: 44px;
-        display: flex;
-        align-items: center;
-      }
-      
-      .message-avatar {
-        min-width: 44px;
-        min-height: 44px;
-      }
-      
-      .input-form input {
-        min-height: 44px;
+    /* Accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
       }
     }
 
-    /* Dark mode optimizations for mobile */
-    @media (prefers-color-scheme: dark) {
-      .message-content {
-        background: rgba(30, 41, 59, 0.8);
-      }
-      
-      .message.user .message-content {
-        background: rgba(59, 130, 246, 0.3);
-      }
-    }
-
-    /* High contrast mode support */
     @media (prefers-contrast: high) {
+      .message-content {
+        border: 2px solid #3b82f6;
+      }
+      
       .btn {
         border: 2px solid currentColor;
       }
-      
-      .message-content {
-        border: 1px solid rgba(59, 130, 246, 0.5);
-      }
     }
 
-    /* Reduced motion support */
-    @media (prefers-reduced-motion: reduce) {
-      .message {
-        animation: none;
-      }
-      
-      .status-dot.active {
-        animation: none;
-      }
-      
-      .btn:hover {
-        transform: none;
-      }
+    /* Loading Animation */
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(59, 130, 246, 0.3);
+      border-radius: 50%;
+      border-top-color: #3b82f6;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(30, 41, 59, 0.3);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(59, 130, 246, 0.5);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(59, 130, 246, 0.7);
     }
   </style>
 </head>
 <body>
-  <div class="app">
+  <div class="container">
     <!-- Header -->
     <div class="header">
       <button id="mobileMenuToggle" class="mobile-menu-toggle">☰</button>
-      <h1>🤖 Multi-Provider Agent System</h1>
-      <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-        <div id="providerBadge" class="provider-badge gemini">
-          🔮 Google Gemini (FREE)
+      <h1>🤖 AI Autonomous Agent System</h1>
+      <div class="header-controls">
+        <div id="providerBadge" class="badge provider-badge">
+          ⚡ Groq (FREE)
         </div>
-        <div id="statusBadge" class="status-badge stopped">
+        <div id="statusBadge" class="badge status-badge">
           <span>●</span>
           <span>STOPPED</span>
         </div>
@@ -1167,182 +678,87 @@
       </div>
     </div>
 
-    <!-- Main Content Area -->
+    <!-- Main Content -->
     <div class="main-content">
-      <!-- Chat Tab -->
-      <div class="tab-view active" id="chatTab">
-        <div class="messages" id="messages"></div>
+      <!-- Desktop Sidebar -->
+      <div class="sidebar">
+        <div class="section">
+          <h3>🤖 Active Agents</h3>
+          <div id="agentsList">
+            <div style="color: #94a3b8; font-size: 0.875rem;">No active agents</div>
+          </div>
+        </div>
         
-        <div class="empty-state" id="emptyState">
-          <div class="empty-state-icon">💬</div>
-          <div class="empty-state-text">Welcome to AI Agent!</div>
-          <div class="empty-state-subtext">Tap the microphone to speak or type below</div>
-        </div>
-      </div>
-
-      <!-- Agents Tab -->
-      <div class="tab-view" id="agentsTab">
-        <div class="card">
-          <div class="card-title">🤖 Active Agents</div>
-          <div id="agentsList"></div>
+        <div class="section">
+          <h3>📋 Task Queue</h3>
+          <div id="taskQueue">
+            <div style="color: #94a3b8; font-size: 0.875rem;">No pending tasks</div>
+          </div>
         </div>
 
         <div class="section">
-          <h3>💰 Cost Analysis</h3>
-          <div id="costAnalysis" class="cost-analysis">
-            <h4>💡 Pre-Execution Cost Estimate</h4>
-            <div class="cost-breakdown" id="costBreakdown">
-              <div class="cost-item">
-                <div class="provider">⚡ Groq</div>
-                <div class="amount free">FREE</div>
-              </div>
-              <div class="cost-item">
-                <div class="provider">🔮 Gemini</div>
-                <div class="amount free">FREE</div>
-              </div>
-              <div class="cost-item">
-                <div class="provider">🤗 Hugging Face</div>
-                <div class="amount free">FREE</div>
-              </div>
-              <div class="cost-item">
-                <div class="provider">🏠 Ollama</div>
-                <div class="amount free">FREE</div>
-              </div>
-              <div class="cost-item">
-                <div class="provider">🎭 Claude</div>
-                <div class="amount paid" id="claudeCost">$0.00</div>
-              </div>
-              <div class="cost-item">
-                <div class="provider">🤖 OpenAI</div>
-                <div class="amount paid" id="openaiCost">$0.00</div>
-              </div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-value" id="failedCount">0</div>
-              <div class="stat-label">Failed</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-value" id="runningCount">0</div>
-              <div class="stat-label">Running</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-value" id="costEstimate">$0.00</div>
-              <div class="stat-label">Est. Cost</div>
+          <h3>📊 Statistics</h3>
+          <div id="stats" style="font-size: 0.875rem; color: #94a3b8;">
+            <div>✅ Completed: <span id="completedCount">0</span></div>
+            <div>❌ Failed: <span id="failedCount">0</span></div>
+            <div>⚡ Running: <span id="runningCount">0</span></div>
+            <div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(59, 130, 246, 0.2);">
+              💰 Estimated Cost: <span id="costEstimate">$0.00</span>
             </div>
           </div>
-        </div>
-      </div>
-
-      <!-- Settings Tab -->
-      <div class="tab-view" id="settingsTab">
-        <div class="card">
-          <div class="card-title">🤖 AI Provider</div>
-          <div id="providersList"></div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">API Key</label>
-          <input type="password" class="form-input" id="apiKeyInput" placeholder="Enter your API key">
-          <div class="form-help" id="apiKeyHelp"></div>
         </div>
 
         <div class="section">
-          <h3>💰 Pricing Plans</h3>
-          <div class="monetization-section">
-            <h4>💎 Choose Your Plan</h4>
-            <div class="pricing-tiers">
-              <div class="pricing-tier">
-                <h5>🆓 Free</h5>
-                <div class="price">$0</div>
-                <div class="features">
-                  • 5,000 tokens/day<br>
-                  • All FREE AI providers<br>
-                  • Voice control<br>
-                  • Basic GitHub integration<br>
-                  • Community support<br>
-                  • Mobile optimized
-                </div>
-                <button class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">Current Plan</button>
-              </div>
-              <div class="pricing-tier featured">
-                <h5>💎 Pro</h5>
-                <div class="price">$9/mo</div>
-                <div class="features">
-                  • 100,000 tokens/day<br>
-                  • All AI providers<br>
-                  • Advanced voice control<br>
-                  • Full GitHub integration<br>
-                  • Priority support<br>
-                  • API access<br>
-                  • Custom agents
-                </div>
-                <button class="btn btn-success" style="width: 100%; margin-top: 0.5rem;">Upgrade Now</button>
-              </div>
-              <div class="pricing-tier">
-                <h5>🏢 Enterprise</h5>
-                <div class="price">$49/mo</div>
-                <div class="features">
-                  • Unlimited tokens<br>
-                  • White-label options<br>
-                  • Team collaboration<br>
-                  • Advanced analytics<br>
-                  • Dedicated support<br>
-                  • Custom integrations<br>
-                  • Revenue sharing
-                </div>
-                <button class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">Contact Sales</button>
-              </div>
+          <h3>🎤 Voice Control</h3>
+          <div id="voiceControls">
+            <div id="voiceStatus" style="margin-bottom: 1rem; padding: 0.75rem; background: rgba(30, 41, 59, 0.5); border-radius: 8px; border: 1px solid rgba(59, 130, 246, 0.1);">
+              <span>●</span>
+              <span>Voice Ready</span>
             </div>
-            <div style="background: rgba(16, 185, 129, 0.1); padding: 1rem; border-radius: 8px; margin-top: 1rem; border: 1px solid rgba(16, 185, 129, 0.2);">
-              <h4 style="color: #10b981; margin-bottom: 0.5rem;">💡 Revenue Opportunities</h4>
-              <div style="font-size: 0.875rem; color: #94a3b8;">
-                <div>• <strong>Affiliate Program:</strong> Earn 30% commission on referrals</div>
-                <div>• <strong>API Reselling:</strong> Mark up AI costs by 20-50%</div>
-                <div>• <strong>White-label Licensing:</strong> $500/month per client</div>
-                <div>• <strong>Custom Development:</strong> $150/hour consulting</div>
-              </div>
+            <div style="display: flex; gap: 0.5rem;">
+              <button id="startVoiceBtn" class="btn btn-primary" style="flex: 1;">🎤 Start</button>
+              <button id="stopVoiceBtn" class="btn btn-danger" style="flex: 1;" disabled>🛑 Stop</button>
             </div>
-          </div>
-        </div>
-
-        <div class="card mt-2">
-          <div class="card-title">ℹ️ About</div>
-          <div style="font-size: 0.875rem; color: var(--text-dim); line-height: 1.6;">
-            <p><strong>Version:</strong> 2.0.0 Mobile</p>
-            <p><strong>Build:</strong> Mobile-First</p>
-            <p class="mt-1">Optimized for phone usage with voice control, multiple free AI providers, and instant setup.</p>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Voice FAB Button -->
-    <button class="voice-fab" id="voiceBtn" title="Voice Input">
-      🎤
-    </button>
+      <!-- Chat Area -->
+      <div class="chat-area">
+        <div class="messages" id="messages">
+          <div class="message system">
+            <div class="message-avatar">🤖</div>
+            <div class="message-content">
+              🚀 AI Autonomous Agent System Ready!
 
-    <!-- Input Area -->
-    <div class="input-area">
-      <form class="input-form" id="inputForm">
-        <input type="text" id="userInput" placeholder="Type your message..." autocomplete="off">
-        <button type="submit" class="send-btn">➤</button>
-      </form>
-    </div>
+✨ FEATURES:
+• 📱 Mobile-optimized responsive design
+• ⚡ 4 FREE AI providers (Groq, Gemini, Hugging Face, Ollama)
+• 🎤 Voice control with natural conversation
+• 💰 Smart cost optimization
+• 🏠 Offline capability with Ollama
+• 📱 PWA support for app-like experience
 
-    <!-- Bottom Navigation -->
-    <div class="bottom-nav">
-      <button class="nav-item active" data-tab="chatTab">
-        <div class="nav-item-icon">💬</div>
-        <div>Chat</div>
-      </button>
-      <button class="nav-item" data-tab="agentsTab">
-        <div class="nav-item-icon">🤖</div>
-        <div>Agents</div>
-      </button>
-      <button class="nav-item" data-tab="settingsTab">
-        <div class="nav-item-icon">⚙️</div>
-        <div>Settings</div>
-      </button>
+🎯 QUICK START:
+1. Click "Config" to set up your API key (or use Ollama for free)
+2. Click "Start" to activate the system
+3. Type or speak your coding task
+4. Watch the AI agents work autonomously!
+
+Ready to revolutionize your coding workflow! 🚀
+            </div>
+          </div>
+        </div>
+        
+        <div class="input-area">
+          <form class="input-form" id="inputForm">
+            <input type="text" id="userInput" placeholder="Describe your coding task or use voice control..." autocomplete="off">
+            <button type="submit" class="btn btn-primary" id="sendBtn">
+              <span>Send</span>
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1354,12 +770,16 @@
     </div>
     <div class="section">
       <h3>🤖 Active Agents</h3>
-      <div id="mobileAgentsList"></div>
+      <div id="mobileAgentsList">
+        <div style="color: #94a3b8; font-size: 0.875rem;">No active agents</div>
+      </div>
     </div>
     
     <div class="section">
       <h3>📋 Task Queue</h3>
-      <div id="mobileTaskQueue"></div>
+      <div id="mobileTaskQueue">
+        <div style="color: #94a3b8; font-size: 0.875rem;">No pending tasks</div>
+      </div>
     </div>
 
     <div class="section">
@@ -1375,39 +795,13 @@
     </div>
 
     <div class="section">
-      <h3>💰 Cost Analysis</h3>
-      <div id="mobileCostAnalysis" class="cost-analysis">
-        <h4>💡 Pre-Execution Cost Estimate</h4>
-        <div class="cost-breakdown" id="mobileCostBreakdown">
-          <div class="cost-item">
-            <div class="provider">Google Gemini</div>
-            <div class="amount free">FREE</div>
-          </div>
-          <div class="cost-item">
-            <div class="provider">Claude</div>
-            <div class="amount paid" id="mobileClaudeCost">$0.00</div>
-          </div>
-          <div class="cost-item">
-            <div class="provider">OpenAI</div>
-            <div class="amount paid" id="mobileOpenaiCost">$0.00</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="section">
       <h3>🎤 Voice Control</h3>
-      <div class="voice-controls">
-        <h4>🗣️ Natural Conversation</h4>
-        <div id="mobileVoiceStatus" class="voice-status idle">
+      <div id="mobileVoiceControls">
+        <div id="mobileVoiceStatus" style="margin-bottom: 1rem; padding: 0.75rem; background: rgba(30, 41, 59, 0.5); border-radius: 8px; border: 1px solid rgba(59, 130, 246, 0.1);">
           <span>●</span>
           <span>Voice Ready</span>
         </div>
-        <div>
-          <button id="mobileStartVoiceBtn" class="btn btn-voice mobile-optimized-btn">
-            🎤 Start Listening
-          </button>
-        </div>
+        <button id="mobileStartVoiceBtn" class="btn btn-primary" style="width: 100%;">🎤 Start Listening</button>
       </div>
     </div>
   </div>
@@ -1415,6 +809,7 @@
   <!-- Floating Voice Button for Mobile -->
   <button id="floatingVoiceBtn" class="voice-button-mobile">🎤</button>
 
+  <!-- Configuration Modal -->
   <div id="configModal" class="config-modal hidden">
     <div class="modal-content">
       <div class="modal-header">
@@ -1424,9 +819,9 @@
         <div class="form-group">
           <label>AI Provider</label>
           <select id="providerSelect">
-            <option value="gemini">🔮 Google Gemini (FREE - Recommended)</option>
-            <option value="groq">⚡ Groq (FREE - Ultra Fast)</option>
-            <option value="huggingface">🤗 Hugging Face (FREE - 1000+ Models)</option>
+            <option value="groq">⚡ Groq (Ultra-fast FREE - Default)</option>
+            <option value="gemini">🔮 Google Gemini (Generous FREE tier)</option>
+            <option value="huggingface">🤗 Hugging Face (1000+ FREE models)</option>
             <option value="ollama">🏠 Ollama (100% FREE - Local)</option>
             <option value="claude">🎭 Anthropic Claude (Paid)</option>
             <option value="openai">🤖 OpenAI GPT (Paid)</option>
@@ -1434,105 +829,98 @@
           <div class="form-help">Choose FREE providers to minimize costs. Ollama runs locally for maximum privacy.</div>
         </div>
 
-  <script>
-    // ============================================
-    // CONFIGURATION & STATE
-    // ============================================
-    
-    const CONFIG = {
-      provider: localStorage.getItem('provider') || 'gemini',
-      apiKey: localStorage.getItem('apiKey') || '',
-      isRunning: false,
-      completedTasks: 0,
-      failedTasks: 0,
-      runningTasks: 0,
-      totalCost: 0
-    };
-
         <div class="form-group" id="apiKeyGroup">
-          <label id="apiKeyLabel">Google AI Studio API Key</label>
-          <input type="password" id="apiKeyInput" placeholder="Get free key from aistudio.google.com" />
-          <div class="form-help">
-            <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #3b82f6;">Get free API key →</a>
-          </div>
+          <label id="apiKeyLabel">Groq API Key (Optional)</label>
+          <input type="password" id="apiKeyInput" placeholder="Enter your API key (optional for free tier)">
+          <div class="form-help">API key is optional for free providers. Leave empty to use free tier.</div>
         </div>
 
-        <div class="form-group" id="modelGroup">
+        <div class="form-group">
           <label>Model</label>
           <select id="modelSelect">
-            <option value="gemini-1.5-flash">Gemini 1.5 Flash (Fastest, FREE)</option>
-            <option value="gemini-1.5-pro">Gemini 1.5 Pro (Most Capable, FREE)</option>
+            <option value="llama3-8b-8192">Llama 3 8B (FREE - Recommended)</option>
+            <option value="llama3-70b-8192">Llama 3 70B (FREE)</option>
+            <option value="mixtral-8x7b-32768">Mixtral 8x7B (FREE)</option>
+            <option value="gemma-7b-it">Gemma 7B (FREE)</option>
           </select>
         </div>
 
         <div class="form-group">
           <label>Max Concurrent Agents</label>
-          <input type="number" id="concurrentInput" value="3" min="1" max="10" />
-          <div class="form-help">How many agents can work simultaneously</div>
-        </div>
-
-        <div class="form-group">
-          <label>GitHub Personal Access Token</label>
-          <input type="password" id="githubTokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" />
-          <div class="form-help">
-            <a href="https://github.com/settings/tokens" target="_blank" style="color: #3b82f6;">Create token →</a>
-            Required scopes: repo, workflow
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>GitHub Repository</label>
-          <input type="text" id="githubRepoInput" placeholder="username/repository-name" />
-          <div class="form-help">Format: owner/repository-name</div>
+          <input type="number" id="concurrentInput" value="3" min="1" max="10">
+          <div class="form-help">Number of agents that can work simultaneously</div>
         </div>
 
         <div class="form-group">
           <label>Cost Optimization</label>
-          <select id="costOptimizationSelect">
-            <option value="free">Maximum Free Usage (Gemini only)</option>
-            <option value="balanced">Balanced (Mix free/paid)</option>
-            <option value="performance">Performance First (Best models)</option>
+          <select id="costOptimization">
+            <option value="free">🆓 Free Priority (Use free providers first)</option>
+            <option value="balanced">⚖️ Balanced (90% free, 10% paid)</option>
+            <option value="performance">🚀 Performance (Best available model)</option>
           </select>
-          <div class="form-help">Choose your cost vs performance preference</div>
         </div>
 
         <div class="form-group">
-          <label>User Account</label>
-          <input type="email" id="userEmailInput" placeholder="your@email.com" />
-          <div class="form-help">For usage tracking and billing</div>
+          <label>GitHub Token (Optional)</label>
+          <input type="password" id="githubTokenInput" placeholder="Enter GitHub personal access token">
+          <div class="form-help">For GitHub integration and repository sync</div>
         </div>
 
-        <button class="btn btn-primary" id="saveConfigBtn" style="width: 100%;">
-          💾 Save Configuration
-        </button>
+        <div class="form-group">
+          <label>GitHub Repository (Optional)</label>
+          <input type="text" id="githubRepoInput" placeholder="username/repository">
+          <div class="form-help">Format: username/repository-name</div>
+        </div>
+
+        <div class="form-group">
+          <label>User Email (Optional)</label>
+          <input type="email" id="userEmailInput" placeholder="your@email.com">
+          <div class="form-help">For account management and usage tracking</div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+          <button id="saveConfigBtn" class="btn btn-success" style="flex: 1;">💾 Save Configuration</button>
+          <button id="closeConfigBtn" class="btn btn-primary" style="flex: 1;">❌ Close</button>
+        </div>
       </div>
     </div>
   </div>
 
   <script>
-    // System Configuration
+    // Configuration
     const CONFIG = {
-      provider: localStorage.getItem('provider') || 'groq', // Default to free Groq
+      provider: localStorage.getItem('provider') || 'groq',
       apiKey: localStorage.getItem('apiKey') || '',
-      model: localStorage.getItem('model') || 'llama3-8b-8192', // Default to free Groq model
+      model: localStorage.getItem('model') || 'llama3-8b-8192',
       maxConcurrentAgents: parseInt(localStorage.getItem('maxConcurrent')) || 3,
-      estimatedCost: 0,
-      tokenCount: 0,
+      costOptimization: localStorage.getItem('costOptimization') || 'free',
       githubToken: localStorage.getItem('githubToken') || '',
       githubRepo: localStorage.getItem('githubRepo') || '',
-      githubConnected: false,
-      costOptimization: localStorage.getItem('costOptimization') || 'free',
       userEmail: localStorage.getItem('userEmail') || '',
       userTier: localStorage.getItem('userTier') || 'free',
-      dailyTokenLimit: parseInt(localStorage.getItem('dailyTokenLimit')) || 5000, // Increased free limit
+      dailyTokenLimit: parseInt(localStorage.getItem('dailyTokenLimit')) || 5000,
       tokensUsedToday: parseInt(localStorage.getItem('tokensUsedToday')) || 0,
       lastResetDate: localStorage.getItem('lastResetDate') || new Date().toDateString()
+    };
+
+    // State
+    const STATE = {
+      isRunning: false,
+      agents: new Map(),
+      pendingTasks: [],
+      runningTasks: new Set(),
+      completedTasks: [],
+      failedTasks: [],
+      memory: {
+        lessonsLearned: [],
+        errorHistory: [],
+        projectContext: {}
+      }
     };
 
     // Voice Recognition
     let recognition = null;
     let isListening = false;
-    let speechSynthesis = window.speechSynthesis;
 
     // Initialize voice recognition
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
@@ -1545,19 +933,17 @@
       recognition.onstart = () => {
         isListening = true;
         updateVoiceStatus(true);
-        addMessage('system', '🎤 Listening... Speak your request');
       };
 
       recognition.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
-        elements.userInput.value = transcript;
-        addMessage('system', `🎤 Heard: "${transcript}"`);
-        updateVoiceStatus(false);
+        document.getElementById('userInput').value = transcript;
+        addMessage('user', transcript);
       };
 
       recognition.onerror = (event) => {
         console.error('Speech recognition error:', event.error);
-        addMessage('system', `❌ Voice recognition error: ${event.error}`);
+        isListening = false;
         updateVoiceStatus(false);
       };
 
@@ -1567,432 +953,74 @@
       };
     }
 
-    // Provider Configurations
-    const PROVIDERS = {
-      gemini: {
-        name: 'Google Gemini',
-        emoji: '🔮',
-        free: true,
-        cost: 0,
-        endpoint: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent',
-        keyUrl: 'https://aistudio.google.com/app/apikey',
-        info: 'FREE tier with generous limits. Best for mobile usage.'
-      },
-      huggingface: {
-        name: 'HuggingFace',
-        emoji: '🤗',
-        free: true,
-        cost: 0,
-        endpoint: 'https://api-inference.huggingface.co/models/mistralai/Mixtral-8x7B-Instruct-v0.1',
-        keyUrl: 'https://huggingface.co/settings/tokens',
-        info: 'FREE inference API. Great for open source models.'
-      },
-      cohere: {
-        name: 'Cohere',
-        emoji: '🚀',
-        free: true,
-        cost: 0,
-        endpoint: 'https://api.cohere.ai/v1/generate',
-        keyUrl: 'https://dashboard.cohere.com/api-keys',
-        info: 'FREE trial tier. Fast and affordable.'
-      },
-      together: {
-        name: 'Together AI',
-        emoji: '⚡',
-        free: false,
-        cost: 0.2,
-        endpoint: 'https://api.together.xyz/inference',
-        keyUrl: 'https://api.together.xyz/settings/api-keys',
-        info: 'Affordable open source models. $0.20 per 1M tokens.'
-      },
-      huggingface: {
-        name: 'Hugging Face',
-        endpoint: 'https://api-inference.huggingface.co/models',
-        models: {
-          'microsoft/DialoGPT-large': { name: 'DialoGPT Large', cost: 0, free: true },
-          'microsoft/CodeGPT-small-py': { name: 'CodeGPT Python', cost: 0, free: true },
-          'bigcode/starcoder': { name: 'StarCoder', cost: 0, free: true }
-        },
-        info: {
-          title: 'Hugging Face (FREE)',
-          features: [
-            '✅ Completely FREE inference API',
-            '✅ 1000+ free models available',
-            '✅ No credit card required',
-            '✅ Great for coding tasks',
-            '✅ Get key at huggingface.co/settings/tokens'
-          ]
-        }
-      },
-      ollama: {
-        name: 'Ollama (Local)',
-        endpoint: 'http://localhost:11434/api',
-        models: {
-          'llama2': { name: 'Llama 2', cost: 0, free: true },
-          'codellama': { name: 'Code Llama', cost: 0, free: true },
-          'mistral': { name: 'Mistral', cost: 0, free: true }
-        },
-        info: {
-          title: 'Ollama (100% FREE)',
-          features: [
-            '✅ 100% FREE - runs locally',
-            '✅ No internet required after setup',
-            '✅ Privacy-first - data stays local',
-            '✅ Install: ollama.ai',
-            '✅ Perfect for mobile/offline use'
-          ]
-        }
-      },
-      groq: {
-        name: 'Groq (FREE)',
-        endpoint: 'https://api.groq.com/openai/v1/chat/completions',
-        models: {
-          'llama3-8b-8192': { name: 'Llama 3 8B', cost: 0, free: true },
-          'llama3-70b-8192': { name: 'Llama 3 70B', cost: 0, free: true },
-          'mixtral-8x7b-32768': { name: 'Mixtral 8x7B', cost: 0, free: true }
-        },
-        info: {
-          title: 'Groq (FREE)',
-          features: [
-            '✅ FREE tier with generous limits',
-            '✅ Ultra-fast inference',
-            '✅ 30 requests per minute',
-            '✅ No credit card required',
-            '✅ Get key at console.groq.com'
-          ]
-        }
-      },
-      claude: {
-        name: 'Anthropic Claude',
-        emoji: '🎭',
-        free: false,
-        cost: 3.0,
-        endpoint: 'https://api.anthropic.com/v1/messages',
-        keyUrl: 'https://console.anthropic.com',
-        info: 'Premium AI with excellent reasoning. Paid only.'
-      },
-      openai: {
-        name: 'OpenAI GPT',
-        emoji: '🤖',
-        free: false,
-        cost: 0.15,
-        endpoint: 'https://api.openai.com/v1/chat/completions',
-        keyUrl: 'https://platform.openai.com/api-keys',
-        info: 'Industry standard. GPT-4o Mini is affordable.'
-      }
-    };
-
-    // Agent Types
-    const AGENT_TYPES = {
-      CODE_GENERATOR: { name: 'Code Generator', emoji: '💻', role: 'Writes code' },
-      CODE_ANALYZER: { name: 'Code Analyzer', emoji: '🔍', role: 'Reviews code' },
-      DEBUGGER: { name: 'Debugger', emoji: '🐛', role: 'Fixes bugs' },
-      TESTING: { name: 'Testing Agent', emoji: '🧪', role: 'Creates tests' },
-      DOCUMENTATION: { name: 'Docs Writer', emoji: '📝', role: 'Writes docs' }
-    };
-
-    // State
-    const STATE = {
-      agents: Object.keys(AGENT_TYPES).map(key => ({
-        ...AGENT_TYPES[key],
-        id: key,
-        isActive: false,
-        tasksCompleted: 0
-      })),
-      messages: [],
-      currentTab: 'chatTab'
-    };
-
-    // Voice Recognition
-    let recognition = null;
-    let isListening = false;
-
-    // ============================================
-    // DOM ELEMENTS
-    // ============================================
-    
+    // DOM Elements
     const elements = {
-      messages: document.getElementById('messages'),
-      emptyState: document.getElementById('emptyState'),
-      userInput: document.getElementById('userInput'),
-      inputForm: document.getElementById('inputForm'),
-      voiceBtn: document.getElementById('voiceBtn'),
-      statusDot: document.getElementById('statusDot'),
-      headerTitle: document.getElementById('headerTitle'),
-      settingsBtn: document.getElementById('settingsBtn'),
-      providersList: document.getElementById('providersList'),
+      startBtn: document.getElementById('startBtn'),
+      configBtn: document.getElementById('configBtn'),
+      configModal: document.getElementById('configModal'),
+      closeConfigBtn: document.getElementById('closeConfigBtn'),
+      saveConfigBtn: document.getElementById('saveConfigBtn'),
+      providerSelect: document.getElementById('providerSelect'),
       apiKeyInput: document.getElementById('apiKeyInput'),
-      apiKeyHelp: document.getElementById('apiKeyHelp'),
-      saveSettingsBtn: document.getElementById('saveSettingsBtn'),
-      agentsList: document.getElementById('agentsList'),
-      completedCount: document.getElementById('completedCount'),
-      failedCount: document.getElementById('failedCount'),
-      runningCount: document.getElementById('runningCount'),
-      costEstimate: document.getElementById('costEstimate'),
-      toast: document.getElementById('toast')
+      modelSelect: document.getElementById('modelSelect'),
+      concurrentInput: document.getElementById('concurrentInput'),
+      costOptimization: document.getElementById('costOptimization'),
+      githubTokenInput: document.getElementById('githubTokenInput'),
+      githubRepoInput: document.getElementById('githubRepoInput'),
+      userEmailInput: document.getElementById('userEmailInput'),
+      inputForm: document.getElementById('inputForm'),
+      userInput: document.getElementById('userInput'),
+      sendBtn: document.getElementById('sendBtn'),
+      messages: document.getElementById('messages'),
+      providerBadge: document.getElementById('providerBadge'),
+      statusBadge: document.getElementById('statusBadge'),
+      startVoiceBtn: document.getElementById('startVoiceBtn'),
+      stopVoiceBtn: document.getElementById('stopVoiceBtn'),
+      voiceStatus: document.getElementById('voiceStatus')
     };
 
-    // ============================================
-    // INITIALIZATION
-    // ============================================
+    // Initialize agents
+    const AGENTS = [
+      { key: 'orchestrator', name: 'Orchestrator', emoji: '🎯', role: 'Task coordination and planning' },
+      { key: 'codeGenerator', name: 'Code Generator', emoji: '💻', role: 'Writing and generating code' },
+      { key: 'codeAnalyzer', name: 'Code Analyzer', emoji: '🔍', role: 'Code review and analysis' },
+      { key: 'tester', name: 'Testing Agent', emoji: '🧪', role: 'Writing and running tests' },
+      { key: 'documenter', name: 'Documentation Agent', emoji: '📝', role: 'Creating documentation' },
+      { key: 'debugger', name: 'Debugger Agent', emoji: '🐛', role: 'Debugging and error fixing' }
+    ];
 
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents })
+    // Initialize agents in state
+    AGENTS.forEach(agent => {
+      STATE.agents.set(agent.key, {
+        ...agent,
+        isActive: false,
+        currentTask: null,
+        tasksCompleted: 0,
+        status: 'idle'
       });
+    });
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error?.message || 'Gemini API call failed');
-      }
-
-      const data = await response.json();
-      return data.candidates[0].content.parts[0].text;
-    }
-
-    async function callClaudeAPI(messages, systemPrompt) {
-      const response = await fetch(PROVIDERS.claude.endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': CONFIG.apiKey,
-          'anthropic-version': '2023-06-01'
-        },
-        body: JSON.stringify({
-          model: CONFIG.model,
-          max_tokens: 4000,
-          system: systemPrompt,
-          messages: messages
-        })
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error?.message || 'Claude API call failed');
-      }
-
-      const data = await response.json();
-      updateCost(data.usage?.input_tokens || 0, PROVIDERS.claude.models[CONFIG.model].cost);
-      return data.content[0].text;
-    }
-
-    async function callHuggingFaceAPI(messages, systemPrompt) {
-      const model = CONFIG.model;
-      const url = `${PROVIDERS.huggingface.endpoint}/${model}`;
+    // Functions
+    function addMessage(type, content) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${type}`;
       
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${CONFIG.apiKey}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          inputs: systemPrompt + '\n\n' + messages[0].content,
-          parameters: {
-            max_length: 1000,
-            temperature: 0.7,
-            return_full_text: false
-          }
-        })
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Hugging Face API call failed');
-      }
-
-      const data = await response.json();
-      return Array.isArray(data) ? data[0].generated_text : data.generated_text;
-    }
-
-    async function callOllamaAPI(messages, systemPrompt) {
-      const model = CONFIG.model;
-      const url = `${PROVIDERS.ollama.endpoint}/generate`;
+      const avatar = type === 'user' ? '👤' : type === 'assistant' ? '🤖' : '⚙️';
       
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          model: model,
-          prompt: systemPrompt + '\n\n' + messages[0].content,
-          stream: false
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error('Ollama API call failed - make sure Ollama is running locally');
-      }
-
-      const data = await response.json();
-      return data.response;
-    }
-
-    async function callGroqAPI(messages, systemPrompt) {
-      const response = await fetch(PROVIDERS.groq.endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${CONFIG.apiKey}`
-        },
-        body: JSON.stringify({
-          model: CONFIG.model,
-          messages: [
-            { role: 'system', content: systemPrompt },
-            ...messages
-          ],
-          temperature: 0.7,
-          max_tokens: 1000
-        })
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error?.message || 'Groq API call failed');
-      }
-
-      const data = await response.json();
-      return data.choices[0].message.content;
-    }
-
-    async function callOpenAIAPI(messages, systemPrompt) {
-      const response = await fetch(PROVIDERS.openai.endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${CONFIG.apiKey}`
-        },
-        body: JSON.stringify({
-          model: CONFIG.model,
-          messages: [
-            { role: 'system', content: systemPrompt },
-            ...messages
-          ]
-        })
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error?.message || 'OpenAI API call failed');
-      }
-
-      const data = await response.json();
-      updateCost(data.usage?.prompt_tokens || 0, PROVIDERS.openai.models[CONFIG.model].cost);
-      return data.choices[0].message.content;
-    }
-
-    async function callAI(messages, systemPrompt, agentType) {
-      // Skip API key check for Ollama (local) and some free providers
-      if (CONFIG.provider !== 'ollama' && !CONFIG.apiKey) {
-        throw new Error('API key not configured');
-      }
-
-      const formattedMessages = messages.map(m => ({
-        role: m.role,
-        content: m.content
-      }));
-
-      switch (CONFIG.provider) {
-        case 'gemini':
-          return await callGeminiAPI(formattedMessages, systemPrompt);
-        case 'huggingface':
-          return await callHuggingFaceAPI(formattedMessages, systemPrompt);
-        case 'ollama':
-          return await callOllamaAPI(formattedMessages, systemPrompt);
-        case 'groq':
-          return await callGroqAPI(formattedMessages, systemPrompt);
-        case 'claude':
-          return await callClaudeAPI(formattedMessages, systemPrompt);
-        case 'openai':
-          return await callOpenAIAPI(formattedMessages, systemPrompt);
-        default:
-          throw new Error('Invalid provider');
-      }
-    }
-
-    function updateCost(tokens, costPerMillion) {
-      CONFIG.tokenCount += tokens;
-      CONFIG.estimatedCost += (tokens / 1000000) * costPerMillion;
-      CONFIG.tokensUsedToday += tokens;
+      messageDiv.innerHTML = `
+        <div class="message-avatar">${avatar}</div>
+        <div class="message-content">${content}</div>
+      `;
       
-      // Setup event listeners
-      setupEventListeners();
-      
-      // Check daily limits
-      checkDailyLimits();
+      elements.messages.appendChild(messageDiv);
+      elements.messages.scrollTop = elements.messages.scrollHeight;
     }
 
-    // Cost Optimization Functions
-    function getOptimalProvider() {
-      const today = new Date().toDateString();
-      if (today !== CONFIG.lastResetDate) {
-        // Reset daily counters
-        CONFIG.tokensUsedToday = 0;
-        CONFIG.lastResetDate = today;
-        localStorage.setItem('tokensUsedToday', '0');
-        localStorage.setItem('lastResetDate', today);
-      }
-
-      // Free providers in order of preference
-      const freeProviders = ['ollama', 'groq', 'huggingface', 'gemini'];
-      const paidProviders = ['claude', 'openai'];
-
-      switch (CONFIG.costOptimization) {
-        case 'free':
-          // Always use free providers, prefer local Ollama for privacy
-          return freeProviders[0];
-        case 'balanced':
-          // Use free providers for 90% of requests, paid for complex tasks
-          if (CONFIG.tokensUsedToday < CONFIG.dailyTokenLimit * 0.9) {
-            return freeProviders[Math.floor(Math.random() * freeProviders.length)];
-          }
-          return paidProviders[0];
-        case 'performance':
-          // Use best available model based on tier
-          if (CONFIG.userTier === 'enterprise') {
-            return paidProviders[0];
-          }
-          return freeProviders[1]; // Groq for speed
-        default:
-          return freeProviders[0]; // Default to Ollama
-      }
-
-      // Register service worker
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js').catch(console.error);
-      }
-
-    function updateUserTier(tier) {
-      CONFIG.userTier = tier;
-      localStorage.setItem('userTier', tier);
-      
-      // Update limits based on tier
-      switch (tier) {
-        case 'free':
-          CONFIG.dailyTokenLimit = 5000; // Increased free limit
-          break;
-        case 'pro':
-          CONFIG.dailyTokenLimit = 100000; // Increased pro limit
-          break;
-        case 'enterprise':
-          CONFIG.dailyTokenLimit = 999999999; // Effectively unlimited
-          break;
-      }
-      
-      localStorage.setItem('dailyTokenLimit', CONFIG.dailyTokenLimit);
-      elements.userTier.textContent = tier.charAt(0).toUpperCase() + tier.slice(1) + ' Tier';
-    }
-
-    // Voice Functions
     function updateVoiceStatus(listening) {
       if (listening) {
-        elements.voiceStatus.className = 'voice-status listening';
         elements.voiceStatus.innerHTML = '<span>●</span><span>Listening...</span>';
         elements.startVoiceBtn.disabled = true;
         elements.stopVoiceBtn.disabled = false;
-        elements.voiceInputBtn.disabled = true;
         
         // Update mobile voice status
         const mobileVoiceStatus = document.getElementById('mobileVoiceStatus');
@@ -2000,7 +1028,6 @@
         const mobileStartVoiceBtn = document.getElementById('mobileStartVoiceBtn');
         
         if (mobileVoiceStatus) {
-          mobileVoiceStatus.className = 'voice-status listening';
           mobileVoiceStatus.innerHTML = '<span>●</span><span>Listening...</span>';
         }
         if (floatingVoiceBtn) {
@@ -2012,11 +1039,9 @@
           mobileStartVoiceBtn.innerHTML = '🛑 Stop Listening';
         }
       } else {
-        elements.voiceStatus.className = 'voice-status idle';
         elements.voiceStatus.innerHTML = '<span>●</span><span>Voice Ready</span>';
         elements.startVoiceBtn.disabled = false;
         elements.stopVoiceBtn.disabled = true;
-        elements.voiceInputBtn.disabled = false;
         
         // Update mobile voice status
         const mobileVoiceStatus = document.getElementById('mobileVoiceStatus');
@@ -2024,7 +1049,6 @@
         const mobileStartVoiceBtn = document.getElementById('mobileStartVoiceBtn');
         
         if (mobileVoiceStatus) {
-          mobileVoiceStatus.className = 'voice-status idle';
           mobileVoiceStatus.innerHTML = '<span>●</span><span>Voice Ready</span>';
         }
         if (floatingVoiceBtn) {
@@ -2038,221 +1062,47 @@
       }
     }
 
-    function toggleVoice() {
-      if (!recognition) {
-        showToast('Voice recognition not available', 'error');
-        return;
-      }
-
-      if (isListening) {
-        recognition.stop();
+    function startVoiceRecognition() {
+      if (recognition && !isListening) {
+        recognition.start();
       } else {
-        try {
-          recognition.start();
-        } catch (error) {
-          console.error('Failed to start recognition:', error);
-          showToast('Failed to start voice recognition', 'error');
-        }
+        addMessage('system', 'Voice recognition not supported or already listening');
       }
     }
 
-    // ============================================
-    // EVENT LISTENERS
-    // ============================================
-
-    function setupEventListeners() {
-      // Voice button
-      elements.voiceBtn.addEventListener('click', toggleVoice);
-
-      // Input form
-      elements.inputForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const query = elements.userInput.value.trim();
-        if (!query) return;
-
-        if (!CONFIG.apiKey) {
-          showToast('Please configure your API key first', 'error');
-          switchTab('settingsTab');
-          return;
-        }
-      } catch (error) {
-        console.error('Failed to load saved state:', error);
+    function stopVoiceRecognition() {
+      if (recognition && isListening) {
+        recognition.stop();
       }
-      return false;
     }
 
-    function clearState() {
-      localStorage.removeItem('agentSystemState');
-      // Reset to initial state
-      STATE.taskQueue = [];
-      STATE.completedTasks = [];
-      STATE.failedTasks = [];
-      STATE.runningTasks.clear();
-      STATE.conversationHistory = [];
-      STATE.projectContext = {
-        name: '',
-        description: '',
-        techStack: [],
-        requirements: [],
-        architecture: '',
-        currentPhase: 'planning'
+    function updateUI() {
+      // Update status badge
+      elements.statusBadge.className = `badge status-badge ${STATE.isRunning ? 'running' : ''}`;
+      elements.statusBadge.innerHTML = `<span>●</span><span>${STATE.isRunning ? 'RUNNING' : 'STOPPED'}</span>`;
+      
+      // Update start button
+      elements.startBtn.innerHTML = STATE.isRunning ? '⏸ Pause' : '▶ Start';
+      elements.startBtn.className = `btn ${STATE.isRunning ? 'btn-danger' : 'btn-success'}`;
+      
+      // Update provider badge
+      const providerNames = {
+        groq: '⚡ Groq (FREE)',
+        gemini: '🔮 Gemini (FREE)',
+        huggingface: '🤗 Hugging Face (FREE)',
+        ollama: '🏠 Ollama (FREE)',
+        claude: '🎭 Claude (Paid)',
+        openai: '🤖 OpenAI (Paid)'
       };
-      STATE.taskDependencies.clear();
-      STATE.qualityGates = [];
-      STATE.memory = {
-        lessonsLearned: [],
-        bestPractices: [],
-        commonPatterns: [],
-        errorHistory: []
-      };
-    }
-
-    // Auto-save every 30 seconds
-    setInterval(saveState, 30000);
-
-    // Enhanced Task Processing with Dependencies
-    function canExecuteTask(task) {
-      const dependencies = STATE.taskDependencies.get(task.id) || [];
-      return dependencies.every(depId => 
-        STATE.completedTasks.some(t => t.id === depId)
-      );
-    }
-
-    function addTaskDependency(taskId, dependsOn) {
-      STATE.taskDependencies.set(taskId, dependsOn);
-    }
-
-    // Cost Analysis Functions
-    function estimateTokenCount(text) {
-      // Rough estimation: 1 token ≈ 4 characters for English text
-      // This is a simplified estimation - actual tokenization varies by model
-      return Math.ceil(text.length / 4);
-    }
-
-    function estimateTaskCost(userQuery) {
-      const estimates = {
-        groq: { cost: 0, tokens: 0, free: true },
-        gemini: { cost: 0, tokens: 0, free: true },
-        huggingface: { cost: 0, tokens: 0, free: true },
-        ollama: { cost: 0, tokens: 0, free: true },
-        claude: { cost: 0, tokens: 0, free: false },
-        openai: { cost: 0, tokens: 0, free: false }
-      };
-
-      // Estimate tokens for orchestration + agent tasks
-      const orchestrationTokens = estimateTokenCount(AGENT_TYPES.ORCHESTRATOR.systemPrompt + userQuery);
-      const avgAgentTokens = estimateTokenCount(AGENT_TYPES.CODE_GENERATOR.systemPrompt + userQuery);
+      elements.providerBadge.textContent = providerNames[CONFIG.provider] || 'Unknown Provider';
       
-      // Estimate 1 orchestration + 3 average agent tasks
-      const totalTokens = orchestrationTokens + (avgAgentTokens * 3);
-
-      // Calculate costs for each provider
-      estimates.groq.tokens = totalTokens;
-      estimates.groq.cost = 0; // FREE
-
-      estimates.gemini.tokens = totalTokens;
-      estimates.gemini.cost = 0; // FREE
-
-      estimates.huggingface.tokens = totalTokens;
-      estimates.huggingface.cost = 0; // FREE
-
-      estimates.ollama.tokens = totalTokens;
-      estimates.ollama.cost = 0; // FREE
-
-      estimates.claude.tokens = totalTokens;
-      estimates.claude.cost = (totalTokens / 1000000) * PROVIDERS.claude.models['claude-sonnet-4-20250514'].cost;
-
-      // Tab navigation
-      document.querySelectorAll('.nav-item').forEach(item => {
-        item.addEventListener('click', () => {
-          const tab = item.dataset.tab;
-          switchTab(tab);
-        });
-      });
-
-      // API key input
-      elements.apiKeyInput.value = CONFIG.apiKey;
-    }
-
-    // ============================================
-    // UI FUNCTIONS
-    // ============================================
-
-    function addMessage(type, content) {
-      elements.emptyState.classList.add('hidden');
+      // Update stats
+      document.getElementById('completedCount').textContent = STATE.completedTasks.length;
+      document.getElementById('failedCount').textContent = STATE.failedTasks.length;
+      document.getElementById('runningCount').textContent = STATE.runningTasks.size;
       
-      // Update cost breakdown with token counts
-      const costItems = elements.costBreakdown.children;
-      costItems[0].innerHTML = `
-        <div class="provider">⚡ Groq</div>
-        <div class="amount free">FREE</div>
-        <div style="font-size: 0.7rem; color: #94a3b8;">~${estimates.groq.tokens.toLocaleString()} tokens</div>
-      `;
-      costItems[1].innerHTML = `
-        <div class="provider">🔮 Gemini</div>
-        <div class="amount free">FREE</div>
-        <div style="font-size: 0.7rem; color: #94a3b8;">~${estimates.gemini.tokens.toLocaleString()} tokens</div>
-      `;
-      costItems[2].innerHTML = `
-        <div class="provider">🤗 Hugging Face</div>
-        <div class="amount free">FREE</div>
-        <div style="font-size: 0.7rem; color: #94a3b8;">~${estimates.huggingface.tokens.toLocaleString()} tokens</div>
-      `;
-      costItems[3].innerHTML = `
-        <div class="provider">🏠 Ollama</div>
-        <div class="amount free">FREE</div>
-        <div style="font-size: 0.7rem; color: #94a3b8;">~${estimates.ollama.tokens.toLocaleString()} tokens</div>
-      `;
-      costItems[4].innerHTML = `
-        <div class="provider">🎭 Claude</div>
-        <div class="amount paid">$${estimates.claude.cost.toFixed(4)}</div>
-        <div style="font-size: 0.7rem; color: #94a3b8;">~${estimates.claude.tokens.toLocaleString()} tokens</div>
-      `;
-      costItems[5].innerHTML = `
-        <div class="provider">🤖 OpenAI</div>
-        <div class="amount paid">$${estimates.openai.cost.toFixed(4)}</div>
-        <div style="font-size: 0.7rem; color: #94a3b8;">~${estimates.openai.tokens.toLocaleString()} tokens</div>
-      `;
-      
-      // Update mobile cost analysis
-      updateMobileCostAnalysis(estimates);
-    }
-
-    // Mobile Update Functions
-    function updateMobileCostAnalysis(estimates) {
-      const mobileClaudeCost = document.getElementById('mobileClaudeCost');
-      const mobileOpenaiCost = document.getElementById('mobileOpenaiCost');
-      const mobileCostEstimate = document.getElementById('mobileCostEstimate');
-      
-      if (mobileClaudeCost) mobileClaudeCost.textContent = `$${estimates.claude.cost.toFixed(4)}`;
-      if (mobileOpenaiCost) mobileOpenaiCost.textContent = `$${estimates.openai.cost.toFixed(4)}`;
-      
-      const totalCost = estimates.claude.cost + estimates.openai.cost;
-      if (mobileCostEstimate) mobileCostEstimate.textContent = `$${totalCost.toFixed(4)}`;
-      
-      // Update mobile cost breakdown
-      const mobileCostBreakdown = document.getElementById('mobileCostBreakdown');
-      if (mobileCostBreakdown) {
-        const costItems = mobileCostBreakdown.children;
-        if (costItems[0]) {
-          costItems[0].innerHTML = `
-            <div class="provider">⚡ Groq</div>
-            <div class="amount free">FREE</div>
-          `;
-        }
-        if (costItems[1]) {
-          costItems[1].innerHTML = `
-            <div class="provider">🔮 Gemini</div>
-            <div class="amount free">FREE</div>
-          `;
-        }
-        if (costItems[2]) {
-          costItems[2].innerHTML = `
-            <div class="provider">🤗 Hugging Face</div>
-            <div class="amount free">FREE</div>
-          `;
-        }
-      }
+      // Update mobile stats
+      updateMobileStats();
     }
 
     function updateMobileStats() {
@@ -2262,469 +1112,91 @@
       
       if (mobileCompletedCount) mobileCompletedCount.textContent = STATE.completedTasks.length;
       if (mobileFailedCount) mobileFailedCount.textContent = STATE.failedTasks.length;
-      if (mobileRunningCount) mobileRunningCount.textContent = STATE.runningTasks.length;
+      if (mobileRunningCount) mobileRunningCount.textContent = STATE.runningTasks.size;
     }
 
-    function updateMobileAgentsList() {
-      const mobileAgentsList = document.getElementById('mobileAgentsList');
-      if (!mobileAgentsList) return;
-      
-      mobileAgentsList.innerHTML = '';
-      STATE.activeAgents.forEach(agent => {
-        const agentDiv = document.createElement('div');
-        agentDiv.className = 'agent-item';
-        agentDiv.innerHTML = `
-          <div class="agent-info">
-            <div class="agent-name">${agent.name}</div>
-            <div class="agent-status ${agent.status}">${agent.status}</div>
-          </div>
-        `;
-        mobileAgentsList.appendChild(agentDiv);
+    function simulateAgentWork(task) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          const agent = Array.from(STATE.agents.values())[Math.floor(Math.random() * STATE.agents.size)];
+          const result = `${agent.emoji} ${agent.name} completed: ${task}`;
+          resolve(result);
+        }, 2000 + Math.random() * 3000);
       });
     }
 
-    function updateMobileTaskQueue() {
-      const mobileTaskQueue = document.getElementById('mobileTaskQueue');
-      if (!mobileTaskQueue) return;
+    // Event Listeners
+    elements.startBtn.addEventListener('click', () => {
+      STATE.isRunning = !STATE.isRunning;
+      updateUI();
       
-      mobileTaskQueue.innerHTML = '';
-      const allTasks = [...STATE.pendingTasks, ...STATE.runningTasks];
-      
-      if (allTasks.length === 0) {
-        mobileTaskQueue.innerHTML = '<div style="color: #94a3b8; font-size: 0.875rem;">No pending tasks</div>';
-        return;
-      }
-      
-      allTasks.slice(0, 5).forEach(task => {
-        const taskDiv = document.createElement('div');
-        taskDiv.className = 'task-item';
-        taskDiv.innerHTML = `
-          <div class="task-info">
-            <div class="task-name">${task.name}</div>
-            <div class="task-status ${task.status}">${task.status}</div>
-          </div>
-        `;
-        mobileTaskQueue.appendChild(taskDiv);
-      });
-      
-      if (allTasks.length > 5) {
-        const moreDiv = document.createElement('div');
-        moreDiv.style.cssText = 'color: #94a3b8; font-size: 0.875rem; margin-top: 0.5rem;';
-        moreDiv.textContent = `+${allTasks.length - 5} more tasks`;
-        mobileTaskQueue.appendChild(moreDiv);
-      }
-    }
-
-    function showToast(message, type = 'info') {
-      elements.toast.textContent = message;
-      elements.toast.className = `toast ${type} show`;
-      
-      setTimeout(() => {
-        elements.toast.classList.remove('show');
-      }, 3000);
-    }
-
-    function switchTab(tabId) {
-      // Update tabs
-      document.querySelectorAll('.tab-view').forEach(tab => {
-        tab.classList.remove('active');
-      });
-      document.getElementById(tabId).classList.add('active');
-
-      // Update navigation
-      document.querySelectorAll('.nav-item').forEach(item => {
-        item.classList.remove('active');
-        if (item.dataset.tab === tabId) {
-          item.classList.add('active');
-        }
-      });
-
-      STATE.currentTab = tabId;
-
-      // Update agents if on agents tab
-      if (tabId === 'agentsTab') {
-        renderAgents();
-        updateStats();
-      }
-    }
-
-    function updateStatus() {
-      if (CONFIG.isRunning) {
-        elements.statusDot.classList.add('running');
-        elements.headerTitle.textContent = PROVIDERS[CONFIG.provider].emoji + ' ' + PROVIDERS[CONFIG.provider].name;
+      if (STATE.isRunning) {
+        addMessage('system', '🚀 AI Agent System Started!\n\nAgents are now ready to process your tasks.');
       } else {
-        elements.statusDot.classList.remove('running');
-        elements.headerTitle.textContent = 'AI Agent';
+        addMessage('system', '⏸ AI Agent System Paused');
       }
-    }
+    });
 
-    function renderProviders() {
-      elements.providersList.innerHTML = '';
-      
-      Object.keys(PROVIDERS).forEach(key => {
-        const provider = PROVIDERS[key];
-        const card = document.createElement('div');
-        card.className = 'provider-card' + (CONFIG.provider === key ? ' selected' : '');
-        card.onclick = () => selectProvider(key);
-        
-        card.innerHTML = `
-          <div class="provider-header">
-            <div class="provider-name">${provider.emoji} ${provider.name}</div>
-            ${provider.free ? '<div class="free-badge">FREE</div>' : ''}
-          </div>
-          <div class="provider-info">${provider.info}</div>
-        `;
-        
-        elements.providersList.appendChild(card);
-      });
+    elements.configBtn.addEventListener('click', () => {
+      elements.configModal.classList.remove('hidden');
+    });
 
-      updateApiKeyHelp();
-    }
+    elements.closeConfigBtn.addEventListener('click', () => {
+      elements.configModal.classList.add('hidden');
+    });
 
-    function selectProvider(providerId) {
-      CONFIG.provider = providerId;
-      renderProviders();
-      updateApiKeyHelp();
-    }
-
-    function updateApiKeyHelp() {
-      const provider = PROVIDERS[CONFIG.provider];
-      elements.apiKeyHelp.innerHTML = `
-        <a href="${provider.keyUrl}" target="_blank">Get ${provider.name} API key →</a>
-      `;
-    }
-
-    function renderAgents() {
-      elements.agentsList.innerHTML = '';
-      
-      STATE.agents.forEach(agent => {
-        const div = document.createElement('div');
-        div.className = 'agent-item';
-        
-        div.innerHTML = `
-          <div class="agent-header">
-            <div class="agent-name">
-              ${agent.emoji} ${agent.name}
-            </div>
-            <div class="agent-status ${agent.isActive ? 'active' : ''}">
-              ${agent.isActive ? '🟢 Active' : '⚪ Idle'}
-            </div>
-          </div>
-          <div class="agent-task">${agent.role} • ${agent.tasksCompleted} completed</div>
-        `;
-        
-        elements.agentsList.appendChild(div);
-      });
-    }
-
-    function updateStats() {
-      elements.completedCount.textContent = CONFIG.completedTasks;
-      elements.failedCount.textContent = CONFIG.failedTasks;
-      elements.runningCount.textContent = CONFIG.runningTasks;
-      elements.costEstimate.textContent = '$' + CONFIG.totalCost.toFixed(4);
-    }
-
-    function saveSettings() {
+    elements.saveConfigBtn.addEventListener('click', () => {
+      CONFIG.provider = elements.providerSelect.value;
       CONFIG.apiKey = elements.apiKeyInput.value.trim();
+      CONFIG.model = elements.modelSelect.value;
+      CONFIG.maxConcurrentAgents = parseInt(elements.concurrentInput.value);
+      CONFIG.costOptimization = elements.costOptimization.value;
+      CONFIG.githubToken = elements.githubTokenInput.value.trim();
+      CONFIG.githubRepo = elements.githubRepoInput.value.trim();
+      CONFIG.userEmail = elements.userEmailInput.value.trim();
       
-      if (!CONFIG.apiKey) {
-        showToast('Please enter an API key', 'error');
-        return;
-      }
-
-      localStorage.setItem('provider', CONFIG.provider);
-      localStorage.setItem('apiKey', CONFIG.apiKey);
-      
-      CONFIG.isRunning = true;
-      updateStatus();
-      
-      showToast('Settings saved! Ready to use', 'success');
-      
-      switchTab('chatTab');
-      
-      addMessage('system', `✅ ${PROVIDERS[CONFIG.provider].name} configured successfully! Try saying "Create a login form" or type your request.`);
-    }
-
-    // ============================================
-    // AI INTEGRATION
-    // ============================================
-
-    async function handleUserMessage(query) {
-      addMessage('user', query);
-      showToast('Processing...', 'info');
-
-      try {
-        CONFIG.runningTasks = 1;
-        updateStats();
-
-        const response = await callAI(query);
-        
-        addMessage('assistant', response);
-        
-        CONFIG.completedTasks++;
-        CONFIG.runningTasks = 0;
-        updateStats();
-        
-        showToast('Response received!', 'success');
-      } catch (error) {
-        console.error('AI call failed:', error);
-        addMessage('system', `❌ Error: ${error.message}`);
-        CONFIG.failedTasks++;
-        CONFIG.runningTasks = 0;
-        updateStats();
-        showToast('Failed to get response', 'error');
-      }
-    }
-
-    async function callAI(prompt) {
-      const provider = PROVIDERS[CONFIG.provider];
-      
-      const systemPrompt = `You are a helpful AI coding assistant. Provide clear, concise, and practical responses. When writing code, include explanations.`;
-
-      // API call logic based on provider
-      switch (CONFIG.provider) {
-        case 'gemini':
-          return await callGemini(prompt, systemPrompt);
-        case 'huggingface':
-          return await callHuggingFace(prompt, systemPrompt);
-        case 'cohere':
-          return await callCohere(prompt, systemPrompt);
-        case 'together':
-          return await callTogether(prompt, systemPrompt);
-        case 'claude':
-          return await callClaude(prompt, systemPrompt);
-        case 'openai':
-          return await callOpenAI(prompt, systemPrompt);
-        default:
-          throw new Error('Invalid provider');
-      }
-    }
-
-    async function callGemini(prompt, systemPrompt) {
-      const url = `${PROVIDERS.gemini.endpoint}?key=${CONFIG.apiKey}`;
-      
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{
-            role: 'user',
-            parts: [{ text: systemPrompt + '\n\n' + prompt }]
-          }]
-        })
+      // Save to localStorage
+      Object.keys(CONFIG).forEach(key => {
+        localStorage.setItem(key, CONFIG[key]);
       });
+      
+      updateUI();
+      elements.configModal.classList.add('hidden');
+      addMessage('system', `✅ Configuration saved!\n\nProvider: ${CONFIG.provider}\nModel: ${CONFIG.model}\nCost Optimization: ${CONFIG.costOptimization}`);
+    });
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error?.message || 'Gemini API call failed');
-      }
-
-      const data = await response.json();
-      return data.candidates[0].content.parts[0].text;
-    }
-
-    async function callHuggingFace(prompt, systemPrompt) {
-      const response = await fetch(PROVIDERS.huggingface.endpoint, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${CONFIG.apiKey}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          inputs: systemPrompt + '\n\n' + prompt,
-          parameters: { max_new_tokens: 500, temperature: 0.7 }
-        })
-      });
-
-          addMessage('assistant', `✅ ${agent.emoji} ${agent.name} completed (Quality: ${qualityCheck.score}/10):\n\n${result}`);
-
-          // Update mobile UI
-          updateMobileStats();
-          updateMobileAgentsList();
-          updateMobileTaskQueue();
-
-          // Auto-save after successful completion
-          saveState();
-        } else {
-          // Quality gate failed - retry or mark as failed
-          if (task.retryCount < 2) {
-            task.retryCount = (task.retryCount || 0) + 1;
-            task.status = 'pending';
-            task.qualityIssues = qualityCheck.issues;
-            STATE.taskQueue.push(task);
-            addMessage('system', `⚠️ ${agent.emoji} ${agent.name} quality check failed (${qualityCheck.issues.join(', ')}). Retrying... (${task.retryCount}/2)`);
-          } else {
-            task.status = 'failed';
-            task.error = `Quality gate failed: ${qualityCheck.issues.join(', ')}`;
-            task.completedAt = new Date();
-            STATE.failedTasks.push(task);
-            addMessage('system', `❌ ${agent.emoji} ${agent.name} failed quality gates after 2 retries: ${qualityCheck.issues.join(', ')}`);
-          }
-        }
-
-      const data = await response.json();
-      return Array.isArray(data) ? data[0].generated_text : data.generated_text;
-    }
-
-        addMessage('system', `❌ ${agent.emoji} ${agent.name} failed: ${error.message}`);
-        
-        // Update mobile UI
-        updateMobileStats();
-        updateMobileAgentsList();
-        updateMobileTaskQueue();
-      } finally {
-        agent.isActive = false;
-        agent.currentTask = null;
-        STATE.runningTasks.delete(task.id);
-        updateUI();
-
-      if (!response.ok) {
-        throw new Error('Cohere API call failed');
-      }
-
-      const data = await response.json();
-      return data.generations[0].text;
-    }
-
-    async function callTogether(prompt, systemPrompt) {
-      const response = await fetch(PROVIDERS.together.endpoint, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${CONFIG.apiKey}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
-          prompt: systemPrompt + '\n\n' + prompt,
-          max_tokens: 500,
-          temperature: 0.7
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error('Together AI call failed');
-      }
-
-      const data = await response.json();
-      return data.output.choices[0].text;
-    }
-
-    async function callClaude(prompt, systemPrompt) {
-      const response = await fetch(PROVIDERS.claude.endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': CONFIG.apiKey,
-          'anthropic-version': '2023-06-01'
-        },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1000,
-          system: systemPrompt,
-          messages: [{ role: 'user', content: prompt }]
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error('Claude API call failed');
-      }
-
-      const data = await response.json();
-      return data.content[0].text;
-    }
-
-    async function callOpenAI(prompt, systemPrompt) {
-      const response = await fetch(PROVIDERS.openai.endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${CONFIG.apiKey}`
-        },
-        body: JSON.stringify({
-          model: 'gpt-4o-mini',
-          messages: [
-            { role: 'system', content: systemPrompt },
-            { role: 'user', content: prompt }
-          ]
-        })
-      });
-
-      // Update API key label
-      const keyLabels = {
-        gemini: 'Google AI Studio API Key',
-        groq: 'Groq API Key',
-        huggingface: 'Hugging Face API Key',
-        ollama: 'Ollama (No API Key Required)',
-        claude: 'Anthropic API Key',
-        openai: 'OpenAI API Key'
-      };
-      elements.apiKeyLabel.textContent = keyLabels[CONFIG.provider];
-
-      // Show/hide API key input based on provider
-      if (CONFIG.provider === 'ollama') {
-        elements.apiKeyGroup.style.display = 'none';
-      } else {
-        elements.apiKeyGroup.style.display = 'block';
-      }
-
-      // Update provider badge
-      const badges = {
-        gemini: '🔮 Google Gemini (FREE)',
-        groq: '⚡ Groq (FREE)',
-        huggingface: '🤗 Hugging Face (FREE)',
-        ollama: '🏠 Ollama (100% FREE)',
-        claude: '🎭 Anthropic Claude',
-        openai: '🤖 OpenAI GPT'
-      };
-      elements.providerBadge.textContent = badges[CONFIG.provider];
-      elements.providerBadge.className = `provider-badge ${CONFIG.provider}`;
-    }
-
-    // Event Handlers
     elements.inputForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+      const task = elements.userInput.value.trim();
+      if (!task) return;
       
-      const query = elements.userInput.value.trim();
-      if (!query) return;
-
-      if (!CONFIG.apiKey) {
-        addMessage('system', '❌ Please configure your API key first');
-        elements.configModal.classList.remove('hidden');
+      elements.userInput.value = '';
+      addMessage('user', task);
+      
+      if (!STATE.isRunning) {
+        addMessage('system', '⚠️ Please start the system first by clicking the "Start" button.');
         return;
       }
+      
+      // Simulate agent work
+      addMessage('system', '🤖 Agents are processing your task...');
+      
+      try {
+        const result = await simulateAgentWork(task);
+        addMessage('assistant', result);
+        
+        // Update stats
+        STATE.completedTasks.push({ task, result, timestamp: new Date() });
+        updateUI();
+      } catch (error) {
+        addMessage('system', `❌ Error: ${error.message}`);
+        STATE.failedTasks.push({ task, error: error.message, timestamp: new Date() });
+        updateUI();
+      }
+    });
 
-      const data = await response.json();
-      return data.choices[0].message.content;
-    }
-
-    // ============================================
-    // PWA FEATURES
-    // ============================================
-
-    let deferredPrompt;
-
-    function checkInstallPrompt() {
-      window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        showInstallPrompt();
-      });
-    }
-
-    function showInstallPrompt() {
-      const installPrompt = document.createElement('div');
-      installPrompt.className = 'install-prompt';
-      installPrompt.innerHTML = `
-        <div class="install-prompt-text">
-          <div class="install-prompt-title">📱 Install App</div>
-          <div class="install-prompt-subtitle">Add to home screen for quick access</div>
-        </div>
-        <button class="btn btn-primary" style="width: auto; padding: 0.75rem 1.5rem;" id="installBtn">
-          Install
-        </button>
-      `;
-
-      document.getElementById('chatTab').insertBefore(installPrompt, document.getElementById('messages'));
+    elements.startVoiceBtn.addEventListener('click', startVoiceRecognition);
+    elements.stopVoiceBtn.addEventListener('click', stopVoiceRecognition);
 
     // Mobile Event Listeners
     const mobileMenuToggle = document.getElementById('mobileMenuToggle');
@@ -2778,12 +1250,10 @@
     function handleMobileLayout() {
       const isMobile = window.innerWidth <= 768;
       if (isMobile) {
-        // Show mobile menu toggle, hide desktop sidebar
         if (mobileMenuToggle) mobileMenuToggle.style.display = 'block';
         if (floatingVoiceBtn) floatingVoiceBtn.style.display = 'block';
         document.querySelector('.sidebar').style.display = 'none';
       } else {
-        // Show desktop sidebar, hide mobile elements
         if (mobileMenuToggle) mobileMenuToggle.style.display = 'none';
         if (floatingVoiceBtn) floatingVoiceBtn.style.display = 'none';
         document.querySelector('.sidebar').style.display = 'block';
@@ -2791,151 +1261,27 @@
       }
     }
 
-    // Initial mobile layout check
+    // Initialize
+    updateUI();
     handleMobileLayout();
     window.addEventListener('resize', handleMobileLayout);
 
-    // Cost Analysis Event Handler
-    elements.analyzeCostBtn.addEventListener('click', () => {
-      const query = elements.userInput.value.trim();
-      if (!query) {
-        addMessage('system', '❌ Please enter a task to analyze cost');
-        return;
-      }
+    // Load saved configuration
+    elements.providerSelect.value = CONFIG.provider;
+    elements.apiKeyInput.value = CONFIG.apiKey;
+    elements.modelSelect.value = CONFIG.model;
+    elements.concurrentInput.value = CONFIG.maxConcurrentAgents;
+    elements.costOptimization.value = CONFIG.costOptimization;
+    elements.githubTokenInput.value = CONFIG.githubToken;
+    elements.githubRepoInput.value = CONFIG.githubRepo;
+    elements.userEmailInput.value = CONFIG.userEmail;
 
-      addMessage('system', '💰 Analyzing cost for all providers...');
-      const estimates = estimateTaskCost(query);
-      updateCostAnalysis(estimates);
-      
-      addMessage('system', `💡 Cost Analysis Complete:\n\n🆓 FREE PROVIDERS:\n⚡ Groq: FREE (~${estimates.groq.tokens.toLocaleString()} tokens)\n🔮 Gemini: FREE (~${estimates.gemini.tokens.toLocaleString()} tokens)\n🤗 Hugging Face: FREE (~${estimates.huggingface.tokens.toLocaleString()} tokens)\n🏠 Ollama: FREE (~${estimates.ollama.tokens.toLocaleString()} tokens)\n\n💳 PAID PROVIDERS:\n🎭 Claude: $${estimates.claude.cost.toFixed(4)} (~${estimates.claude.tokens.toLocaleString()} tokens)\n🤖 OpenAI: $${estimates.openai.cost.toFixed(4)} (~${estimates.openai.tokens.toLocaleString()} tokens)\n\n💡 Recommendation: Use FREE providers to minimize costs! Groq is fastest, Ollama is most private.`);
-    });
-
-    // GitHub Integration Event Handlers
-    elements.connectGithubBtn.addEventListener('click', () => {
-      if (!CONFIG.githubToken || !CONFIG.githubRepo) {
-        addMessage('system', '❌ Please configure GitHub token and repository in Settings first');
-        elements.configModal.classList.remove('hidden');
-        return;
-      }
-      testGitHubConnection();
-    });
-
-    elements.syncRepoBtn.addEventListener('click', () => {
-      syncWithGitHub('pull');
-    });
-
-    // Voice Control Event Handlers
-    elements.startVoiceBtn.addEventListener('click', startVoiceRecognition);
-    elements.stopVoiceBtn.addEventListener('click', stopVoiceRecognition);
-    elements.voiceInputBtn.addEventListener('click', startVoiceRecognition);
-
-    // User Account Event Handlers
-    elements.upgradeBtn.addEventListener('click', () => {
-      addMessage('system', '💎 Upgrade options:\n\n🆓 Free: $0/month - 5,000 tokens/day\n💎 Pro: $9/month - 100,000 tokens/day\n🏢 Enterprise: $49/month - Unlimited\n\n💰 Revenue Opportunities:\n• 30% affiliate commission\n• API reselling with 20-50% markup\n• White-label licensing at $500/mo\n• Custom development at $150/hour\n\nContact support to upgrade your account!');
-    });
-
-    // Enhanced Configuration Event Handlers
-    elements.configBtn.addEventListener('click', () => {
-      elements.providerSelect.value = CONFIG.provider;
-      elements.apiKeyInput.value = CONFIG.apiKey;
-      elements.modelSelect.value = CONFIG.model;
-      elements.concurrentInput.value = CONFIG.maxConcurrentAgents;
-      elements.githubTokenInput.value = CONFIG.githubToken;
-      elements.githubRepoInput.value = CONFIG.githubRepo;
-      elements.costOptimizationSelect.value = CONFIG.costOptimization;
-      elements.userEmailInput.value = CONFIG.userEmail;
-      updateProviderInfo();
-      elements.configModal.classList.remove('hidden');
-    });
-
-    elements.saveConfigBtn.addEventListener('click', () => {
-      CONFIG.provider = elements.providerSelect.value;
-      CONFIG.apiKey = elements.apiKeyInput.value.trim();
-      CONFIG.model = elements.modelSelect.value;
-      CONFIG.maxConcurrentAgents = parseInt(elements.concurrentInput.value);
-      CONFIG.githubToken = elements.githubTokenInput.value.trim();
-      CONFIG.githubRepo = elements.githubRepoInput.value.trim();
-      CONFIG.costOptimization = elements.costOptimizationSelect.value;
-      CONFIG.userEmail = elements.userEmailInput.value.trim();
-      
-      localStorage.setItem('provider', CONFIG.provider);
-      localStorage.setItem('apiKey', CONFIG.apiKey);
-      localStorage.setItem('model', CONFIG.model);
-      localStorage.setItem('maxConcurrent', CONFIG.maxConcurrentAgents);
-      localStorage.setItem('githubToken', CONFIG.githubToken);
-      localStorage.setItem('githubRepo', CONFIG.githubRepo);
-      localStorage.setItem('costOptimization', CONFIG.costOptimization);
-      localStorage.setItem('userEmail', CONFIG.userEmail);
-      
-      updateProviderInfo();
-      testGitHubConnection();
-      elements.configModal.classList.add('hidden');
-      addMessage('system', `✅ Configuration saved\n\nProvider: ${PROVIDERS[CONFIG.provider].name}\nModel: ${PROVIDERS[CONFIG.provider].models[CONFIG.model].name}\nMax Concurrent: ${CONFIG.maxConcurrentAgents} agents\nCost Optimization: ${CONFIG.costOptimization}\nGitHub: ${CONFIG.githubRepo || 'Not configured'}`);
-    });
-
-    // Initialize
-    updateProviderInfo();
-    testGitHubConnection();
-    updateUserTier(CONFIG.userTier);
-    
-    // Load saved state on startup
-    const stateLoaded = loadState();
-    if (stateLoaded) {
-      addMessage('system', '🔄 Restored previous session state');
-      updateUI();
+    // Register service worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js')
+        .then(registration => console.log('SW registered'))
+        .catch(error => console.log('SW registration failed'));
     }
-
-    // Initialize mobile UI
-    updateMobileStats();
-    updateMobileAgentsList();
-    updateMobileTaskQueue();
-
-    // Update usage stats
-    elements.tokensUsed.textContent = CONFIG.tokensUsedToday.toLocaleString();
-    elements.tasksCompleted.textContent = STATE.completedTasks.length;
-    
-    addMessage('system', `🚀 Mobile-Optimized AI Agent System
-
-✨ NEW FEATURES:
-• 📱 Fully mobile-responsive design
-• 🆓 4 FREE AI providers (Groq, Gemini, Hugging Face, Ollama)
-• 🎤 Voice control optimized for mobile
-• 💰 Enhanced monetization with revenue opportunities
-• ⚡ Ultra-fast Groq integration (default)
-• 🏠 Local Ollama support for privacy
-• 💎 Improved pricing: $9/mo Pro, $49/mo Enterprise
-
-🎯 AGENTS AVAILABLE:
-${Array.from(STATE.agents.values()).map(a => `  ${a.emoji} ${a.name} - ${a.role}`).join('\n')}
-
-📱 MOBILE-FIRST DESIGN:
-• Touch-optimized interface
-• Responsive layout for all screen sizes
-• Voice commands for hands-free operation
-• Offline capability with Ollama
-• PWA support for app-like experience
-
-💰 REVENUE OPPORTUNITIES:
-• 30% affiliate commission
-• API reselling with 20-50% markup
-• White-label licensing at $500/mo
-• Custom development at $150/hour
-
-📋 QUICK START:
-1. Click "Config" to set up your API key (or use Ollama for free)
-2. Click "Start" to activate the system
-3. Use voice commands or type your requests
-4. Watch agents work autonomously
-
-💡 EXAMPLE TASKS:
-• "Create a mobile-friendly React component"
-• "Build a REST API with authentication"
-• "Analyze this code for performance issues"
-• "Write unit tests for a sorting function"
-
-Current provider: ${PROVIDERS[CONFIG.provider].name}${CONFIG.apiKey || CONFIG.provider === 'ollama' ? '\n✅ Ready to use' : '\n⚠️ API key needed'}`);
-
-    updateUI();
   </script>
 </body>
 </html>
