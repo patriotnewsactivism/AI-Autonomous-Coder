@@ -1,12 +1,12 @@
 {
-  "name": "Multi-Provider Autonomous Agent System",
-  "short_name": "AI Agent System",
-  "description": "A powerful multi-provider autonomous AI agent system for coding tasks",
+  "name": "AI Agent - Mobile Coding Assistant",
+  "short_name": "AI Agent",
+  "description": "Mobile-first AI coding assistant with voice control. Use anywhere, anytime!",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#3b82f6",
-  "orientation": "portrait-primary",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "icon-192.png",
