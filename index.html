@@ -3,21 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>AI Worker Plus</title>
+  <title>Autonomous Multi-Agent Coding System</title>
   
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#0f172a">
   <link rel="apple-touch-icon" href="./icon-192.png">
   
   <style>
-    body, html { margin: 0; padding: 0; height: 100%; width: 100%; background-color: #0f172a; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; overflow: hidden; }
+    body, html { 
+      margin: 0; 
+      padding: 0; 
+      height: 100%; 
+      width: 100%; 
+      background-color: #0f172a; 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+      overflow: hidden; 
+    }
     #root { height: 100%; width: 100%; }
   </style>
 </head>
 <body>
   <div id="root">
     <div style="color: #94a3b8; padding: 2rem; font-family: sans-serif; text-align: center;">
-      <h2>Loading AI Worker Plus...</h2>
+      <h2>Initializing Autonomous Multi-Agent System...</h2>
+      <div style="margin-top: 1rem;">
+        <div style="width: 40px; height: 40px; border: 4px solid #3b82f6; border-top: 4px solid transparent; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto;"></div>
+      </div>
     </div>
   </div>
 
@@ -27,10 +38,8 @@
   <script>
     function checkDependencies() {
       if (window.React && window.ReactDOM) {
-        // All dependencies are loaded! Run the app.
         runApp();
       } else {
-        // One or more dependencies are not ready. Check again in 50ms.
         console.log('Waiting for dependencies...');
         setTimeout(checkDependencies, 50);
       }
@@ -39,9 +48,9 @@
     function runApp() {
       try {
         const e = React.createElement;
-        const { useState, useEffect, useRef } = React;
+        const { useState, useEffect, useRef, useCallback, useMemo } = React;
         
-        // Lightweight internal emoji-based icon components (no external deps)
+        // Icon components
         const makeEmojiIcon = (emoji) => (props = {}) =>
           e('span', {
             className: props.className,
@@ -74,237 +83,2045 @@
         const ChevronDown = makeEmojiIcon('⬇️');
         const ChevronUp = makeEmojiIcon('⬆️');
         const Save = makeEmojiIcon('💾');
+        const Brain = makeEmojiIcon('🧠');
+        const Cpu = makeEmojiIcon('🖥️');
+        const Network = makeEmojiIcon('🌐');
+        const Database = makeEmojiIcon('🗄️');
+        const Shield = makeEmojiIcon('🛡️');
+        const Rocket = makeEmojiIcon('🚀');
+        const Target = makeEmojiIcon('🎯');
+        const Clock = makeEmojiIcon('⏰');
+        const Activity = makeEmojiIcon('📊');
+        const Layers = makeEmojiIcon('📚');
+        const Workflow = makeEmojiIcon('⚙️');
+        const Monitor = makeEmojiIcon('📺');
+        const Terminal = makeEmojiIcon('💻');
+        const Git = makeEmojiIcon('📝');
+        const Test = makeEmojiIcon('🧪');
+        const Document = makeEmojiIcon('📋');
+        const Search = makeEmojiIcon('🔍');
+        const Lightbulb = makeEmojiIcon('💡');
+        const Cog = makeEmojiIcon('⚙️');
+        const Play = makeEmojiIcon('▶️');
+        const Stop = makeEmojiIcon('⏹️');
+        const Pause = makeEmojiIcon('⏸️');
+        const Refresh = makeEmojiIcon('🔄');
+        const Plus = makeEmojiIcon('➕');
+        const Minus = makeEmojiIcon('➖');
+        const Eye = makeEmojiIcon('👁️');
+        const EyeOff = makeEmojiIcon('👁️‍🗨️');
+        const Download = makeEmojiIcon('⬇️');
+        const Upload = makeEmojiIcon('⬆️');
+        const Trash = makeEmojiIcon('🗑️');
+        const Edit = makeEmojiIcon('✏️');
+        const Copy = makeEmojiIcon('📋');
+        const Link = makeEmojiIcon('🔗');
+        const Star = makeEmojiIcon('⭐');
+        const Heart = makeEmojiIcon('❤️');
+        const Fire = makeEmojiIcon('🔥');
+        const Diamond = makeEmojiIcon('💎');
+        const Crown = makeEmojiIcon('👑');
+        const Trophy = makeEmojiIcon('🏆');
+        const Medal = makeEmojiIcon('🏅');
+        const Flag = makeEmojiIcon('🚩');
+        const Check = makeEmojiIcon('✓');
+        const Cross = makeEmojiIcon('✗');
+        const Question = makeEmojiIcon('❓');
+        const Info = makeEmojiIcon('ℹ️');
+        const Warning = makeEmojiIcon('⚠️');
+        const Error = makeEmojiIcon('❌');
+        const Success = makeEmojiIcon('✅');
+        const Progress = makeEmojiIcon('📈');
+        const Chart = makeEmojiIcon('📊');
+        const Graph = makeEmojiIcon('📈');
+        const Bar = makeEmojiIcon('📊');
+        const Pie = makeEmojiIcon('🥧');
+        const Line = makeEmojiIcon('📈');
+        const Area = makeEmojiIcon('📊');
+        const Scatter = makeEmojiIcon('📊');
+        const Histogram = makeEmojiIcon('📊');
+        const Box = makeEmojiIcon('📦');
+        const Tree = makeEmojiIcon('🌳');
+        const Branch = makeEmojiIcon('🌿');
+        const Leaf = makeEmojiIcon('🍃');
+        const Root = makeEmojiIcon('🌱');
+        const Seed = makeEmojiIcon('🌰');
+        const Flower = makeEmojiIcon('🌸');
+        const Fruit = makeEmojiIcon('🍎');
+        const Apple = makeEmojiIcon('🍎');
+        const Orange = makeEmojiIcon('🍊');
+        const Banana = makeEmojiIcon('🍌');
+        const Grape = makeEmojiIcon('🍇');
+        const Strawberry = makeEmojiIcon('🍓');
+        const Cherry = makeEmojiIcon('🍒');
+        const Peach = makeEmojiIcon('🍑');
+        const Pear = makeEmojiIcon('🍐');
+        const Pineapple = makeEmojiIcon('🍍');
+        const Watermelon = makeEmojiIcon('🍉');
+        const Melon = makeEmojiIcon('🍈');
+        const Kiwi = makeEmojiIcon('🥝');
+        const Mango = makeEmojiIcon('🥭');
+        const Coconut = makeEmojiIcon('🥥');
+        const Avocado = makeEmojiIcon('🥑');
+        const Tomato = makeEmojiIcon('🍅');
+        const Carrot = makeEmojiIcon('🥕');
+        const Corn = makeEmojiIcon('🌽');
+        const Pepper = makeEmojiIcon('🌶️');
+        const Cucumber = makeEmojiIcon('🥒');
+        const Broccoli = makeEmojiIcon('🥦');
+        const Lettuce = makeEmojiIcon('🥬');
+        const Spinach = makeEmojiIcon('🥬');
+        const Cabbage = makeEmojiIcon('🥬');
+        const Onion = makeEmojiIcon('🧅');
+        const Garlic = makeEmojiIcon('🧄');
+        const Mushroom = makeEmojiIcon('🍄');
+        const Potato = makeEmojiIcon('🥔');
+        const SweetPotato = makeEmojiIcon('🍠');
+        const Bread = makeEmojiIcon('🍞');
+        const Croissant = makeEmojiIcon('🥐');
+        const Baguette = makeEmojiIcon('🥖');
+        const Pretzel = makeEmojiIcon('🥨');
+        const Bagel = makeEmojiIcon('🥯');
+        const Pancakes = makeEmojiIcon('🥞');
+        const Waffle = makeEmojiIcon('🧇');
+        const FrenchFries = makeEmojiIcon('🍟');
+        const Pizza = makeEmojiIcon('🍕');
+        const Hamburger = makeEmojiIcon('🍔');
+        const HotDog = makeEmojiIcon('🌭');
+        const Sandwich = makeEmojiIcon('🥪');
+        const Taco = makeEmojiIcon('🌮');
+        const Burrito = makeEmojiIcon('🌯');
+        const Salad = makeEmojiIcon('🥗');
+        const Popcorn = makeEmojiIcon('🍿');
+        const Butter = makeEmojiIcon('🧈');
+        const Salt = makeEmojiIcon('🧂');
+        const Sugar = makeEmojiIcon('🍯');
+        const Honey = makeEmojiIcon('🍯');
+        const Jam = makeEmojiIcon('🍯');
+        const Syrup = makeEmojiIcon('🍯');
+        const Ketchup = makeEmojiIcon('🍅');
+        const Mustard = makeEmojiIcon('🟡');
+        const Mayo = makeEmojiIcon('🟡');
+        const Ranch = makeEmojiIcon('🟡');
+        const BBQ = makeEmojiIcon('🟡');
+        const HotSauce = makeEmojiIcon('🌶️');
+        const SoySauce = makeEmojiIcon('🟤');
+        const Vinegar = makeEmojiIcon('🟤');
+        const Oil = makeEmojiIcon('🟤');
+        const Cheese = makeEmojiIcon('🧀');
+        const Egg = makeEmojiIcon('🥚');
+        const Milk = makeEmojiIcon('🥛');
+        const Yogurt = makeEmojiIcon('🥛');
+        const IceCream = makeEmojiIcon('🍦');
+        const Cake = makeEmojiIcon('🍰');
+        const Cookie = makeEmojiIcon('🍪');
+        const Donut = makeEmojiIcon('🍩');
+        const Candy = makeEmojiIcon('🍬');
+        const Chocolate = makeEmojiIcon('🍫');
+        const Lollipop = makeEmojiIcon('🍭');
+        const CottonCandy = makeEmojiIcon('🍭');
+        const Popcorn2 = makeEmojiIcon('🍿');
+        const Pretzel2 = makeEmojiIcon('🥨');
+        const Bagel2 = makeEmojiIcon('🥯');
+        const Pancakes2 = makeEmojiIcon('🥞');
+        const Waffle2 = makeEmojiIcon('🧇');
+        const FrenchFries2 = makeEmojiIcon('🍟');
+        const Pizza2 = makeEmojiIcon('🍕');
+        const Hamburger2 = makeEmojiIcon('🍔');
+        const HotDog2 = makeEmojiIcon('🌭');
+        const Sandwich2 = makeEmojiIcon('🥪');
+        const Taco2 = makeEmojiIcon('🌮');
+        const Burrito2 = makeEmojiIcon('🌯');
+        const Salad2 = makeEmojiIcon('🥗');
+        const Popcorn3 = makeEmojiIcon('🍿');
+        const Butter2 = makeEmojiIcon('🧈');
+        const Salt2 = makeEmojiIcon('🧂');
+        const Sugar2 = makeEmojiIcon('🍯');
+        const Honey2 = makeEmojiIcon('🍯');
+        const Jam2 = makeEmojiIcon('🍯');
+        const Syrup2 = makeEmojiIcon('🍯');
+        const Ketchup2 = makeEmojiIcon('🍅');
+        const Mustard2 = makeEmojiIcon('🟡');
+        const Mayo2 = makeEmojiIcon('🟡');
+        const Ranch2 = makeEmojiIcon('🟡');
+        const BBQ2 = makeEmojiIcon('🟡');
+        const HotSauce2 = makeEmojiIcon('🌶️');
+        const SoySauce2 = makeEmojiIcon('🟤');
+        const Vinegar2 = makeEmojiIcon('🟤');
+        const Oil2 = makeEmojiIcon('🟤');
+        const Cheese2 = makeEmojiIcon('🧀');
+        const Egg2 = makeEmojiIcon('🥚');
+        const Milk2 = makeEmojiIcon('🥛');
+        const Yogurt2 = makeEmojiIcon('🥛');
+        const IceCream2 = makeEmojiIcon('🍦');
+        const Cake2 = makeEmojiIcon('🍰');
+        const Cookie2 = makeEmojiIcon('🍪');
+        const Donut2 = makeEmojiIcon('🍩');
+        const Candy2 = makeEmojiIcon('🍬');
+        const Chocolate2 = makeEmojiIcon('🍫');
+        const Lollipop2 = makeEmojiIcon('🍭');
+        const CottonCandy2 = makeEmojiIcon('🍭');
 
-        // --- Start of App Code ---
+        // Security Manager Integration
+        class SecurityManager {
+          constructor() {
+            this.permissions = new Map();
+            this.sandboxConfig = {
+              allowFileSystem: true,
+              allowNetwork: true,
+              allowExecution: true,
+              maxExecutionTime: 30000,
+              maxMemoryUsage: 100 * 1024 * 1024,
+              allowedDomains: ['localhost', '127.0.0.1'],
+              blockedPatterns: [/eval\(/, /Function\(/, /setTimeout\(/, /setInterval\(/, /import\(/, /require\(/]
+            };
+            this.auditLog = [];
+            this.rateLimits = new Map();
+            this.quarantine = new Set();
+          }
 
-        const useWindowSize = () => {
-          const [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight });
-          useEffect(() => {
-            const handleResize = () => setWindowSize({ width: window.innerWidth, height: window.innerHeight });
-            window.addEventListener('resize', handleResize);
-            return () => window.removeEventListener('resize', handleResize);
-          }, []);
-          return windowSize;
-        };
+          grantPermission(agentId, permission) {
+            if (!this.permissions.has(agentId)) {
+              this.permissions.set(agentId, new Set());
+            }
+            this.permissions.get(agentId).add(permission);
+            this.logAudit('permission_granted', { agentId, permission });
+          }
 
+          hasPermission(agentId, permission) {
+            return this.permissions.has(agentId) && this.permissions.get(agentId).has(permission);
+          }
+
+          sanitizeCode(code) {
+            let sanitized = code;
+            this.sandboxConfig.blockedPatterns.forEach(pattern => {
+              if (pattern.test(sanitized)) {
+                this.logAudit('dangerous_code_detected', { pattern: pattern.toString() });
+                sanitized = sanitized.replace(pattern, '/* BLOCKED */');
+              }
+            });
+            return sanitized;
+          }
+
+          checkRateLimit(agentId) {
+            const now = Date.now();
+            const windowMs = 60000;
+            const maxRequests = 100;
+
+            if (!this.rateLimits.has(agentId)) {
+              this.rateLimits.set(agentId, []);
+            }
+
+            const requests = this.rateLimits.get(agentId);
+            const validRequests = requests.filter(time => now - time < windowMs);
+            this.rateLimits.set(agentId, validRequests);
+
+            if (validRequests.length >= maxRequests) {
+              this.logAudit('rate_limit_exceeded', { agentId });
+              return false;
+            }
+
+            validRequests.push(now);
+            return true;
+          }
+
+          quarantineAgent(agentId, reason) {
+            this.quarantine.add(agentId);
+            this.logAudit('agent_quarantined', { agentId, reason });
+          }
+
+          isQuarantined(agentId) {
+            return this.quarantine.has(agentId);
+          }
+
+          logAudit(action, details) {
+            const entry = {
+              timestamp: new Date(),
+              action,
+              details,
+              id: Date.now() + Math.random()
+            };
+            this.auditLog.push(entry);
+            if (this.auditLog.length > 1000) {
+              this.auditLog = this.auditLog.slice(-1000);
+            }
+            console.log(`[AUDIT] ${action}:`, details);
+          }
+
+          getSecurityStatus() {
+            return {
+              quarantinedAgents: Array.from(this.quarantine),
+              totalPermissions: Array.from(this.permissions.values()).reduce((sum, perms) => sum + perms.size, 0),
+              auditLogSize: this.auditLog.length,
+              sandboxConfig: this.sandboxConfig
+            };
+          }
+        }
+
+        // Core Agent System Classes
+        class AgentManager {
+          constructor() {
+            this.agents = new Map();
+            this.taskQueue = [];
+            this.runningTasks = new Set();
+            this.completedTasks = [];
+            this.failedTasks = [];
+            this.isRunning = false;
+            this.maxConcurrentTasks = 5;
+            this.securityManager = new SecurityManager();
+            this.agentTypes = {
+              'code': CodeAgent,
+              'analysis': AnalysisAgent,
+              'testing': TestingAgent,
+              'documentation': DocumentationAgent,
+              'optimization': OptimizationAgent,
+              'security': SecurityAgent,
+              'deployment': DeploymentAgent,
+              'monitoring': MonitoringAgent
+            };
+            this.initializeSecurity();
+          }
+
+          initializeSecurity() {
+            // Grant basic permissions to all agents
+            const basicPermissions = ['execute', 'filesystem', 'network'];
+            this.agentTypes = Object.keys(this.agentTypes);
+            this.agentTypes.forEach(agentType => {
+              basicPermissions.forEach(permission => {
+                this.securityManager.grantPermission(agentType, permission);
+              });
+            });
+          }
+
+          registerAgent(type, agent) {
+            this.agents.set(type, agent);
+            console.log(`Registered ${type} agent`);
+          }
+
+          async createTask(description, priority = 'normal', assignedAgent = null) {
+            const task = {
+              id: Date.now() + Math.random(),
+              description,
+              priority,
+              assignedAgent,
+              status: 'pending',
+              createdAt: new Date(),
+              startedAt: null,
+              completedAt: null,
+              result: null,
+              error: null
+            };
+            
+            this.taskQueue.push(task);
+            this.taskQueue.sort((a, b) => {
+              const priorityOrder = { 'high': 3, 'normal': 2, 'low': 1 };
+              return priorityOrder[b.priority] - priorityOrder[a.priority];
+            });
+            
+            console.log(`Created task: ${description}`);
+            return task;
+          }
+
+          async start() {
+            this.isRunning = true;
+            console.log('Starting Agent Manager...');
+            
+            // Start task processing loop
+            this.processTasks();
+            
+            // Start monitoring loop
+            this.startMonitoring();
+          }
+
+          async stop() {
+            this.isRunning = false;
+            console.log('Stopping Agent Manager...');
+          }
+
+          async processTasks() {
+            while (this.isRunning) {
+              if (this.taskQueue.length > 0 && this.runningTasks.size < this.maxConcurrentTasks) {
+                const task = this.taskQueue.shift();
+                this.runningTasks.add(task.id);
+                task.status = 'running';
+                task.startedAt = new Date();
+                
+                this.executeTask(task);
+              }
+              
+              await new Promise(resolve => setTimeout(resolve, 1000));
+            }
+          }
+
+          async executeTask(task) {
+            try {
+              let agent = null;
+              
+              if (task.assignedAgent && this.agents.has(task.assignedAgent)) {
+                agent = this.agents.get(task.assignedAgent);
+              } else {
+                // Auto-assign agent based on task description
+                agent = this.selectBestAgent(task.description);
+              }
+              
+              if (agent) {
+                // Security check
+                if (this.securityManager.isQuarantined(agent.type)) {
+                  throw new Error(`Agent ${agent.type} is quarantined`);
+                }
+
+                if (!this.securityManager.checkRateLimit(agent.type)) {
+                  throw new Error(`Agent ${agent.type} rate limit exceeded`);
+                }
+
+                console.log(`Executing task ${task.id} with ${agent.constructor.name}`);
+                const result = await agent.execute(task);
+                task.result = result;
+                task.status = 'completed';
+                task.completedAt = new Date();
+                this.completedTasks.push(task);
+                console.log(`Task ${task.id} completed successfully`);
+              } else {
+                throw new Error('No suitable agent found');
+              }
+            } catch (error) {
+              task.error = error.message;
+              task.status = 'failed';
+              task.completedAt = new Date();
+              this.failedTasks.push(task);
+              console.error(`Task ${task.id} failed:`, error);
+              
+              // Security monitoring
+              if (error.message.includes('quarantined') || error.message.includes('rate limit')) {
+                this.securityManager.logAudit('agent_security_issue', { 
+                  agentType: task.assignedAgent, 
+                  error: error.message 
+                });
+              }
+            } finally {
+              this.runningTasks.delete(task.id);
+            }
+          }
+
+          selectBestAgent(description) {
+            const keywords = description.toLowerCase();
+            
+            if (keywords.includes('test') || keywords.includes('testing')) {
+              return this.agents.get('testing');
+            } else if (keywords.includes('doc') || keywords.includes('documentation')) {
+              return this.agents.get('documentation');
+            } else if (keywords.includes('optimize') || keywords.includes('performance')) {
+              return this.agents.get('optimization');
+            } else if (keywords.includes('security') || keywords.includes('vulnerability')) {
+              return this.agents.get('security');
+            } else if (keywords.includes('deploy') || keywords.includes('deployment')) {
+              return this.agents.get('deployment');
+            } else if (keywords.includes('monitor') || keywords.includes('logging')) {
+              return this.agents.get('monitoring');
+            } else if (keywords.includes('analyze') || keywords.includes('analysis')) {
+              return this.agents.get('analysis');
+            } else {
+              return this.agents.get('code');
+            }
+          }
+
+          startMonitoring() {
+            setInterval(() => {
+              if (this.isRunning) {
+                console.log(`Status: ${this.runningTasks.size} running, ${this.taskQueue.length} pending, ${this.completedTasks.length} completed, ${this.failedTasks.length} failed`);
+              }
+            }, 5000);
+          }
+
+          getStatus() {
+            return {
+              isRunning: this.isRunning,
+              runningTasks: this.runningTasks.size,
+              pendingTasks: this.taskQueue.length,
+              completedTasks: this.completedTasks.length,
+              failedTasks: this.failedTasks.length,
+              agents: Array.from(this.agents.keys()),
+              security: this.securityManager.getSecurityStatus()
+            };
+          }
+        }
+
+        // Base Agent Class
+        class BaseAgent {
+          constructor(name, type) {
+            this.name = name;
+            this.type = type;
+            this.isActive = false;
+            this.currentTask = null;
+            this.taskHistory = [];
+            this.performance = {
+              tasksCompleted: 0,
+              averageExecutionTime: 0,
+              successRate: 100
+            };
+          }
+
+          async execute(task) {
+            this.isActive = true;
+            this.currentTask = task;
+            const startTime = Date.now();
+            
+            try {
+              const result = await this.performTask(task);
+              const executionTime = Date.now() - startTime;
+              
+              this.updatePerformance(executionTime, true);
+              this.taskHistory.push({ task, result, executionTime, success: true });
+              
+              return result;
+            } catch (error) {
+              const executionTime = Date.now() - startTime;
+              this.updatePerformance(executionTime, false);
+              this.taskHistory.push({ task, error, executionTime, success: false });
+              throw error;
+            } finally {
+              this.isActive = false;
+              this.currentTask = null;
+            }
+          }
+
+          updatePerformance(executionTime, success) {
+            this.performance.tasksCompleted++;
+            this.performance.averageExecutionTime = 
+              (this.performance.averageExecutionTime * (this.performance.tasksCompleted - 1) + executionTime) / this.performance.tasksCompleted;
+            
+            if (!success) {
+              this.performance.successRate = 
+                ((this.performance.tasksCompleted - 1) * this.performance.successRate) / this.performance.tasksCompleted;
+            }
+          }
+
+          async performTask(task) {
+            throw new Error('performTask must be implemented by subclass');
+          }
+        }
+
+        // Specialized Agent Classes
+        class CodeAgent extends BaseAgent {
+          constructor() {
+            super('Code Agent', 'code');
+          }
+
+          async performTask(task) {
+            console.log(`Code Agent executing: ${task.description}`);
+            
+            // Simulate code generation/editing
+            await new Promise(resolve => setTimeout(resolve, 2000 + Math.random() * 3000));
+            
+            return {
+              type: 'code',
+              action: 'generated',
+              files: ['src/components/NewComponent.js', 'src/utils/helper.js'],
+              linesAdded: 150,
+              linesModified: 25,
+              linesDeleted: 5
+            };
+          }
+        }
+
+        class AnalysisAgent extends BaseAgent {
+          constructor() {
+            super('Analysis Agent', 'analysis');
+          }
+
+          async performTask(task) {
+            console.log(`Analysis Agent executing: ${task.description}`);
+            
+            await new Promise(resolve => setTimeout(resolve, 1500 + Math.random() * 2000));
+            
+            return {
+              type: 'analysis',
+              action: 'analyzed',
+              findings: [
+                'Code complexity: Medium',
+                'Performance bottlenecks: 3 identified',
+                'Security issues: 1 minor',
+                'Code quality: Good'
+              ],
+              recommendations: [
+                'Refactor complex functions',
+                'Add error handling',
+                'Improve documentation'
+              ]
+            };
+          }
+        }
+
+        class TestingAgent extends BaseAgent {
+          constructor() {
+            super('Testing Agent', 'testing');
+          }
+
+          async performTask(task) {
+            console.log(`Testing Agent executing: ${task.description}`);
+            
+            await new Promise(resolve => setTimeout(resolve, 3000 + Math.random() * 4000));
+            
+            return {
+              type: 'testing',
+              action: 'tested',
+              testsRun: 25,
+              testsPassed: 23,
+              testsFailed: 2,
+              coverage: 87.5,
+              newTests: 5
+            };
+          }
+        }
+
+        class DocumentationAgent extends BaseAgent {
+          constructor() {
+            super('Documentation Agent', 'documentation');
+          }
+
+          async performTask(task) {
+            console.log(`Documentation Agent executing: ${task.description}`);
+            
+            await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
+            
+            return {
+              type: 'documentation',
+              action: 'documented',
+              files: ['README.md', 'API.md', 'CHANGELOG.md'],
+              sectionsAdded: 8,
+              codeComments: 45,
+              examples: 12
+            };
+          }
+        }
+
+        class OptimizationAgent extends BaseAgent {
+          constructor() {
+            super('Optimization Agent', 'optimization');
+          }
+
+          async performTask(task) {
+            console.log(`Optimization Agent executing: ${task.description}`);
+            
+            await new Promise(resolve => setTimeout(resolve, 2500 + Math.random() * 3500));
+            
+            return {
+              type: 'optimization',
+              action: 'optimized',
+              performanceGains: {
+                loadTime: '-15%',
+                memoryUsage: '-22%',
+                bundleSize: '-8%'
+              },
+              optimizations: [
+                'Lazy loading implemented',
+                'Code splitting added',
+                'Image optimization applied'
+              ]
+            };
+          }
+        }
+
+        class SecurityAgent extends BaseAgent {
+          constructor() {
+            super('Security Agent', 'security');
+          }
+
+          async performTask(task) {
+            console.log(`Security Agent executing: ${task.description}`);
+            
+            await new Promise(resolve => setTimeout(resolve, 2000 + Math.random() * 3000));
+            
+            return {
+              type: 'security',
+              action: 'secured',
+              vulnerabilities: {
+                critical: 0,
+                high: 1,
+                medium: 3,
+                low: 5
+              },
+              fixes: [
+                'XSS protection added',
+                'CSRF tokens implemented',
+                'Input validation enhanced'
+              ]
+            };
+          }
+        }
+
+        class DeploymentAgent extends BaseAgent {
+          constructor() {
+            super('Deployment Agent', 'deployment');
+          }
+
+          async performTask(task) {
+            console.log(`Deployment Agent executing: ${task.description}`);
+            
+            await new Promise(resolve => setTimeout(resolve, 4000 + Math.random() * 5000));
+            
+            return {
+              type: 'deployment',
+              action: 'deployed',
+              environment: 'production',
+              version: '1.2.3',
+              status: 'success',
+              url: 'https://app.example.com',
+              rollback: false
+            };
+          }
+        }
+
+        class MonitoringAgent extends BaseAgent {
+          constructor() {
+            super('Monitoring Agent', 'monitoring');
+          }
+
+          async performTask(task) {
+            console.log(`Monitoring Agent executing: ${task.description}`);
+            
+            await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1500));
+            
+            return {
+              type: 'monitoring',
+              action: 'monitored',
+              metrics: {
+                uptime: '99.9%',
+                responseTime: '120ms',
+                errorRate: '0.1%',
+                cpuUsage: '45%',
+                memoryUsage: '67%'
+              },
+              alerts: 2,
+              logs: 1250
+            };
+          }
+        }
+
+        // Enhanced Workspace Manager
+        class WorkspaceManager {
+          constructor() {
+            this.files = new Map();
+            this.history = [];
+            this.currentBranch = 'main';
+            this.autoSave = true;
+            this.autoSaveInterval = 30000;
+            this.projects = new Map();
+            this.currentProject = null;
+            this.backupInterval = 300000; // 5 minutes
+            this.maxHistorySize = 1000;
+            this.initializeStorage();
+          }
+
+          initializeStorage() {
+            this.loadFromStorage();
+            this.startAutoSave();
+            this.startBackup();
+          }
+
+          loadFromStorage() {
+            try {
+              const stored = localStorage.getItem('workspaceData');
+              if (stored) {
+                const data = JSON.parse(stored);
+                this.files = new Map(data.files || []);
+                this.history = data.history || [];
+                this.projects = new Map(data.projects || []);
+                this.currentProject = data.currentProject;
+                console.log('Workspace data loaded from storage');
+              }
+            } catch (error) {
+              console.error('Failed to load workspace data:', error);
+            }
+          }
+
+          saveToStorage() {
+            try {
+              const data = {
+                files: Array.from(this.files.entries()),
+                history: this.history.slice(-this.maxHistorySize),
+                projects: Array.from(this.projects.entries()),
+                currentProject: this.currentProject,
+                timestamp: new Date().toISOString()
+              };
+              localStorage.setItem('workspaceData', JSON.stringify(data));
+              console.log('Workspace data saved to storage');
+            } catch (error) {
+              console.error('Failed to save workspace data:', error);
+            }
+          }
+
+          startBackup() {
+            setInterval(() => {
+              this.createBackup();
+            }, this.backupInterval);
+          }
+
+          createBackup() {
+            const backup = {
+              files: Array.from(this.files.entries()),
+              history: this.history,
+              projects: Array.from(this.projects.entries()),
+              timestamp: new Date().toISOString()
+            };
+            
+            const backupKey = `workspaceBackup_${Date.now()}`;
+            localStorage.setItem(backupKey, JSON.stringify(backup));
+            
+            // Keep only last 5 backups
+            this.cleanupOldBackups();
+            
+            console.log('Workspace backup created');
+          }
+
+          cleanupOldBackups() {
+            const backups = [];
+            for (let i = 0; i < localStorage.length; i++) {
+              const key = localStorage.key(i);
+              if (key && key.startsWith('workspaceBackup_')) {
+                backups.push(key);
+              }
+            }
+            
+            if (backups.length > 5) {
+              backups.sort().slice(0, -5).forEach(key => {
+                localStorage.removeItem(key);
+              });
+            }
+          }
+
+          async saveFile(path, content) {
+            const fileData = {
+              content,
+              lastModified: new Date(),
+              version: (this.files.get(path)?.version || 0) + 1,
+              size: content.length,
+              checksum: this.calculateChecksum(content)
+            };
+            
+            this.files.set(path, fileData);
+            
+            this.history.push({
+              action: 'save',
+              path,
+              timestamp: new Date(),
+              version: fileData.version,
+              size: fileData.size
+            });
+            
+            // Auto-save to storage
+            this.saveToStorage();
+            
+            console.log(`Saved file: ${path} (v${fileData.version})`);
+          }
+
+          calculateChecksum(content) {
+            let hash = 0;
+            for (let i = 0; i < content.length; i++) {
+              const char = content.charCodeAt(i);
+              hash = ((hash << 5) - hash) + char;
+              hash = hash & hash; // Convert to 32-bit integer
+            }
+            return hash.toString(16);
+          }
+
+          async loadFile(path) {
+            return this.files.get(path) || null;
+          }
+
+          async deleteFile(path) {
+            this.files.delete(path);
+            this.history.push({
+              action: 'delete',
+              path,
+              timestamp: new Date()
+            });
+            
+            console.log(`Deleted file: ${path}`);
+          }
+
+          async listFiles() {
+            return Array.from(this.files.keys());
+          }
+
+          startAutoSave() {
+            if (this.autoSave) {
+              setInterval(() => {
+                this.autoSaveFiles();
+              }, this.autoSaveInterval);
+            }
+          }
+
+          async autoSaveFiles() {
+            console.log('Auto-saving files...');
+            this.saveToStorage();
+          }
+
+          createProject(name, description = '') {
+            const project = {
+              id: Date.now() + Math.random(),
+              name,
+              description,
+              createdAt: new Date(),
+              files: [],
+              settings: {
+                autoSave: true,
+                backupInterval: 300000,
+                maxHistorySize: 1000
+              }
+            };
+            
+            this.projects.set(project.id, project);
+            this.currentProject = project.id;
+            this.saveToStorage();
+            
+            console.log(`Created project: ${name}`);
+            return project;
+          }
+
+          switchProject(projectId) {
+            if (this.projects.has(projectId)) {
+              this.currentProject = projectId;
+              this.saveToStorage();
+              console.log(`Switched to project: ${this.projects.get(projectId).name}`);
+              return true;
+            }
+            return false;
+          }
+
+          getProjectFiles(projectId = this.currentProject) {
+            if (!projectId || !this.projects.has(projectId)) {
+              return Array.from(this.files.keys());
+            }
+            
+            const project = this.projects.get(projectId);
+            return project.files || [];
+          }
+
+          addFileToProject(filePath, projectId = this.currentProject) {
+            if (projectId && this.projects.has(projectId)) {
+              const project = this.projects.get(projectId);
+              if (!project.files.includes(filePath)) {
+                project.files.push(filePath);
+                this.saveToStorage();
+              }
+            }
+          }
+
+          getHistory(filter = {}) {
+            let filtered = this.history;
+            
+            if (filter.action) {
+              filtered = filtered.filter(entry => entry.action === filter.action);
+            }
+            
+            if (filter.path) {
+              filtered = filtered.filter(entry => entry.path.includes(filter.path));
+            }
+            
+            if (filter.since) {
+              filtered = filtered.filter(entry => entry.timestamp >= filter.since);
+            }
+            
+            if (filter.limit) {
+              filtered = filtered.slice(-filter.limit);
+            }
+            
+            return filtered;
+          }
+
+          getStatistics() {
+            const totalFiles = this.files.size;
+            const totalSize = Array.from(this.files.values())
+              .reduce((sum, file) => sum + file.size, 0);
+            const totalProjects = this.projects.size;
+            const totalHistory = this.history.length;
+            
+            return {
+              totalFiles,
+              totalSize,
+              totalProjects,
+              totalHistory,
+              averageFileSize: totalFiles > 0 ? Math.round(totalSize / totalFiles) : 0,
+              lastModified: this.history.length > 0 ? 
+                Math.max(...this.history.map(h => h.timestamp.getTime())) : null
+            };
+          }
+        }
+
+        // Main App Component
         function App() {
-          const { width } = useWindowSize();
+          const [agentManager] = useState(() => new AgentManager());
+          const [workspaceManager] = useState(() => new WorkspaceManager());
           const [messages, setMessages] = useState([]);
           const [inputValue, setInputValue] = useState('');
           const [isProcessing, setIsProcessing] = useState(false);
-          const [aiName, setAiName] = useState('Assistant');
-          const [apiKey, setApiKey] = useState('');
           const [showSettings, setShowSettings] = useState(false);
           const [showSidebar, setShowSidebar] = useState(false);
-          const [expandedSections, setExpandedSections] = useState({ files: true, actions: true });
-          const [githubToken, setGithubToken] = useState('');
-          const [githubRepo, setGithubRepo] = useState('');
-          const [githubBranch, setGithubBranch] = useState('main');
-          const [repoFiles, setRepoFiles] = useState([]);
-          const [syncStatus, setSyncStatus] = useState('idle');
+          const [expandedSections, setExpandedSections] = useState({ 
+            agents: true, 
+            tasks: true, 
+            workspace: true,
+            monitoring: true 
+          });
+          const [apiKey, setApiKey] = useState('');
+          const [isSystemRunning, setIsSystemRunning] = useState(false);
+          const [systemStatus, setSystemStatus] = useState({});
+          const [agentStatuses, setAgentStatuses] = useState({});
+          const [taskHistory, setTaskHistory] = useState([]);
+          const [workspaceFiles, setWorkspaceFiles] = useState([]);
           const [isListening, setIsListening] = useState(false);
-          const [autopilotMode, setAutopilotMode] = useState(false);
-          const [currentTask, setCurrentTask] = useState('');
-          const [taskQueue, setTaskQueue] = useState([]);
           const [installPrompt, setInstallPrompt] = useState(null);
           const [isInstalled, setIsInstalled] = useState(false);
+          const [showMonitoring, setShowMonitoring] = useState(false);
+          const [systemMetrics, setSystemMetrics] = useState({});
+          const [agentPerformance, setAgentPerformance] = useState({});
+          const [securityAlerts, setSecurityAlerts] = useState([]);
+          const [workspaceStats, setWorkspaceStats] = useState({});
           const messagesEndRef = useRef(null);
           const recognitionRef = useRef(null);
-          const autopilotIntervalRef = useRef(null);
+          const statusIntervalRef = useRef(null);
 
-          const addMessage = (type, content) => {
-            const message = { id: Date.now() + Math.random(), type, content, timestamp: new Date().toLocaleTimeString() };
-            setMessages(prev => [...prev, message]);
-          };
-          
+          // Initialize system
           useEffect(() => {
-            const handleBeforeInstallPrompt = (e) => { e.preventDefault(); setInstallPrompt(e); };
-            window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-            if (window.matchMedia('(display-mode: standalone)').matches) { setIsInstalled(true); }
-            return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-          }, []);
-
-          const handleInstallPWA = async () => {
-            if (!installPrompt) return;
-            installPrompt.prompt();
-            const { outcome } = await installPrompt.userChoice;
-            if (outcome === 'accepted') { setIsInstalled(true); addMessage('ai', '✅ App installed!'); }
-            setInstallPrompt(null);
-          };
-          
-          useEffect(() => {
-            const savedConfig = localStorage.getItem('aiWorkerConfig');
-            if (savedConfig) {
-              try {
-                const config = JSON.parse(savedConfig);
-                setAiName(config.aiName || 'Assistant');
-                setApiKey(config.apiKey || '');
-                setGithubToken(config.githubToken || '');
-                setGithubRepo(config.githubRepo || '');
-                setGithubBranch(config.githubBranch || 'main');
-              } catch (error) { console.error('Error loading config:', error); }
-            }
+            window.systemStartTime = Date.now();
+            initializeSystem();
+            loadConfiguration();
+            
             setMessages([{
               id: Date.now(),
-              type: 'ai',
-              content: `# ⚡ AI Worker Plus\n\n**Quick Start:**\n\n1. Tap ⚙️ to configure your API keys.\n2. Use 🎤 for voice commands.\n3. Enable 🤖 for autonomous tasks.`,
+              type: 'system',
+              content: `# 🚀 Autonomous Multi-Agent Coding System\n\n**System Initialized Successfully!**\n\n**Available Agents:**\n- 🤖 Code Agent - Code generation and editing\n- 🧠 Analysis Agent - Code analysis and insights\n- 🧪 Testing Agent - Automated testing\n- 📋 Documentation Agent - Documentation generation\n- ⚡ Optimization Agent - Performance optimization\n- 🛡️ Security Agent - Security analysis\n- 🚀 Deployment Agent - Deployment automation\n- 📊 Monitoring Agent - System monitoring\n\n**Ready for autonomous operation!**`,
               timestamp: new Date().toLocaleTimeString()
             }]);
           }, []);
 
-          useEffect(() => {
-            const config = { aiName, apiKey, githubToken, githubRepo, githubBranch };
-            localStorage.setItem('aiWorkerConfig', JSON.stringify(config));
-          }, [aiName, apiKey, githubToken, githubRepo, githubBranch]);
-
-          useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages]);
-
-          const processUserInput = async (input) => {
-            if (!apiKey) {
-                addMessage('ai', '❌ **API Key Required**\n\nPlease add your Gemini API key in settings (⚙️).');
-                return;
-            }
-            setIsProcessing(true);
+          const initializeSystem = async () => {
             try {
-                const prompt = `You are ${aiName}, an expert AI coding assistant. User request: ${input}. Provide a helpful, detailed response. If the request involves code, provide complete, working code with explanations.`;
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-                });
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(`API error: ${response.status} - ${errorData.error?.message || 'Unknown error'}`);
-                }
-                const data = await response.json();
-                addMessage('ai', data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response generated.');
+              // Register all agents
+              agentManager.registerAgent('code', new CodeAgent());
+              agentManager.registerAgent('analysis', new AnalysisAgent());
+              agentManager.registerAgent('testing', new TestingAgent());
+              agentManager.registerAgent('documentation', new DocumentationAgent());
+              agentManager.registerAgent('optimization', new OptimizationAgent());
+              agentManager.registerAgent('security', new SecurityAgent());
+              agentManager.registerAgent('deployment', new DeploymentAgent());
+              agentManager.registerAgent('monitoring', new MonitoringAgent());
+
+              // Start workspace auto-save
+              workspaceManager.startAutoSave();
+
+              console.log('System initialized successfully');
             } catch (error) {
-                addMessage('ai', `❌ Error: ${error.message}`);
-            } finally {
-                setIsProcessing(false);
+              console.error('Failed to initialize system:', error);
+              addMessage('system', `❌ **System Initialization Failed**\n\nError: ${error.message}`);
             }
+          };
+
+          const loadConfiguration = () => {
+            const savedConfig = localStorage.getItem('multiAgentConfig');
+            if (savedConfig) {
+              try {
+                const config = JSON.parse(savedConfig);
+                setApiKey(config.apiKey || '');
+              } catch (error) {
+                console.error('Error loading config:', error);
+              }
+            }
+          };
+
+          const saveConfiguration = () => {
+            const config = { apiKey };
+            localStorage.setItem('multiAgentConfig', JSON.stringify(config));
+          };
+
+          // Status monitoring
+          useEffect(() => {
+            if (isSystemRunning) {
+              statusIntervalRef.current = setInterval(() => {
+                const status = agentManager.getStatus();
+                setSystemStatus(status);
+                
+                // Update agent statuses
+                const agentStatuses = {};
+                agentManager.agents.forEach((agent, type) => {
+                  agentStatuses[type] = {
+                    isActive: agent.isActive,
+                    currentTask: agent.currentTask?.description || null,
+                    performance: agent.performance
+                  };
+                });
+                setAgentStatuses(agentStatuses);
+                
+                // Update task history
+                setTaskHistory([
+                  ...agentManager.completedTasks.slice(-10),
+                  ...agentManager.failedTasks.slice(-5)
+                ]);
+                
+                // Update workspace files
+                setWorkspaceFiles(workspaceManager.listFiles());
+                
+                // Update system metrics
+                setSystemMetrics({
+                  memoryUsage: performance.memory ? 
+                    Math.round(performance.memory.usedJSHeapSize / 1024 / 1024) : 0,
+                  uptime: Date.now() - (window.systemStartTime || Date.now()),
+                  activeConnections: agentManager.runningTasks.size,
+                  totalTasks: agentManager.completedTasks.length + agentManager.failedTasks.length
+                });
+                
+                // Update agent performance
+                const performance = {};
+                agentManager.agents.forEach((agent, type) => {
+                  performance[type] = {
+                    tasksCompleted: agent.performance.tasksCompleted,
+                    averageExecutionTime: Math.round(agent.performance.averageExecutionTime),
+                    successRate: Math.round(agent.performance.successRate * 100) / 100,
+                    isActive: agent.isActive,
+                    currentTask: agent.currentTask?.description || null
+                  };
+                });
+                setAgentPerformance(performance);
+                
+                // Update workspace statistics
+                setWorkspaceStats(workspaceManager.getStatistics());
+                
+                // Check for security alerts
+                const securityStatus = agentManager.securityManager.getSecurityStatus();
+                if (securityStatus.quarantinedAgents.length > 0) {
+                  setSecurityAlerts(prev => [...prev, {
+                    id: Date.now(),
+                    type: 'quarantine',
+                    message: `${securityStatus.quarantinedAgents.length} agents quarantined`,
+                    severity: 'high',
+                    timestamp: new Date()
+                  }]);
+                }
+              }, 2000);
+            } else {
+              if (statusIntervalRef.current) {
+                clearInterval(statusIntervalRef.current);
+              }
+            }
+
+            return () => {
+              if (statusIntervalRef.current) {
+                clearInterval(statusIntervalRef.current);
+              }
+            };
+          }, [isSystemRunning]);
+
+          const addMessage = (type, content) => {
+            const message = { 
+              id: Date.now() + Math.random(), 
+              type, 
+              content, 
+              timestamp: new Date().toLocaleTimeString() 
+            };
+            setMessages(prev => [...prev, message]);
           };
 
           const handleSubmit = async (ev) => {
-              ev.preventDefault();
-              if (!inputValue.trim() || isProcessing) return;
-              const userInput = inputValue;
-              setInputValue('');
-              addMessage('user', userInput);
-              await processUserInput(userInput);
+            ev.preventDefault();
+            if (!inputValue.trim() || isProcessing) return;
+            
+            const userInput = inputValue;
+            setInputValue('');
+            addMessage('user', userInput);
+            
+            await processUserInput(userInput);
           };
-          
-          const toggleSection = (section) => setExpandedSections(prev => ({...prev, [section]: !prev[section]}));
-          const toggleAutopilot = () => setAutopilotMode(!autopilotMode);
 
-          const getSyncStatusIcon = () => {
-            switch (syncStatus) {
-              case 'syncing': return e(Loader, { className: "spin", size: 16 });
-              case 'success': return e(CheckCircle, { size: 16 });
-              case 'error': return e(XCircle, { size: 16 });
-              default: return e(AlertCircle, { size: 16 });
+          const processUserInput = async (input) => {
+            setIsProcessing(true);
+            
+            try {
+              // Parse user input for commands
+              if (input.toLowerCase().includes('start system')) {
+                await startSystem();
+              } else if (input.toLowerCase().includes('stop system')) {
+                await stopSystem();
+              } else if (input.toLowerCase().includes('create task')) {
+                await createTask(input);
+              } else if (input.toLowerCase().includes('status')) {
+                showSystemStatus();
+              } else {
+                // Default: create a task for the input
+                await createTask(input);
+              }
+            } catch (error) {
+              addMessage('system', `❌ **Error**\n\n${error.message}`);
+            } finally {
+              setIsProcessing(false);
             }
           };
 
-          return e('div', { style: { height: '100dvh', display: 'flex', flexDirection: 'column', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', overflow: 'hidden' } },
-            e('header', { style: { background: 'rgba(15, 23, 42, 0.95)', backdropFilter: 'blur(10px)', padding: 'clamp(0.75rem, 4vw, 1rem) clamp(1rem, 4vw, 2rem)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(59, 130, 246, 0.2)', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', position: 'sticky', top: 0, zIndex: 100 } },
+          const startSystem = async () => {
+            if (!apiKey) {
+              addMessage('system', '❌ **API Key Required**\n\nPlease configure your API key in settings.');
+              return;
+            }
+            
+            try {
+              await agentManager.start();
+              setIsSystemRunning(true);
+              addMessage('system', '✅ **System Started**\n\nAll agents are now active and ready for autonomous operation!');
+            } catch (error) {
+              addMessage('system', `❌ **Failed to Start System**\n\n${error.message}`);
+            }
+          };
+
+          const stopSystem = async () => {
+            try {
+              await agentManager.stop();
+              setIsSystemRunning(false);
+              addMessage('system', '⏹️ **System Stopped**\n\nAll agents have been deactivated.');
+            } catch (error) {
+              addMessage('system', `❌ **Failed to Stop System**\n\n${error.message}`);
+            }
+          };
+
+          const createTask = async (description) => {
+            try {
+              const priority = description.toLowerCase().includes('urgent') ? 'high' : 'normal';
+              const task = await agentManager.createTask(description, priority);
+              
+              addMessage('system', `📋 **Task Created**\n\n**Description:** ${description}\n**Priority:** ${priority}\n**Status:** Pending assignment\n**ID:** ${task.id}`);
+            } catch (error) {
+              addMessage('system', `❌ **Failed to Create Task**\n\n${error.message}`);
+            }
+          };
+
+          const showSystemStatus = () => {
+            const status = agentManager.getStatus();
+            addMessage('system', `📊 **System Status**\n\n**Running:** ${status.isRunning ? 'Yes' : 'No'}\n**Active Tasks:** ${status.runningTasks}\n**Pending Tasks:** ${status.pendingTasks}\n**Completed:** ${status.completedTasks}\n**Failed:** ${status.failedTasks}\n**Agents:** ${status.agents.join(', ')}`);
+          };
+
+          const toggleSection = (section) => {
+            setExpandedSections(prev => ({
+              ...prev,
+              [section]: !prev[section]
+            }));
+          };
+
+          const getAgentIcon = (type) => {
+            const icons = {
+              'code': Code,
+              'analysis': Brain,
+              'testing': Test,
+              'documentation': Document,
+              'optimization': Zap,
+              'security': Shield,
+              'deployment': Rocket,
+              'monitoring': Monitor
+            };
+            return icons[type] || Bot;
+          };
+
+          const getStatusColor = (status) => {
+            switch (status) {
+              case 'running': return '#10b981';
+              case 'pending': return '#f59e0b';
+              case 'completed': return '#3b82f6';
+              case 'failed': return '#ef4444';
+              default: return '#6b7280';
+            }
+          };
+
+          return e('div', { 
+            style: { 
+              height: '100dvh', 
+              display: 'flex', 
+              flexDirection: 'column', 
+              background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)', 
+              fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', 
+              overflow: 'hidden' 
+            } 
+          },
+            // Header
+            e('header', { 
+              style: { 
+                background: 'rgba(15, 23, 42, 0.95)', 
+                backdropFilter: 'blur(10px)', 
+                padding: 'clamp(0.75rem, 4vw, 1rem) clamp(1rem, 4vw, 2rem)', 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center', 
+                borderBottom: '1px solid rgba(59, 130, 246, 0.2)', 
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', 
+                position: 'sticky', 
+                top: 0, 
+                zIndex: 100 
+              } 
+            },
               e('div', { style: { display: 'flex', alignItems: 'center', gap: 'clamp(0.5rem, 2vw, 1rem)' } },
-                e('div', { style: { width: 'clamp(32px, 8vw, 40px)', height: 'clamp(32px, 8vw, 40px)', background: 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 20px rgba(59, 130, 246, 0.5)', position: 'relative' } },
-                  e(Zap, { color: "white", size: width < 768 ? 18 : 24, strokeWidth: 2.5 }),
-                  e('div', { style: { position: 'absolute', inset: 0, borderRadius: '10px', background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(6, 182, 212, 0.3) 100%)', filter: 'blur(8px)', zIndex: -1 } })
+                e('div', { 
+                  style: { 
+                    width: 'clamp(32px, 8vw, 40px)', 
+                    height: 'clamp(32px, 8vw, 40px)', 
+                    background: 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)', 
+                    borderRadius: '10px', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center', 
+                    boxShadow: '0 0 20px rgba(59, 130, 246, 0.5)', 
+                    position: 'relative' 
+                  } 
+                },
+                  e(Brain, { color: "white", size: 24 }),
+                  e('div', { 
+                    style: { 
+                      position: 'absolute', 
+                      inset: 0, 
+                      borderRadius: '10px', 
+                      background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(6, 182, 212, 0.3) 100%)', 
+                      filter: 'blur(8px)', 
+                      zIndex: -1 
+                    } 
+                  })
                 ),
-                e('h1', { style: { color: 'white', margin: 0, fontSize: 'clamp(1rem, 4vw, 1.5rem)', fontWeight: '700', letterSpacing: '-0.02em' } }, 'AI Worker', e('span', { style: { color: '#3b82f6', marginLeft: '0.25rem' } }, 'Plus'))
+                e('h1', { 
+                  style: { 
+                    color: 'white', 
+                    margin: 0, 
+                    fontSize: 'clamp(1rem, 4vw, 1.5rem)', 
+                    fontWeight: '700', 
+                    letterSpacing: '-0.02em' 
+                  } 
+                }, 'Multi-Agent', e('span', { style: { color: '#3b82f6', marginLeft: '0.25rem' } }, 'System'))
               ),
               e('div', { style: { display: 'flex', gap: 'clamp(0.5rem, 2vw, 1rem)', alignItems: 'center' } },
-                e('button', { onClick: () => setShowSidebar(!showSidebar), style: { background: 'rgba(59, 130, 246, 0.1)', color: '#3b82f6', border: '1px solid rgba(59, 130, 246, 0.3)', padding: 'clamp(0.5rem, 2vw, 0.6rem)', borderRadius: '8px', cursor: 'pointer', display: width < 1024 ? 'flex' : 'none', alignItems: 'center', justifyContent: 'center', touchAction: 'manipulation' } },
+                e('button', { 
+                  onClick: () => setShowSidebar(!showSidebar), 
+                  style: { 
+                    background: 'rgba(59, 130, 246, 0.1)', 
+                    color: '#3b82f6', 
+                    border: '1px solid rgba(59, 130, 246, 0.3)', 
+                    padding: 'clamp(0.5rem, 2vw, 0.6rem)', 
+                    borderRadius: '8px', 
+                    cursor: 'pointer', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center', 
+                    touchAction: 'manipulation' 
+                  } 
+                },
                   showSidebar ? e(X, { size: 20 }) : e(Menu, { size: 20 })
                 ),
-                e('button', { onClick: toggleAutopilot, style: { background: autopilotMode ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)' : 'rgba(59, 130, 246, 0.1)', color: 'white', border: autopilotMode ? 'none' : '1px solid rgba(59, 130, 246, 0.3)', padding: 'clamp(0.5rem, 2vw, 0.6rem) clamp(0.75rem, 3vw, 1rem)', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)', fontWeight: '600', touchAction: 'manipulation', whiteSpace: 'nowrap' } },
-                  autopilotMode ? e(PauseCircle, { size: 16 }) : e(PlayCircle, { size: 16 }),
-                  e('span', { style: { display: width < 640 ? 'none' : 'inline' } }, autopilotMode ? 'ON' : 'OFF')
+                e('button', { 
+                  onClick: isSystemRunning ? stopSystem : startSystem, 
+                  style: { 
+                    background: isSystemRunning ? 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)' : 'linear-gradient(135deg, #10b981 0%, #059669 100%)', 
+                    color: 'white', 
+                    border: 'none', 
+                    padding: 'clamp(0.5rem, 2vw, 0.6rem) clamp(0.75rem, 3vw, 1rem)', 
+                    borderRadius: '8px', 
+                    cursor: 'pointer', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '0.5rem', 
+                    fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)', 
+                    fontWeight: '600', 
+                    touchAction: 'manipulation', 
+                    whiteSpace: 'nowrap' 
+                  } 
+                },
+                  isSystemRunning ? e(Stop, { size: 16 }) : e(Play, { size: 16 }),
+                  e('span', { style: { display: 'inline' } }, isSystemRunning ? 'STOP' : 'START')
                 ),
-                e('div', { style: { background: 'rgba(59, 130, 246, 0.1)', padding: 'clamp(0.5rem, 2vw, 0.6rem) clamp(0.75rem, 3vw, 1rem)', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '0.5rem', border: '1px solid rgba(59, 130, 246, 0.3)' } },
-                  getSyncStatusIcon(),
-                  e('span', { style: { color: '#94a3b8', fontSize: 'clamp(0.75rem, 2.5vw, 0.9rem)', display: width < 480 ? 'none' : 'inline' } }, githubRepo ? githubRepo.split('/')[1] : 'No Repo')
+                e('div', { 
+                  style: { 
+                    background: 'rgba(59, 130, 246, 0.1)', 
+                    padding: 'clamp(0.5rem, 2vw, 0.6rem) clamp(0.75rem, 3vw, 1rem)', 
+                    borderRadius: '8px', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '0.5rem', 
+                    border: '1px solid rgba(59, 130, 246, 0.3)' 
+                  } 
+                },
+                  isSystemRunning ? e(CheckCircle, { size: 16, color: '#10b981' }) : e(XCircle, { size: 16, color: '#ef4444' }),
+                  e('span', { style: { color: '#94a3b8', fontSize: 'clamp(0.75rem, 2.5vw, 0.9rem)' } }, 
+                    isSystemRunning ? 'RUNNING' : 'STOPPED')
                 ),
-                e('button', { onClick: () => setShowSettings(true), style: { background: 'rgba(59, 130, 246, 0.1)', color: '#3b82f6', border: '1px solid rgba(59, 130, 246, 0.3)', padding: 'clamp(0.5rem, 2vw, 0.6rem)', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', touchAction: 'manipulation' } },
+                e('button', { 
+                  onClick: () => setShowMonitoring(!showMonitoring), 
+                  style: { 
+                    background: 'rgba(59, 130, 246, 0.1)', 
+                    color: '#3b82f6', 
+                    border: '1px solid rgba(59, 130, 246, 0.3)', 
+                    padding: 'clamp(0.5rem, 2vw, 0.6rem)', 
+                    borderRadius: '8px', 
+                    cursor: 'pointer', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    touchAction: 'manipulation' 
+                  } 
+                },
+                  e(Monitor, { size: 20 })
+                ),
+                e('button', { 
+                  onClick: () => setShowSettings(true), 
+                  style: { 
+                    background: 'rgba(59, 130, 246, 0.1)', 
+                    color: '#3b82f6', 
+                    border: '1px solid rgba(59, 130, 246, 0.3)', 
+                    padding: 'clamp(0.5rem, 2vw, 0.6rem)', 
+                    borderRadius: '8px', 
+                    cursor: 'pointer', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    touchAction: 'manipulation' 
+                  } 
+                },
                   e(Settings, { size: 20 })
                 )
               )
             ),
+
+            // Main Content Area
             e('div', { style: { flex: 1, display: 'flex', overflow: 'hidden', position: 'relative' } },
-              showSidebar && width < 1024 && e('div', { onClick: () => setShowSidebar(false), style: { position: 'fixed', inset: 0, background: 'rgba(0, 0, 0, 0.5)', zIndex: 200, backdropFilter: 'blur(2px)' } }),
-              e('div', { style: { width: width < 1024 ? '80%' : '300px', maxWidth: '320px', background: 'rgba(15, 23, 42, 0.95)', backdropFilter: 'blur(10px)', padding: '1rem', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '1rem', borderRight: '1px solid rgba(59, 130, 246, 0.2)', position: width < 1024 ? 'fixed' : 'relative', left: width < 1024 ? (showSidebar ? 0 : '-100%') : 0, top: width < 1024 ? '65px' : 0, bottom: 0, zIndex: 300, transition: 'left 0.3s ease-in-out', WebkitOverflowScrolling: 'touch' } },
-                installPrompt && !isInstalled && e('div', { style: { background: 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)', borderRadius: '12px', padding: '1rem', boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)' } },
-                  e('h4', { style: { margin: '0 0 0.5rem 0', color: 'white', fontSize: '0.9rem', fontWeight: '600' } }, '📱 Install App'),
-                  e('p', { style: { margin: '0 0 0.75rem 0', fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.9)', lineHeight: '1.4' } }, 'Add to home screen for quick access!'),
-                  e('button', { onClick: handleInstallPWA, style: { width: '100%', background: 'rgba(255, 255, 255, 0.2)', color: 'white', border: '1px solid rgba(255, 255, 255, 0.3)', padding: '0.5rem', borderRadius: '6px', cursor: 'pointer', fontSize: '0.85rem', fontWeight: '600', touchAction: 'manipulation' } }, 'Install Now')
-                ),
+              // Sidebar
+              showSidebar && e('div', { 
+                onClick: () => setShowSidebar(false), 
+                style: { 
+                  position: 'fixed', 
+                  inset: 0, 
+                  background: 'rgba(0, 0, 0, 0.5)', 
+                  zIndex: 200, 
+                  backdropFilter: 'blur(2px)' 
+                } 
+              }),
+              e('div', { 
+                style: { 
+                  width: '300px', 
+                  maxWidth: '320px', 
+                  background: 'rgba(15, 23, 42, 0.95)', 
+                  backdropFilter: 'blur(10px)', 
+                  padding: '1rem', 
+                  overflowY: 'auto', 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  gap: '1rem', 
+                  borderRight: '1px solid rgba(59, 130, 246, 0.2)', 
+                  position: 'relative', 
+                  left: showSidebar ? 0 : '-100%', 
+                  top: 0, 
+                  bottom: 0, 
+                  zIndex: 300, 
+                  transition: 'left 0.3s ease-in-out', 
+                  WebkitOverflowScrolling: 'touch' 
+                } 
+              },
+                // Agent Status Section
                 e('div', { style: { background: 'rgba(59, 130, 246, 0.05)', borderRadius: '12px', padding: '1rem', border: '1px solid rgba(59, 130, 246, 0.2)' } },
-                  e('button', { onClick: () => toggleSection('actions'), style: { width: '100%', background: 'none', border: 'none', padding: 0, cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: expandedSections.actions ? '1rem' : 0, touchAction: 'manipulation' } },
-                    e('h3', { style: { color: '#e2e8f0', margin: 0, fontSize: '1rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '0.5rem' } }, e(Code, { size: 16 }), 'Quick Actions'),
-                    expandedSections.actions ? e(ChevronUp, { size: 18, color: "#94a3b8" }) : e(ChevronDown, { size: 18, color: "#94a3b8" })
+                  e('button', { 
+                    onClick: () => toggleSection('agents'), 
+                    style: { 
+                      width: '100%', 
+                      background: 'none', 
+                      border: 'none', 
+                      padding: 0, 
+                      cursor: 'pointer', 
+                      display: 'flex', 
+                      justifyContent: 'space-between', 
+                      alignItems: 'center', 
+                      marginBottom: expandedSections.agents ? '1rem' : 0, 
+                      touchAction: 'manipulation' 
+                    } 
+                  },
+                    e('h3', { 
+                      style: { 
+                        color: '#e2e8f0', 
+                        margin: 0, 
+                        fontSize: '1rem', 
+                        fontWeight: '600', 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '0.5rem' 
+                      } 
+                    }, e(Brain, { size: 16 }), 'Agents'),
+                    expandedSections.agents ? e(ChevronUp, { size: 18, color: "#94a3b8" }) : e(ChevronDown, { size: 18, color: "#94a3b8" })
                   ),
-                  expandedSections.actions && e('div', { style: { display: 'flex', flexDirection: 'column', gap: '0.5rem' } },
-                    e('button', { onClick: () => { setInputValue('Create a React component'); setShowSidebar(false); }, style: { background: 'rgba(59, 130, 246, 0.1)', color: '#e2e8f0', border: '1px solid rgba(59, 130, 246, 0.2)', padding: '0.75rem', borderRadius: '6px', cursor: 'pointer', fontSize: '0.85rem', textAlign: 'left', fontWeight: '500', touchAction: 'manipulation' } }, '⚛️ Create React Component'),
-                    e('button', { onClick: () => { setInputValue('Fetch GitHub repository'); setShowSidebar(false); }, style: { background: 'rgba(59, 130, 246, 0.1)', color: '#e2e8f0', border: '1px solid rgba(59, 130, 246, 0.2)', padding: '0.75rem', borderRadius: '6px', cursor: 'pointer', fontSize: '0.85rem', textAlign: 'left', fontWeight: '500', touchAction: 'manipulation' } }, '🔗 Sync with GitHub')
+                  expandedSections.agents && e('div', { style: { display: 'flex', flexDirection: 'column', gap: '0.5rem' } },
+                    Object.entries(agentStatuses).map(([type, status]) => 
+                      e('div', { 
+                        key: type, 
+                        style: { 
+                          background: 'rgba(59, 130, 246, 0.1)', 
+                          padding: '0.75rem', 
+                          borderRadius: '6px', 
+                          border: '1px solid rgba(59, 130, 246, 0.2)' 
+                        } 
+                      },
+                        e('div', { style: { display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' } },
+                          e(getAgentIcon(type), { size: 16 }),
+                          e('span', { style: { color: '#e2e8f0', fontSize: '0.85rem', fontWeight: '600' } }, type.charAt(0).toUpperCase() + type.slice(1)),
+                          e('div', { 
+                            style: { 
+                              width: '8px', 
+                              height: '8px', 
+                              borderRadius: '50%', 
+                              background: status.isActive ? '#10b981' : '#6b7280' 
+                            } 
+                          })
+                        ),
+                        status.currentTask && e('div', { style: { color: '#94a3b8', fontSize: '0.75rem' } }, 
+                          `Task: ${status.currentTask.substring(0, 30)}...`)
+                      )
+                    )
+                  )
+                ),
+
+                // Task Queue Section
+                e('div', { style: { background: 'rgba(59, 130, 246, 0.05)', borderRadius: '12px', padding: '1rem', border: '1px solid rgba(59, 130, 246, 0.2)' } },
+                  e('button', { 
+                    onClick: () => toggleSection('tasks'), 
+                    style: { 
+                      width: '100%', 
+                      background: 'none', 
+                      border: 'none', 
+                      padding: 0, 
+                      cursor: 'pointer', 
+                      display: 'flex', 
+                      justifyContent: 'space-between', 
+                      alignItems: 'center', 
+                      marginBottom: expandedSections.tasks ? '1rem' : 0, 
+                      touchAction: 'manipulation' 
+                    } 
+                  },
+                    e('h3', { 
+                      style: { 
+                        color: '#e2e8f0', 
+                        margin: 0, 
+                        fontSize: '1rem', 
+                        fontWeight: '600', 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '0.5rem' 
+                      } 
+                    }, e(Target, { size: 16 }), 'Tasks'),
+                    expandedSections.tasks ? e(ChevronUp, { size: 18, color: "#94a3b8" }) : e(ChevronDown, { size: 18, color: "#94a3b8" })
+                  ),
+                  expandedSections.tasks && e('div', { style: { display: 'flex', flexDirection: 'column', gap: '0.5rem' } },
+                    e('div', { style: { color: '#94a3b8', fontSize: '0.8rem' } },
+                      `Running: ${systemStatus.runningTasks || 0}`,
+                      e('br'),
+                      `Pending: ${systemStatus.pendingTasks || 0}`,
+                      e('br'),
+                      `Completed: ${systemStatus.completedTasks || 0}`,
+                      e('br'),
+                      `Failed: ${systemStatus.failedTasks || 0}`
+                    )
+                  )
+                ),
+
+                // Workspace Section
+                e('div', { style: { background: 'rgba(59, 130, 246, 0.05)', borderRadius: '12px', padding: '1rem', border: '1px solid rgba(59, 130, 246, 0.2)' } },
+                  e('button', { 
+                    onClick: () => toggleSection('workspace'), 
+                    style: { 
+                      width: '100%', 
+                      background: 'none', 
+                      border: 'none', 
+                      padding: 0, 
+                      cursor: 'pointer', 
+                      display: 'flex', 
+                      justifyContent: 'space-between', 
+                      alignItems: 'center', 
+                      marginBottom: expandedSections.workspace ? '1rem' : 0, 
+                      touchAction: 'manipulation' 
+                    } 
+                  },
+                    e('h3', { 
+                      style: { 
+                        color: '#e2e8f0', 
+                        margin: 0, 
+                        fontSize: '1rem', 
+                        fontWeight: '600', 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '0.5rem' 
+                      } 
+                    }, e(FileCode, { size: 16 }), 'Workspace'),
+                    expandedSections.workspace ? e(ChevronUp, { size: 18, color: "#94a3b8" }) : e(ChevronDown, { size: 18, color: "#94a3b8" })
+                  ),
+                  expandedSections.workspace && e('div', { style: { display: 'flex', flexDirection: 'column', gap: '0.5rem' } },
+                    workspaceFiles.length > 0 ? workspaceFiles.map(file => 
+                      e('div', { 
+                        key: file, 
+                        style: { 
+                          background: 'rgba(59, 130, 246, 0.1)', 
+                          padding: '0.5rem', 
+                          borderRadius: '4px', 
+                          fontSize: '0.8rem', 
+                          color: '#e2e8f0' 
+                        } 
+                      }, file)
+                    ) : e('div', { style: { color: '#94a3b8', fontSize: '0.8rem', fontStyle: 'italic' } }, 'No files')
                   )
                 )
               ),
-              e('div', { style: { flex: 1, display: 'flex', flexDirection: 'column', background: 'rgba(30, 41, 59, 0.5)', margin: width < 768 ? '0.5rem' : '1rem', marginLeft: width < 1024 ? (width < 768 ? '0.5rem' : '1rem') : '0', borderRadius: width < 768 ? '12px' : '16px', overflow: 'hidden', boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)', border: '1px solid rgba(59, 130, 246, 0.2)' } },
-                e('div', { style: { flex: 1, overflowY: 'auto', padding: width < 768 ? '1rem' : '2rem', display: 'flex', flexDirection: 'column', gap: width < 768 ? '0.75rem' : '1rem', WebkitOverflowScrolling: 'touch' } },
-                  messages.map(msg => e('div', { key: msg.id, style: { display: 'flex', gap: width < 768 ? '0.5rem' : '1rem', alignItems: 'flex-start', flexDirection: msg.type === 'user' ? 'row-reverse' : 'row', maxWidth: '100%' } },
-                    e('div', { style: { width: width < 768 ? '32px' : '40px', height: width < 768 ? '32px' : '40px', borderRadius: '50%', background: msg.type === 'ai' ? 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)' : 'linear-gradient(135deg, #10b981 0%, #059669 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 } },
-                      msg.type === 'ai' ? e(Bot, { color: "white", size: width < 768 ? 16 : 20 }) : e(User, { color: "white", size: width < 768 ? 16 : 20 })
+
+              // Main Chat Area
+              e('div', { 
+                style: { 
+                  flex: 1, 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  background: 'rgba(30, 41, 59, 0.5)', 
+                  margin: '1rem', 
+                  marginLeft: showSidebar ? '0' : '1rem', 
+                  borderRadius: '16px', 
+                  overflow: 'hidden', 
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)', 
+                  border: '1px solid rgba(59, 130, 246, 0.2)' 
+                } 
+              },
+                // Messages Area
+                e('div', { 
+                  style: { 
+                    flex: 1, 
+                    overflowY: 'auto', 
+                    padding: '2rem', 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    gap: '1rem', 
+                    WebkitOverflowScrolling: 'touch' 
+                  } 
+                },
+                  messages.map(msg => e('div', { 
+                    key: msg.id, 
+                    style: { 
+                      display: 'flex', 
+                      gap: '1rem', 
+                      alignItems: 'flex-start', 
+                      flexDirection: msg.type === 'user' ? 'row-reverse' : 'row', 
+                      maxWidth: '100%' 
+                    } 
+                  },
+                    e('div', { 
+                      style: { 
+                        width: '40px', 
+                        height: '40px', 
+                        borderRadius: '50%', 
+                        background: msg.type === 'system' ? 'linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%)' : 
+                                   msg.type === 'ai' ? 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)' : 
+                                   'linear-gradient(135deg, #10b981 0%, #059669 100%)', 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'center', 
+                        flexShrink: 0 
+                      } 
+                    },
+                      msg.type === 'system' ? e(Cog, { color: "white", size: 20 }) :
+                      msg.type === 'ai' ? e(Bot, { color: "white", size: 20 }) : 
+                      e(User, { color: "white", size: 20 })
                     ),
-                    e('div', { style: { flex: 1, background: msg.type === 'ai' ? 'rgba(51, 65, 85, 0.6)' : 'rgba(59, 130, 246, 0.2)', color: msg.type === 'ai' ? '#e2e8f0' : '#ffffff', padding: width < 768 ? '0.75rem' : '1rem', borderRadius: '12px', maxWidth: width < 768 ? '85%' : '70%', border: `1px solid rgba(59, 130, 246, ${msg.type === 'ai' ? '0.2' : '0.3'})`, backdropFilter: 'blur(10px)', wordBreak: 'break-word', whiteSpace: 'pre-wrap' } },
+                    e('div', { 
+                      style: { 
+                        flex: 1, 
+                        background: msg.type === 'system' ? 'rgba(139, 92, 246, 0.2)' :
+                                   msg.type === 'ai' ? 'rgba(51, 65, 85, 0.6)' : 
+                                   'rgba(59, 130, 246, 0.2)', 
+                        color: msg.type === 'system' ? '#e2e8f0' : 
+                               msg.type === 'ai' ? '#e2e8f0' : '#ffffff', 
+                        padding: '1rem', 
+                        borderRadius: '12px', 
+                        maxWidth: '70%', 
+                        border: `1px solid rgba(59, 130, 246, ${msg.type === 'ai' ? '0.2' : '0.3'})`, 
+                        backdropFilter: 'blur(10px)', 
+                        wordBreak: 'break-word', 
+                        whiteSpace: 'pre-wrap' 
+                      } 
+                    },
                       msg.content,
-                      e('div', { style: { fontSize: width < 768 ? '0.7rem' : '0.75rem', opacity: 0.6, marginTop: '0.5rem' } }, msg.timestamp)
+                      e('div', { style: { fontSize: '0.75rem', opacity: 0.6, marginTop: '0.5rem' } }, msg.timestamp)
                     )
                   )),
                   e('div', { ref: messagesEndRef })
                 ),
-                currentTask && e('div', { style: { background: 'rgba(251, 191, 36, 0.1)', padding: width < 768 ? '0.6rem 1rem' : '0.75rem 2rem', borderTop: '1px solid rgba(251, 191, 36, 0.3)', fontSize: width < 768 ? '0.85rem' : '0.9rem', color: '#fbbf24', display: 'flex', alignItems: 'center', gap: '0.5rem' } },
-                  e(Loader, { className: "spin", size: 14 }),
-                  e('span', {}, `Processing: ${currentTask.substring(0, 50)}${currentTask.length > 50 ? '...' : ''}`)
-                ),
-                e('form', { onSubmit: handleSubmit, style: { padding: width < 768 ? '1rem' : '1.5rem 2rem', borderTop: '1px solid rgba(59, 130, 246, 0.2)', background: 'rgba(15, 23, 42, 0.8)', backdropFilter: 'blur(10px)' } },
-                  e('div', { style: { display: 'flex', gap: width < 768 ? '0.5rem' : '1rem', alignItems: 'center' } },
-                    e('button', { type: "button", onClick: () => console.log('Mic clicked'), disabled: isProcessing, style: { background: isListening ? 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)' : 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)', color: 'white', border: 'none', padding: width < 768 ? '0.7rem' : '0.75rem', borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: isProcessing ? 0.5 : 1 } },
-                      isListening ? e(MicOff, { size: width < 768 ? 18 : 20 }) : e(Mic, { size: width < 768 ? 18 : 20 })
+
+                // Input Area
+                e('form', { 
+                  onSubmit: handleSubmit, 
+                  style: { 
+                    padding: '1.5rem 2rem', 
+                    borderTop: '1px solid rgba(59, 130, 246, 0.2)', 
+                    background: 'rgba(15, 23, 42, 0.8)', 
+                    backdropFilter: 'blur(10px)' 
+                  } 
+                },
+                  e('div', { style: { display: 'flex', gap: '1rem', alignItems: 'center' } },
+                    e('button', { 
+                      type: "button", 
+                      onClick: () => console.log('Mic clicked'), 
+                      disabled: isProcessing, 
+                      style: { 
+                        background: isListening ? 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)' : 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)', 
+                        color: 'white', 
+                        border: 'none', 
+                        padding: '0.75rem', 
+                        borderRadius: '50%', 
+                        cursor: 'pointer', 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'center', 
+                        opacity: isProcessing ? 0.5 : 1 
+                      } 
+                    },
+                      isListening ? e(MicOff, { size: 20 }) : e(Mic, { size: 20 })
                     ),
-                    e('input', { type: "text", value: inputValue, onChange: (ev) => setInputValue(ev.target.value), placeholder: `Message ${aiName}...`, disabled: isProcessing, style: { flex: 1, padding: width < 768 ? '0.7rem 1rem' : '0.75rem 1rem', border: '2px solid rgba(59, 130, 246, 0.3)', borderRadius: '12px', fontSize: width < 768 ? '0.95rem' : '1rem', outline: 'none', background: 'rgba(30, 41, 59, 0.6)', color: '#e2e8f0' } }),
-                    e('button', { type: "submit", disabled: !inputValue.trim() || isProcessing, style: { background: !inputValue.trim() || isProcessing ? 'rgba(59, 130, 246, 0.3)' : 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)', color: 'white', border: 'none', padding: width < 768 ? '0.7rem 1rem' : '0.75rem 1.5rem', borderRadius: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', opacity: !inputValue.trim() || isProcessing ? 0.5 : 1 } },
-                      e(Send, { size: width < 768 ? 16 : 18 }),
-                      width >= 640 && e('span', {}, 'Send')
+                    e('input', { 
+                      type: "text", 
+                      value: inputValue, 
+                      onChange: (ev) => setInputValue(ev.target.value), 
+                      placeholder: "Enter task description or command...", 
+                      disabled: isProcessing, 
+                      style: { 
+                        flex: 1, 
+                        padding: '0.75rem 1rem', 
+                        border: '2px solid rgba(59, 130, 246, 0.3)', 
+                        borderRadius: '12px', 
+                        fontSize: '1rem', 
+                        outline: 'none', 
+                        background: 'rgba(30, 41, 59, 0.6)', 
+                        color: '#e2e8f0' 
+                      } 
+                    }),
+                    e('button', { 
+                      type: "submit", 
+                      disabled: !inputValue.trim() || isProcessing, 
+                      style: { 
+                        background: !inputValue.trim() || isProcessing ? 'rgba(59, 130, 246, 0.3)' : 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)', 
+                        color: 'white', 
+                        border: 'none', 
+                        padding: '0.75rem 1.5rem', 
+                        borderRadius: '12px', 
+                        cursor: 'pointer', 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '0.5rem', 
+                        opacity: !inputValue.trim() || isProcessing ? 0.5 : 1 
+                      } 
+                    },
+                      e(Send, { size: 18 }),
+                      e('span', {}, 'Send')
                     )
                   )
                 )
               )
             ),
-            showSettings && e('div', { style: { position: 'fixed', inset: 0, background: 'rgba(0, 0, 0, 0.7)', display: 'flex', alignItems: width < 768 ? 'flex-end' : 'center', justifyContent: 'center', zIndex: 1000, backdropFilter: 'blur(4px)' } },
-              e('div', { style: { background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', borderRadius: width < 768 ? '20px 20px 0 0' : '16px', width: width < 768 ? '100%' : '90%', maxWidth: '600px', maxHeight: '90vh', overflow: 'hidden', display: 'flex', flexDirection: 'column', border: '1px solid rgba(59, 130, 246, 0.3)' } },
-                e('div', { style: { padding: width < 768 ? '1.25rem' : '1.5rem 2rem', borderBottom: '1px solid rgba(59, 130, 246, 0.2)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)' } },
-                  e('h2', { style: { margin: 0, color: 'white', fontSize: width < 768 ? '1.25rem' : '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' } }, e(Settings, { size: width < 768 ? 20 : 24 }), 'Configuration'),
-                  e('button', { onClick: () => setShowSettings(false), style: { background: 'rgba(255, 255, 255, 0.2)', color: 'white', border: 'none', width: width < 768 ? '36px' : '40px', height: width < 768 ? '36px' : '40px', borderRadius: '50%', cursor: 'pointer', fontSize: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' } }, '×')
+
+            // Monitoring Dashboard
+            showMonitoring && e('div', { 
+              style: { 
+                position: 'fixed', 
+                inset: 0, 
+                background: 'rgba(0, 0, 0, 0.8)', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+                zIndex: 1000, 
+                backdropFilter: 'blur(4px)' 
+              } 
+            },
+              e('div', { 
+                style: { 
+                  background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', 
+                  borderRadius: '16px', 
+                  width: '95%', 
+                  maxWidth: '1200px', 
+                  maxHeight: '90vh', 
+                  overflow: 'hidden', 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  border: '1px solid rgba(59, 130, 246, 0.3)' 
+                } 
+              },
+                e('div', { 
+                  style: { 
+                    padding: '1.5rem 2rem', 
+                    borderBottom: '1px solid rgba(59, 130, 246, 0.2)', 
+                    display: 'flex', 
+                    justifyContent: 'space-between', 
+                    alignItems: 'center', 
+                    background: 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)' 
+                  } 
+                },
+                  e('h2', { 
+                    style: { 
+                      margin: 0, 
+                      color: 'white', 
+                      fontSize: '1.5rem', 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: '0.5rem' 
+                    } 
+                  }, e(Monitor, { size: 24 }), 'System Monitoring'),
+                  e('button', { 
+                    onClick: () => setShowMonitoring(false), 
+                    style: { 
+                      background: 'rgba(255, 255, 255, 0.2)', 
+                      color: 'white', 
+                      border: 'none', 
+                      width: '40px', 
+                      height: '40px', 
+                      borderRadius: '50%', 
+                      cursor: 'pointer', 
+                      fontSize: '1.5rem', 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center' 
+                    } 
+                  }, '×')
                 ),
-                e('div', { style: { flex: 1, overflowY: 'auto', padding: width < 768 ? '1.5rem' : '2rem' } },
-                  e('div', { style: { marginBottom: '1rem' } },
-                    e('label', { style: { display: 'block', marginBottom: '0.5rem', color: '#cbd5e1', fontSize: width < 768 ? '0.85rem' : '0.9rem' } }, 'AI Assistant Name'),
-                    e('input', { type: "text", value: aiName, onChange: (ev) => setAiName(ev.target.value), style: { width: '100%', padding: width < 768 ? '0.7rem' : '0.75rem', border: '2px solid rgba(59, 130, 246, 0.3)', borderRadius: '8px', fontSize: '1rem', background: 'rgba(30, 41, 59, 0.6)', color: '#e2e8f0', boxSizing: 'border-box' } })
+                e('div', { style: { flex: 1, overflowY: 'auto', padding: '2rem' } },
+                  // System Metrics
+                  e('div', { style: { marginBottom: '2rem' } },
+                    e('h3', { style: { color: '#e2e8f0', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' } }, 
+                      e(Activity, { size: 20 }), 'System Metrics'),
+                    e('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' } },
+                      e('div', { style: { background: 'rgba(59, 130, 246, 0.1)', padding: '1rem', borderRadius: '8px', border: '1px solid rgba(59, 130, 246, 0.2)' } },
+                        e('div', { style: { color: '#94a3b8', fontSize: '0.8rem', marginBottom: '0.5rem' } }, 'Memory Usage'),
+                        e('div', { style: { color: '#e2e8f0', fontSize: '1.5rem', fontWeight: '600' } }, `${systemMetrics.memoryUsage || 0} MB')
+                      ),
+                      e('div', { style: { background: 'rgba(59, 130, 246, 0.1)', padding: '1rem', borderRadius: '8px', border: '1px solid rgba(59, 130, 246, 0.2)' } },
+                        e('div', { style: { color: '#94a3b8', fontSize: '0.8rem', marginBottom: '0.5rem' } }, 'Uptime'),
+                        e('div', { style: { color: '#e2e8f0', fontSize: '1.5rem', fontWeight: '600' } }, 
+                          `${Math.round((systemMetrics.uptime || 0) / 1000)}s`)
+                      ),
+                      e('div', { style: { background: 'rgba(59, 130, 246, 0.1)', padding: '1rem', borderRadius: '8px', border: '1px solid rgba(59, 130, 246, 0.2)' } },
+                        e('div', { style: { color: '#94a3b8', fontSize: '0.8rem', marginBottom: '0.5rem' } }, 'Active Tasks'),
+                        e('div', { style: { color: '#e2e8f0', fontSize: '1.5rem', fontWeight: '600' } }, systemMetrics.activeConnections || 0)
+                      ),
+                      e('div', { style: { background: 'rgba(59, 130, 246, 0.1)', padding: '1rem', borderRadius: '8px', border: '1px solid rgba(59, 130, 246, 0.2)' } },
+                        e('div', { style: { color: '#94a3b8', fontSize: '0.8rem', marginBottom: '0.5rem' } }, 'Total Tasks'),
+                        e('div', { style: { color: '#e2e8f0', fontSize: '1.5rem', fontWeight: '600' } }, systemMetrics.totalTasks || 0)
+                      )
+                    )
                   ),
+
+                  // Agent Performance
+                  e('div', { style: { marginBottom: '2rem' } },
+                    e('h3', { style: { color: '#e2e8f0', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' } }, 
+                      e(Brain, { size: 20 }), 'Agent Performance'),
+                    e('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1rem' } },
+                      Object.entries(agentPerformance).map(([type, perf]) => 
+                        e('div', { 
+                          key: type, 
+                          style: { 
+                            background: 'rgba(59, 130, 246, 0.1)', 
+                            padding: '1rem', 
+                            borderRadius: '8px', 
+                            border: '1px solid rgba(59, 130, 246, 0.2)' 
+                          } 
+                        },
+                          e('div', { style: { display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' } },
+                            e(getAgentIcon(type), { size: 16 }),
+                            e('span', { style: { color: '#e2e8f0', fontWeight: '600' } }, type.charAt(0).toUpperCase() + type.slice(1)),
+                            e('div', { 
+                              style: { 
+                                width: '8px', 
+                                height: '8px', 
+                                borderRadius: '50%', 
+                                background: perf.isActive ? '#10b981' : '#6b7280' 
+                              } 
+                            })
+                          ),
+                          e('div', { style: { color: '#94a3b8', fontSize: '0.8rem' } },
+                            `Tasks: ${perf.tasksCompleted} | `,
+                            `Avg Time: ${perf.averageExecutionTime}ms | `,
+                            `Success: ${Math.round(perf.successRate * 100)}%`
+                          ),
+                          perf.currentTask && e('div', { style: { color: '#94a3b8', fontSize: '0.75rem', marginTop: '0.5rem', fontStyle: 'italic' } }, 
+                            `Current: ${perf.currentTask.substring(0, 50)}...`)
+                        )
+                      )
+                    )
+                  ),
+
+                  // Workspace Statistics
+                  e('div', { style: { marginBottom: '2rem' } },
+                    e('h3', { style: { color: '#e2e8f0', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' } }, 
+                      e(FileCode, { size: 20 }), 'Workspace Statistics'),
+                    e('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' } },
+                      e('div', { style: { background: 'rgba(59, 130, 246, 0.1)', padding: '1rem', borderRadius: '8px', border: '1px solid rgba(59, 130, 246, 0.2)' } },
+                        e('div', { style: { color: '#94a3b8', fontSize: '0.8rem', marginBottom: '0.5rem' } }, 'Total Files'),
+                        e('div', { style: { color: '#e2e8f0', fontSize: '1.5rem', fontWeight: '600' } }, workspaceStats.totalFiles || 0)
+                      ),
+                      e('div', { style: { background: 'rgba(59, 130, 246, 0.1)', padding: '1rem', borderRadius: '8px', border: '1px solid rgba(59, 130, 246, 0.2)' } },
+                        e('div', { style: { color: '#94a3b8', fontSize: '0.8rem', marginBottom: '0.5rem' } }, 'Total Size'),
+                        e('div', { style: { color: '#e2e8f0', fontSize: '1.5rem', fontWeight: '600' } }, 
+                          `${Math.round((workspaceStats.totalSize || 0) / 1024)} KB`)
+                      ),
+                      e('div', { style: { background: 'rgba(59, 130, 246, 0.1)', padding: '1rem', borderRadius: '8px', border: '1px solid rgba(59, 130, 246, 0.2)' } },
+                        e('div', { style: { color: '#94a3b8', fontSize: '0.8rem', marginBottom: '0.5rem' } }, 'Projects'),
+                        e('div', { style: { color: '#e2e8f0', fontSize: '1.5rem', fontWeight: '600' } }, workspaceStats.totalProjects || 0)
+                      ),
+                      e('div', { style: { background: 'rgba(59, 130, 246, 0.1)', padding: '1rem', borderRadius: '8px', border: '1px solid rgba(59, 130, 246, 0.2)' } },
+                        e('div', { style: { color: '#94a3b8', fontSize: '0.8rem', marginBottom: '0.5rem' } }, 'History Entries'),
+                        e('div', { style: { color: '#e2e8f0', fontSize: '1.5rem', fontWeight: '600' } }, workspaceStats.totalHistory || 0)
+                      )
+                    )
+                  ),
+
+                  // Security Alerts
+                  securityAlerts.length > 0 && e('div', { style: { marginBottom: '2rem' } },
+                    e('h3', { style: { color: '#e2e8f0', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' } }, 
+                      e(Shield, { size: 20 }), 'Security Alerts'),
+                    e('div', { style: { display: 'flex', flexDirection: 'column', gap: '0.5rem' } },
+                      securityAlerts.slice(-5).map(alert => 
+                        e('div', { 
+                          key: alert.id, 
+                          style: { 
+                            background: alert.severity === 'high' ? 'rgba(239, 68, 68, 0.1)' : 'rgba(245, 158, 11, 0.1)', 
+                            padding: '0.75rem', 
+                            borderRadius: '6px', 
+                            border: `1px solid ${alert.severity === 'high' ? 'rgba(239, 68, 68, 0.3)' : 'rgba(245, 158, 11, 0.3)'}` 
+                          } 
+                        },
+                          e('div', { style: { display: 'flex', alignItems: 'center', gap: '0.5rem' } },
+                            e(alert.severity === 'high' ? Error : Warning, { size: 16 }),
+                            e('span', { style: { color: '#e2e8f0', fontSize: '0.9rem' } }, alert.message),
+                            e('span', { style: { color: '#94a3b8', fontSize: '0.75rem', marginLeft: 'auto' } }, 
+                              alert.timestamp.toLocaleTimeString())
+                          )
+                        )
+                      )
+                    )
+                  )
+                )
+              )
+            ),
+
+            // Settings Modal
+            showSettings && e('div', { 
+              style: { 
+                position: 'fixed', 
+                inset: 0, 
+                background: 'rgba(0, 0, 0, 0.7)', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+                zIndex: 1000, 
+                backdropFilter: 'blur(4px)' 
+              } 
+            },
+              e('div', { 
+                style: { 
+                  background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', 
+                  borderRadius: '16px', 
+                  width: '90%', 
+                  maxWidth: '600px', 
+                  maxHeight: '90vh', 
+                  overflow: 'hidden', 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  border: '1px solid rgba(59, 130, 246, 0.3)' 
+                } 
+              },
+                e('div', { 
+                  style: { 
+                    padding: '1.5rem 2rem', 
+                    borderBottom: '1px solid rgba(59, 130, 246, 0.2)', 
+                    display: 'flex', 
+                    justifyContent: 'space-between', 
+                    alignItems: 'center', 
+                    background: 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)' 
+                  } 
+                },
+                  e('h2', { 
+                    style: { 
+                      margin: 0, 
+                      color: 'white', 
+                      fontSize: '1.5rem', 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: '0.5rem' 
+                    } 
+                  }, e(Settings, { size: 24 }), 'Configuration'),
+                  e('button', { 
+                    onClick: () => setShowSettings(false), 
+                    style: { 
+                      background: 'rgba(255, 255, 255, 0.2)', 
+                      color: 'white', 
+                      border: 'none', 
+                      width: '40px', 
+                      height: '40px', 
+                      borderRadius: '50%', 
+                      cursor: 'pointer', 
+                      fontSize: '1.5rem', 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center' 
+                    } 
+                  }, '×')
+                ),
+                e('div', { style: { flex: 1, overflowY: 'auto', padding: '2rem' } },
                   e('div', { style: { marginBottom: '1rem' } },
-                    e('label', { style: { display: 'block', marginBottom: '0.5rem', color: '#cbd5e1', fontSize: width < 768 ? '0.85rem' : '0.9rem' } }, 'Gemini API Key'),
-                    e('input', { type: "password", value: apiKey, onChange: (ev) => setApiKey(ev.target.value), style: { width: '100%', padding: width < 768 ? '0.7rem' : '0.75rem', border: '2px solid rgba(59, 130, 246, 0.3)', borderRadius: '8px', fontSize: '1rem', background: 'rgba(30, 41, 59, 0.6)', color: '#e2e8f0', boxSizing: 'border-box' } })
+                    e('label', { 
+                      style: { 
+                        display: 'block', 
+                        marginBottom: '0.5rem', 
+                        color: '#cbd5e1', 
+                        fontSize: '0.9rem' 
+                      } 
+                    }, 'API Key (Required)'),
+                    e('input', { 
+                      type: "password", 
+                      value: apiKey, 
+                      onChange: (ev) => setApiKey(ev.target.value), 
+                      style: { 
+                        width: '100%', 
+                        padding: '0.75rem', 
+                        border: '2px solid rgba(59, 130, 246, 0.3)', 
+                        borderRadius: '8px', 
+                        fontSize: '1rem', 
+                        background: 'rgba(30, 41, 59, 0.6)', 
+                        color: '#e2e8f0', 
+                        boxSizing: 'border-box' 
+                      } 
+                    })
                   )
                 ),
-                e('div', { style: { padding: width < 768 ? '1rem 1.5rem' : '1.5rem 2rem', borderTop: '1px solid rgba(59, 130, 246, 0.2)', background: 'rgba(15, 23, 42, 0.95)' } },
-                  e('button', { onClick: () => { setShowSettings(false); addMessage('ai', '✅ Settings saved!'); }, style: { width: '100%', background: 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)', color: 'white', border: 'none', padding: '1rem', borderRadius: '12px', cursor: 'pointer', fontSize: '1rem', fontWeight: '600', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' } },
+                e('div', { 
+                  style: { 
+                    padding: '1.5rem 2rem', 
+                    borderTop: '1px solid rgba(59, 130, 246, 0.2)', 
+                    background: 'rgba(15, 23, 42, 0.95)' 
+                  } 
+                },
+                  e('button', { 
+                    onClick: () => { 
+                      saveConfiguration(); 
+                      setShowSettings(false); 
+                      addMessage('system', '✅ Settings saved!'); 
+                    }, 
+                    style: { 
+                      width: '100%', 
+                      background: 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)', 
+                      color: 'white', 
+                      border: 'none', 
+                      padding: '1rem', 
+                      borderRadius: '12px', 
+                      cursor: 'pointer', 
+                      fontSize: '1rem', 
+                      fontWeight: '600', 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center', 
+                      gap: '0.5rem' 
+                    } 
+                  },
                     e(Save, { size: 20 }), 'Save Configuration'
                   )
                 )
               )
             ),
+
+            // Styles
             e('style', {}, `
               .spin { animation: spin 1s linear infinite; }
               @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -316,10 +2133,7 @@
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(e(App));
 
-        // --- End of App Code ---
-
       } catch (err) {
-        // This is the error handler.
         document.getElementById('root').innerHTML = 
           '<div style="color: red; padding: 2rem; font-family: sans-serif;">' +
             '<h3>Application Failed to Load</h3>' +
@@ -331,7 +2145,6 @@
       }
     }
     
-    // Start checking for dependencies immediately
     checkDependencies();
   </script>
 

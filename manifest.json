@@ -1,7 +1,7 @@
 {
-  "short_name": "AI Worker+",
-  "name": "AI Worker Plus",
-  "description": "An AI-powered coding assistant with GitHub integration and autopilot.",
+  "short_name": "Multi-Agent",
+  "name": "Autonomous Multi-Agent Coding System",
+  "description": "An advanced autonomous multi-agent coding system with specialized agents, real-time monitoring, and intelligent task management.",
   "icons": [
     {
       "src": "favicon.ico",
