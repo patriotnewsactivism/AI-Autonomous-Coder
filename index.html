@@ -380,7 +380,7 @@
     /* Floating Voice Button */
     .voice-button-mobile {
       position: fixed;
-      bottom: 2rem;
+      bottom: 6rem;
       right: 2rem;
       width: 64px;
       height: 64px;
@@ -394,6 +394,8 @@
       z-index: 100;
       transition: all 0.3s ease;
       display: none;
+      /* Ensure button stays above input area */
+      margin-bottom: env(safe-area-inset-bottom, 0);
     }
 
     .voice-button-mobile:hover {
@@ -654,9 +656,22 @@
       .voice-button-mobile {
         width: 56px;
         height: 56px;
-        bottom: 1.5rem;
+        bottom: 5.5rem;
         right: 1.5rem;
         font-size: 1.3rem;
+        /* Additional mobile spacing */
+        margin-bottom: env(safe-area-inset-bottom, 0);
+      }
+    }
+
+    /* Extra small screens - ensure button doesn't overlap */
+    @media (max-width: 360px) {
+      .voice-button-mobile {
+        bottom: 6rem;
+        right: 1rem;
+        width: 52px;
+        height: 52px;
+        font-size: 1.2rem;
       }
     }
 
