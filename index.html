@@ -98,7 +98,7 @@
       const [showSidebar, setShowSidebar] = useState(false);
       const [expandedSections, setExpandedSections] = useState({
         files: true,
-        actions: true // Changed to true by default
+        actions: true
       });
 
       // GitHub state
@@ -1531,7 +1531,7 @@ Requirements:
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
+        navigator.serviceWorker.register('./sw.js') // <--- PATH FIXED HERE
           .then(registration => {
             console.log('ServiceWorker registration successful with scope: ', registration.scope);
           })

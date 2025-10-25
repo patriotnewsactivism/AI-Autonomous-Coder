@@ -38,7 +38,10 @@ self.addEventListener('fetch', event => {
         return fetch(event.request).then(
           response => {
             // Check if we received a valid response
-            if (!response || response.status !== 200 || response.type !== 'basic') {
+            if (!response || response.status !== 200) {
+               // Only cache 200-level responses
+               // We don't cache 'basic' type here to avoid caching opaque CDN responses
+               // but we must cache our own app files
               return response;
             }
 
@@ -47,12 +50,20 @@ self.addEventListener('fetch', event => {
 
             caches.open(CACHE_NAME)
               .then(cache => {
-                cache.put(event.request, responseToCache);
+                // Only cache if it's one of our app's requests or a CDN script
+                // This avoids caching API calls
+                if(event.request.url.startsWith(self.location.origin) || event.request.url.startsWith('https://unpkg.com')) {
+                  cache.put(event.request, responseToCache);
+                }
               });
 
             return response;
           }
-        );
+        ).catch(err => {
+            // Network request failed
+            console.error('Fetch failed:', err);
+            // You could return an offline page here if you had one
+        });
       })
   );
 });
