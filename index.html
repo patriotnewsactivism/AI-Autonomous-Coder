@@ -6,6 +6,7 @@
   <title>AI Autonomous Agent System - Mobile Optimized</title>
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="enhanced-styles.css">
   <style>
     /* Reset and Base Styles */
     * {
@@ -677,23 +678,9 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <!-- Header -->
-    <div class="header">
-      <button id="mobileMenuToggle" class="mobile-menu-toggle">☰</button>
-      <h1>🤖 AI Autonomous Agent System</h1>
-      <div class="header-controls">
-        <div id="providerBadge" class="badge provider-badge">
-          ⚡ Groq (FREE)
-        </div>
-        <div id="statusBadge" class="badge status-badge">
-          <span>●</span>
-          <span>STOPPED</span>
-        </div>
-        <button id="startBtn" class="btn btn-success">▶ Start</button>
-        <button id="configBtn" class="btn btn-primary">⚙ Config</button>
-      </div>
-    </div>
+  <div class="container" id="app-container">
+    <!-- Enhanced UI will be rendered here by JavaScript -->
+  </div>
 
     <!-- Main Content -->
     <div class="main-content">
@@ -1633,6 +1620,57 @@ Respond in a clear, structured format.`;
         .then(registration => console.log('SW registered'))
         .catch(error => console.log('SW registration failed'));
     }
+  </script>
+
+  <!-- Enhanced Autonomous Agent System -->
+  <script src="autonomous-agents.js"></script>
+  <script src="ai-providers.js"></script>
+  <script src="deployment-manager.js"></script>
+  <script src="enhanced-ui.js"></script>
+  <script src="demo-script.js"></script>
+  <script src="setup-autonomous.js"></script>
+  
+  <script>
+    // Initialize the Enhanced Autonomous Agent System
+    document.addEventListener('DOMContentLoaded', async () => {
+      console.log('🚀 Initializing Enhanced Autonomous Agent System...');
+      
+      try {
+        // Initialize AI providers
+        const aiProvider = new EnhancedAIProvider();
+        
+        // Initialize autonomous agent system
+        const autonomousAgent = new AutonomousAgentSystem();
+        await autonomousAgent.initialize();
+        
+        // Initialize deployment manager
+        const deploymentManager = new DeploymentManager();
+        await deploymentManager.initialize();
+        
+        // Initialize enhanced UI
+        const enhancedUI = new EnhancedUISystem();
+        await enhancedUI.initialize(autonomousAgent, deploymentManager);
+        
+        // Make systems globally available
+        window.autonomousAgent = autonomousAgent;
+        window.deploymentManager = deploymentManager;
+        window.enhancedUI = enhancedUI;
+        window.aiProvider = aiProvider;
+        
+        console.log('✅ Enhanced Autonomous Agent System initialized successfully!');
+        
+        // Show welcome notification
+        enhancedUI.addNotification('success', 'System Ready', 'Autonomous coding agent system is ready to build smart apps!');
+        
+      } catch (error) {
+        console.error('❌ Failed to initialize Enhanced Autonomous Agent System:', error);
+        
+        // Show error notification
+        const errorUI = new EnhancedUISystem();
+        await errorUI.initialize();
+        errorUI.addNotification('error', 'Initialization Failed', 'Failed to initialize the autonomous agent system. Please refresh the page.');
+      }
+    });
   </script>
 </body>
 </html>
