@@ -1,9 +1,11 @@
-const CACHE_NAME = 'ai-worker-plus-v1';
+const CACHE_NAME = 'ai-worker-plus-v2';
 const URLS_TO_CACHE = [
   '/',
   '/index.html',
   '/manifest.json',
+  '/favicon.ico',
   '/icon-192.png',
+  '/icon-192-maskable.png',
   '/icon-512.png',
   'https://unpkg.com/react@18/umd/react.development.js',
   'https://unpkg.com/react-dom@18/umd/react-dom.development.js',

@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>AI Worker Plus</title>
   
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
   
   <meta name="theme-color" content="#0f172a">
-  <link rel="apple-touch-icon" href="icon-192.png">
   
   <style>
     body, html {
@@ -25,6 +26,7 @@
       width: 100%;
     }
   </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
 </head>
 <body>
   <div id="root"></div>
@@ -37,6 +39,8 @@
   <script src="https://unpkg.com/lucide-react@latest/dist/lucide-react.js"></script>
 
   <script type="text/babel">
+    console.log('Babel script is running');
+    
     // Destructure React and Lucide from their global objects
     const { useState, useEffect, useRef } = React;
     const { 
@@ -75,6 +79,8 @@
      * All code has been fixed, de-fragmented, and corrected.
      */
     function App() {
+      console.log('App component is rendering');
+      
       // Get responsive width from our new hook
       const { width } = useWindowSize();
       
@@ -183,7 +189,7 @@
 
 **Quick Start:**
 
-1. Tap ⚙️ to configure API keys
+1. Tap ℹ️ to configure API keys
 1. Use 🎤 for voice commands
 1. Enable 🤖 autopilot for queued tasks
 
@@ -370,7 +376,7 @@ Try: "Create a React component" or tap quick actions below!`,
       // Process user input
       const processUserInput = async (input) => {
         if (!apiKey) {
-          addMessage('ai', '❌ **API Key Required**\n\nPlease add your Gemini API key in settings (⚙️) to enable AI responses.');
+          addMessage('ai', '❌ **API Key Required**\n\nPlease add your Gemini API key in settings (ℹ️) to enable AI responses.');
           return;
         }
 
@@ -589,32 +595,105 @@ Requirements:
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                boxShadow: '0 0 20px rgba(59, 130, 246, 0.5)',
-                position: 'relative'
+                fontWeight: 'bold',
+                fontSize: 'clamp(16px, 4vw, 20px)',
+                color: 'white'
               }}>
-                <Zap color="white" size={width < 768 ? 18 : 24} strokeWidth={2.5} />
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  borderRadius: '10px',
-                  background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(6, 182, 212, 0.3) 100%)',
-                  filter: 'blur(8px)',
-                  zIndex: -1
-                }} />
+                AI
               </div>
               
-              <h1 style={{
-                color: 'white',
-                margin: 0,
-                fontSize: 'clamp(1rem, 4vw, 1.5rem)',
-                fontWeight: '700',
-                letterSpacing: '-0.02em'
-              }}>
-                AI Worker<span style={{ color: '#3b82f6', marginLeft: '0.25rem' }}>Plus</span>
-              </h1>
+              <div>
+                <h1 style={{
+                  margin: 0,
+                  fontSize: 'clamp(1.1rem, 4vw, 1.4rem)',
+                  fontWeight: 600,
+                  color: '#f1f5f9',
+                  lineHeight: 1.2
+                }}>
+                  AI Worker Plus
+                </h1>
+                <div style={{
+                  fontSize: 'clamp(0.65rem, 2vw, 0.75rem)',
+                  color: '#94a3b8',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.25rem'
+                }}>
+                  <span style={{
+                    display: 'inline-block',
+                    width: '8px',
+                    height: '8px',
+                    borderRadius: '50%',
+                    backgroundColor: autopilotMode ? '#10b981' : '#ef4444'
+                  }}></span>
+                  {autopilotMode ? 'Autopilot Active' : 'Autopilot Off'}
+                </div>
+              </div>
             </div>
-            
-            <div style={{ display: 'flex', gap: 'clamp(0.5rem, 2vw, 1rem)', alignItems: 'center' }}>
+
+            <div style={{
+              display: 'flex',
+              gap: 'clamp(0.5rem, 2vw, 0.75rem)',
+              alignItems: 'center'
+            }}>
+              {/* GitHub Sync Status */}
+              {githubToken && githubRepo && (
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.25rem',
+                  color: syncStatus === 'success' ? '#10b981' : syncStatus === 'error' ? '#ef4444' : '#94a3b8',
+                  fontSize: '0.8rem'
+                }}>
+                  {getSyncStatusIcon()}
+                  <span>GitHub</span>
+                </div>
+              )}
+
+              {/* PWA Install Button */}
+              {installPrompt && !isInstalled && (
+                <button
+                  onClick={handleInstallPWA}
+                  style={{
+                    background: 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '6px',
+                    padding: '0.3rem 0.6rem',
+                    fontSize: '0.8rem',
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.25rem'
+                  }}
+                >
+                  <Save size={14} />
+                  Install
+                </button>
+              )}
+
+              {/* Settings Button */}
+              <button
+                onClick={() => setShowSettings(!showSettings)}
+                style={{
+                  background: 'rgba(59, 130, 246, 0.1)',
+                  color: '#3b82f6',
+                  border: '1px solid rgba(59, 130, 246, 0.3)',
+                  borderRadius: '6px',
+                  padding: '0.3rem 0.6rem',
+                  fontSize: '0.8rem',
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.25rem'
+                }}
+              >
+                <Settings size={14} />
+                <span style={{ display: width > 480 ? 'inline' : 'none' }}>Settings</span>
+              </button>
+
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setShowSidebar(!showSidebar)}
@@ -622,1076 +701,745 @@ Requirements:
                   background: 'rgba(59, 130, 246, 0.1)',
                   color: '#3b82f6',
                   border: '1px solid rgba(59, 130, 246, 0.3)',
-                  padding: 'clamp(0.5rem, 2vw, 0.6rem)',
-                  borderRadius: '8px',
-                  cursor: 'pointer',
-                  display: width < 1024 ? 'flex' : 'none',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  touchAction: 'manipulation'
-                }}
-              >
-                {showSidebar ? <X size={20} /> : <Menu size={20} />}
-              </button>
-              
-              {/* Autopilot Toggle - Compact on mobile */}
-              <button
-                onClick={toggleAutopilot}
-                style={{
-                  background: autopilotMode ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)' : 'rgba(59, 130, 246, 0.1)',
-                  color: 'white',
-                  border: autopilotMode ? 'none' : '1px solid rgba(59, 130, 246, 0.3)',
-                  padding: 'clamp(0.5rem, 2vw, 0.6rem) clamp(0.75rem, 3vw, 1rem)',
-                  borderRadius: '8px',
+                  borderRadius: '6px',
+                  padding: '0.3rem 0.6rem',
+                  fontSize: '0.8rem',
+                  fontWeight: 500,
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.5rem',
-                  fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)',
-                  fontWeight: '600',
-                  touchAction: 'manipulation',
-                  whiteSpace: 'nowrap'
+                  gap: '0.25rem'
                 }}
               >
-                {autopilotMode ? <PauseCircle size={16} /> : <PlayCircle size={16} />}
-                <span style={{ display: width < 640 ? 'none' : 'inline' }}>
-                  {autopilotMode ? 'ON' : 'OFF'}
-                </span>
-              </button>
-              
-              {/* GitHub Status - Hide text on small screens */}
-              <div style={{
-                background: 'rgba(59, 130, 246, 0.1)',
-                padding: 'clamp(0.5rem, 2vw, 0.6rem) clamp(0.75rem, 3vw, 1rem)',
-                borderRadius: '8px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                border: '1px solid rgba(59, 130, 246, 0.3)'
-              }}>
-                {getSyncStatusIcon()}
-                <span style={{
-                  color: '#94a3b8',
-                  fontSize: 'clamp(0.75rem, 2.5vw, 0.9rem)',
-                  display: width < 480 ? 'none' : 'inline'
-                }}>
-                  {githubRepo ? githubRepo.split('/')[1] : 'No Repo'}
-                </span>
-              </div>
-              
-              {/* Settings Button */}
-              <button
-                onClick={() => setShowSettings(true)}
-                style={{
-                  background: 'rgba(59, 130, 246, 0.1)',
-                  color: '#3b82f6',
-                  border: '1px solid rgba(59, 130, 246, 0.3)',
-                  padding: 'clamp(0.5rem, 2vw, 0.6rem)',
-                  borderRadius: '8px',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  touchAction: 'manipulation'
-                }}
-              >
-                <Settings size={20} />
+                <Menu size={14} />
               </button>
             </div>
           </header>
-          
-          {/* Main Content - Responsive Layout */}
+
+          {/* Main Content Area */}
           <div style={{
-            flex: 1,
             display: 'flex',
+            flex: 1,
             overflow: 'hidden',
             position: 'relative'
           }}>
             {/* Mobile Sidebar Overlay */}
-            {showSidebar && width < 1024 && (
+            {showSidebar && width <= 768 && (
               <div
                 onClick={() => setShowSidebar(false)}
                 style={{
                   position: 'fixed',
-                  inset: 0,
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
                   background: 'rgba(0, 0, 0, 0.5)',
-                  zIndex: 200,
-                  backdropFilter: 'blur(2px)'
+                  zIndex: 99
                 }}
-              />
+              ></div>
             )}
-            
-            {/* Sidebar - Slide-in on mobile */}
-            <div style={{
-              width: width < 1024 ? '80%' : '300px',
-              maxWidth: '320px',
-              background: 'rgba(15, 23, 42, 0.95)',
-              backdropFilter: 'blur(10px)',
-              padding: '1rem',
-              overflowY: 'auto',
+
+            {/* Sidebar - Files and Actions */}
+            <aside style={{
+              width: width > 768 ? 'clamp(250px, 25vw, 350px)' : '80%',
+              background: 'rgba(15, 23, 42, 0.9)',
+              borderRight: '1px solid rgba(59, 130, 246, 0.1)',
               display: 'flex',
               flexDirection: 'column',
-              gap: '1rem',
-              borderRight: '1px solid rgba(59, 130, 246, 0.2)',
-              position: width < 1024 ? 'fixed' : 'relative',
-              left: width < 1024 ? (showSidebar ? 0 : '-100%') : 0,
-              top: width < 1024 ? '65px' : 0, // Adjust based on header height
-              bottom: 0,
-              zIndex: 300,
-              transition: 'left 0.3s ease-in-out',
-              WebkitOverflowScrolling: 'touch'
+              transform: showSidebar || width > 768 ? 'translateX(0)' : 'translateX(-100%)',
+              transition: 'transform 0.3s ease',
+              position: width <= 768 ? 'fixed' : 'relative',
+              height: '100%',
+              zIndex: 100,
+              backdropFilter: 'blur(10px)'
             }}>
-              {/* PWA Install Banner */}
-              {installPrompt && !isInstalled && (
-                <div style={{
-                  background: 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)',
-                  borderRadius: '12px',
-                  padding: '1rem',
-                  boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)'
-                }}>
-                  <h4 style={{ margin: '0 0 0.5rem 0', color: 'white', fontSize: '0.9rem', fontWeight: '600' }}>
-                    📱 Install App
-                  </h4>
-                  <p style={{ margin: '0 0 0.75rem 0', fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.9)', lineHeight: '1.4' }}>
-                    Add to home screen for quick access!
-                  </p>
-                  <button
-                    onClick={handleInstallPWA}
-                    style={{
-                      width: '100%',
-                      background: 'rgba(255, 255, 255, 0.2)',
-                      color: 'white',
-                      border: '1px solid rgba(255, 255, 255, 0.3)',
-                      padding: '0.5rem',
-                      borderRadius: '6px',
-                      cursor: 'pointer',
-                      fontSize: '0.85rem',
-                      fontWeight: '600',
-                      touchAction: 'manipulation'
-                    }}
-                  >
-                    Install Now
-                  </button>
-                </div>
-              )}
-              
-              {/* Quick Actions Section */}
+              {/* Sidebar Header */}
               <div style={{
-                background: 'rgba(59, 130, 246, 0.05)',
-                borderRadius: '12px',
                 padding: '1rem',
-                border: '1px solid rgba(59, 130, 246, 0.2)'
+                borderBottom: '1px solid rgba(59, 130, 246, 0.1)',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center'
               }}>
+                <h2 style={{
+                  margin: 0,
+                  fontSize: '1.1rem',
+                  color: '#f1f5f9'
+                }}>
+                  Tools
+                </h2>
                 <button
-                  onClick={() => toggleSection('actions')}
+                  onClick={() => setShowSidebar(false)}
                   style={{
-                    width: '100%',
                     background: 'none',
                     border: 'none',
-                    padding: 0,
+                    color: '#94a3b8',
                     cursor: 'pointer',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginBottom: expandedSections.actions ? '1rem' : 0,
-                    touchAction: 'manipulation'
+                    padding: '0.25rem'
                   }}
                 >
-                  <h3 style={{
-                    color: '#e2e8f0',
-                    margin: 0,
-                    fontSize: '1rem',
-                    fontWeight: '600',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem'
-                  }}>
-                    <Code size={16} />
-                    Quick Actions
-                  </h3>
-                  {expandedSections.actions ? <ChevronUp size={18} color="#94a3b8" /> : <ChevronDown size={18} color="#94a3b8" />}
+                  <X size={20} />
                 </button>
-                
-                {expandedSections.actions && (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <button
-                      onClick={() => {
-                        setInputValue('Create a React component');
-                        setShowSidebar(false);
-                      }}
-                      style={{
-                        background: 'rgba(59, 130, 246, 0.1)',
-                        color: '#e2e8f0',
-                        border: '1px solid rgba(59, 130, 246, 0.2)',
-                        padding: '0.75rem',
-                        borderRadius: '6px',
-                        cursor: 'pointer',
-                        fontSize: '0.85rem',
-                        textAlign: 'left',
-                        fontWeight: '500',
-                        touchAction: 'manipulation',
-                        transition: 'all 0.2s'
-                      }}
-                    >
-                      ⚛️ Create React Component
-                    </button>
-                    <button
-                      onClick={() => {
-                        setInputValue('Fetch GitHub repository');
-                        setShowSidebar(false);
-                      }}
-                      style={{
-                        background: 'rgba(59, 130, 246, 0.1)',
-                        color: '#e2e8f0',
-                        border: '1px solid rgba(59, 130, 246, 0.2)',
-                        padding: '0.75rem',
-                        borderRadius: '6px',
-                        cursor: 'pointer',
-                        fontSize: '0.85rem',
-                        textAlign: 'left',
-                        fontWeight: '500',
-                        touchAction: 'manipulation',
-                        transition: 'all 0.2s'
-                      }}
-                    >
-                      🔗 Sync with GitHub
-                    </button>
-                    <button
-                      onClick={() => {
-                        setInputValue('Generate API endpoint code');
-                        setShowSidebar(false);
-                      }}
-                      style={{
-                        background: 'rgba(59, 130, 246, 0.1)',
-                        color: '#e2e8f0',
-                        border: '1px solid rgba(59, 130, 246, 0.2)',
-                        padding: '0.75rem',
-                        borderRadius: '6px',
-                        cursor: 'pointer',
-                        fontSize: '0.85rem',
-                        textAlign: 'left',
-                        fontWeight: '500',
-                        touchAction: 'manipulation',
-                        transition: 'all 0.2s'
-                      }}
-                    >
-                      🔌 Generate API Code
-                    </button>
-                    <button
-                      onClick={() => {
-                        setInputValue('Explain React hooks');
-                        setShowSidebar(false);
-                      }}
-                      style={{
-                        background: 'rgba(59, 130, 246, 0.1)',
-                        color: '#e2e8f0',
-                        border: '1px solid rgba(59, 130, 246, 0.2)',
-                        padding: '0.75rem',
-                        borderRadius: '6px',
-                        cursor: 'pointer',
-                        fontSize: '0.85rem',
-                        textAlign: 'left',
-                        fontWeight: '500',
-                        touchAction: 'manipulation',
-                        transition: 'all 0.2s'
-                      }}
-                    >
-                      📚 Explain Concept
-                    </button>
-                  </div>
-                )}
               </div>
 
-              {/* Repository Files Section */}
-              <div style={{
-                background: 'rgba(59, 130, 246, 0.05)',
-                borderRadius: '12px',
-                padding: '1rem',
-                border: '1px solid rgba(59, 130, 246, 0.2)'
-              }}>
+              {/* Files Section */}
+              <div style={{ padding: '0.5rem 1rem' }}>
                 <button
                   onClick={() => toggleSection('files')}
                   style={{
                     width: '100%',
                     background: 'none',
                     border: 'none',
-                    padding: 0,
-                    cursor: 'pointer',
+                    color: '#f1f5f9',
+                    textAlign: 'left',
+                    padding: '0.75rem 0',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    marginBottom: expandedSections.files ? '1rem' : 0,
-                    touchAction: 'manipulation'
+                    cursor: 'pointer',
+                    fontSize: '0.9rem',
+                    fontWeight: 500
                   }}
                 >
-                  <h3 style={{
-                    color: '#e2e8f0',
-                    margin: 0,
-                    fontSize: '1rem',
-                    fontWeight: '600',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem'
-                  }}>
-                    <Github size={16} />
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <FileCode size={16} />
                     Repository Files
-                  </h3>
-                  {expandedSections.files ? <ChevronUp size={18} color="#94a3b8" /> : <ChevronDown size={18} color="#94a3b8" />}
+                  </span>
+                  {expandedSections.files ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                 </button>
-                
+
                 {expandedSections.files && (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <div style={{ marginBottom: '1rem' }}>
                     {repoFiles.length > 0 ? (
-                      repoFiles.slice(0, 8).map((file, index) => (
-                        <div
-                          key={index}
-                          style={{
-                            background: 'rgba(59, 130, 246, 0.1)',
-                            padding: '0.6rem',
-                            borderRadius: '6px',
-                            fontSize: '0.85rem',
-                            color: '#cbd5e1',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.5rem',
-                            border: '1px solid rgba(59, 130, 246, 0.2)',
-                            wordBreak: 'break-all'
-                          }}
-                        >
-                          <FileCode size={14} color="#3b82f6" />
-                          <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                            {file.name}
-                          </span>
-                        </div>
-                      ))
+                      <div style={{
+                        maxHeight: '200px',
+                        overflowY: 'auto',
+                        background: 'rgba(30, 41, 59, 0.5)',
+                        borderRadius: '6px',
+                        padding: '0.5rem'
+                      }}>
+                        {repoFiles.slice(0, 10).map((file, index) => (
+                          <div
+                            key={index}
+                            style={{
+                              padding: '0.25rem 0.5rem',
+                              borderRadius: '4px',
+                              color: '#cbd5e1',
+                              fontSize: '0.85rem',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '0.5rem'
+                            }}
+                          >
+                            {file.type === 'dir' ? '📁' : '📄'} {file.name}
+                          </div>
+                        ))}
+                      </div>
                     ) : (
-                      <p style={{ color: '#64748b', fontSize: '0.85rem', margin: 0, lineHeight: '1.5' }}>
-                        Connect to GitHub to see files
-                      </p>
+                      <div style={{
+                        padding: '1rem',
+                        textAlign: 'center',
+                        color: '#94a3b8',
+                        fontSize: '0.85rem',
+                        background: 'rgba(30, 41, 59, 0.5)',
+                        borderRadius: '6px'
+                      }}>
+                        No files loaded. Connect to GitHub in settings.
+                      </div>
                     )}
                   </div>
                 )}
               </div>
-              
-              {/* Task Queue Display */}
-              {taskQueue.length > 0 && (
-                <div style={{
-                  background: 'rgba(59, 130, 246, 0.05)',
-                  borderRadius: '12px',
-                  padding: '1rem',
-                  border: '1px solid rgba(59, 130, 246, 0.2)'
-                }}>
-                  <h3 style={{
-                    color: '#e2e8f0',
-                    margin: '0 0 0.75rem 0',
-                    fontSize: '1rem',
-                    fontWeight: '600',
+
+              {/* Actions Section */}
+              <div style={{ padding: '0.5rem 1rem' }}>
+                <button
+                  onClick={() => toggleSection('actions')}
+                  style={{
+                    width: '100%',
+                    background: 'none',
+                    border: 'none',
+                    color: '#f1f5f9',
+                    textAlign: 'left',
+                    padding: '0.75rem 0',
                     display: 'flex',
+                    justifyContent: 'space-between',
                     alignItems: 'center',
-                    gap: '0.5rem'
-                  }}>
-                    📋 Task Queue ({taskQueue.length})
-                  </h3>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', maxHeight: '200px', overflowY: 'auto' }}>
-                    {taskQueue.map((task, index) => (
-                      <div
-                        key={index}
+                    cursor: 'pointer',
+                    fontSize: '0.9rem',
+                    fontWeight: 500
+                  }}
+                >
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <Zap size={16} />
+                    Quick Actions
+                  </span>
+                  {expandedSections.actions ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                </button>
+
+                {expandedSections.actions && (
+                  <div style={{ marginBottom: '1rem' }}>
+                    <div style={{
+                      display: 'grid',
+                      gridTemplateColumns: '1fr 1fr',
+                      gap: '0.5rem'
+                    }}>
+                      <button
+                        onClick={() => {
+                          setInputValue('Create a React component that displays a todo list with add/remove functionality');
+                          setShowSidebar(false);
+                        }}
                         style={{
                           background: 'rgba(59, 130, 246, 0.1)',
-                          padding: '0.6rem',
+                          border: '1px solid rgba(59, 130, 246, 0.3)',
                           borderRadius: '6px',
-                          fontSize: '0.8rem',
-                          color: '#cbd5e1',
-                          border: '1px solid rgba(59, 130, 246, 0.2)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.5rem'
+                          color: '#93c5fd',
+                          padding: '0.5rem',
+                          fontSize: '0.75rem',
+                          cursor: 'pointer',
+                          textAlign: 'center'
                         }}
                       >
-                        <span style={{ 
-                          background: '#3b82f6', 
-                          color: 'white', 
-                          borderRadius: '50%', 
-                          width: '20px', 
-                          height: '20px', 
-                          display: 'flex', 
-                          alignItems: 'center', 
-                          justifyContent: 'center',
-                          fontSize: '0.7rem',
-                          fontWeight: '600',
-                          flexShrink: 0
-                        }}>
-                          {index + 1}
-                        </span>
-                        <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                          {task}
-                        </span>
-                      </div>
-                    ))}
+                        Todo App
+                      </button>
+                      <button
+                        onClick={() => {
+                          setInputValue('Create a Python function that validates email addresses');
+                          setShowSidebar(false);
+                        }}
+                        style={{
+                          background: 'rgba(59, 130, 246, 0.1)',
+                          border: '1px solid rgba(59, 130, 246, 0.3)',
+                          borderRadius: '6px',
+                          color: '#93c5fd',
+                          padding: '0.5rem',
+                          fontSize: '0.75rem',
+                          cursor: 'pointer',
+                          textAlign: 'center'
+                        }}
+                      >
+                        Email Validator
+                      </button>
+                      <button
+                        onClick={() => {
+                          setInputValue('Explain how React hooks work with examples');
+                          setShowSidebar(false);
+                        }}
+                        style={{
+                          background: 'rgba(59, 130, 246, 0.1)',
+                          border: '1px solid rgba(59, 130, 246, 0.3)',
+                          borderRadius: '6px',
+                          color: '#93c5fd',
+                          padding: '0.5rem',
+                          fontSize: '0.75rem',
+                          cursor: 'pointer',
+                          textAlign: 'center'
+                        }}
+                      >
+                        React Hooks
+                      </button>
+                      <button
+                        onClick={() => {
+                          setInputValue('Write a CSS animation for a loading spinner');
+                          setShowSidebar(false);
+                        }}
+                        style={{
+                          background: 'rgba(59, 130, 246, 0.1)',
+                          border: '1px solid rgba(59, 130, 246, 0.3)',
+                          borderRadius: '6px',
+                          color: '#93c5fd',
+                          padding: '0.5rem',
+                          fontSize: '0.75rem',
+                          cursor: 'pointer',
+                          textAlign: 'center'
+                        }}
+                      >
+                        CSS Spinner
+                      </button>
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
-            
-            {/* Chat Area - Responsive */}
-            <div style={{
+                )}
+              </div>
+
+              {/* Voice Control */}
+              <div style={{ padding: '0.5rem 1rem', marginTop: 'auto' }}>
+                <button
+                  onClick={toggleListening}
+                  style={{
+                    width: '100%',
+                    background: isListening 
+                      ? 'linear-gradient(135deg, #ef4444 0%, #f97316 100%)' 
+                      : 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)',
+                    border: 'none',
+                    borderRadius: '6px',
+                    color: 'white',
+                    padding: '0.75rem',
+                    fontSize: '0.9rem',
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: '0.5rem'
+                  }}
+                >
+                  {isListening ? <MicOff size={16} /> : <Mic size={16} />}
+                  {isListening ? 'Stop Listening' : 'Voice Command'}
+                </button>
+              </div>
+            </aside>
+
+            {/* Main Chat Area */}
+            <main style={{
               flex: 1,
               display: 'flex',
               flexDirection: 'column',
-              background: 'rgba(30, 41, 59, 0.5)',
-              margin: width < 768 ? '0.5rem' : '1rem',
-              marginLeft: width < 1024 ? (width < 768 ? '0.5rem' : '1rem') : '0',
-              borderRadius: width < 768 ? '12px' : '16px',
-              overflow: 'hidden',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
-              border: '1px solid rgba(59, 130, 246, 0.2)'
+              overflow: 'hidden'
             }}>
               {/* Messages Container */}
               <div style={{
                 flex: 1,
                 overflowY: 'auto',
-                padding: width < 768 ? '1rem' : '2rem',
+                padding: '1rem',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: width < 768 ? '0.75rem' : '1rem',
-                WebkitOverflowScrolling: 'touch'
+                gap: '1rem'
               }}>
-                {messages.map(msg => (
+                {messages.map((message) => (
                   <div
-                    key={msg.id}
+                    key={message.id}
                     style={{
-                      display: 'flex',
-                      gap: width < 768 ? '0.5rem' : '1rem',
-                      alignItems: 'flex-start',
-                      flexDirection: msg.type === 'user' ? 'row-reverse' : 'row',
-                      maxWidth: '100%'
+                      maxWidth: '90%',
+                      alignSelf: message.type === 'user' ? 'flex-end' : 'flex-start',
+                      background: message.type === 'user' 
+                        ? 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)' 
+                        : 'rgba(30, 41, 59, 0.8)',
+                      color: message.type === 'user' ? '#f1f5f9' : '#cbd5e1',
+                      padding: '1rem',
+                      borderRadius: message.type === 'user' ? '12px 12px 0 12px' : '12px 12px 12px 0',
+                      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                      position: 'relative',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(59, 130, 246, 0.1)'
                     }}
                   >
-                    {/* Avatar */}
-                    <div style={{
-                      width: width < 768 ? '32px' : '40px',
-                      height: width < 768 ? '32px' : '40px',
-                      borderRadius: '50%',
-                      background: msg.type === 'ai' 
-                        ? 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)' 
-                        : 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                    <div style={{ 
+                      fontSize: '0.75rem', 
+                      opacity: 0.8, 
+                      marginBottom: '0.5rem',
                       display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      flexShrink: 0,
-                      boxShadow: msg.type === 'ai' 
-                        ? '0 0 20px rgba(59, 130, 246, 0.4)' 
-                        : '0 0 20px rgba(16, 185, 129, 0.4)'
+                      justifyContent: 'space-between'
                     }}>
-                      {msg.type === 'ai' ? <Bot color="white" size={width < 768 ? 16 : 20} /> : <User color="white" size={width < 768 ? 16 : 20} />}
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                        {message.type === 'user' ? <User size={12} /> : <Bot size={12} />}
+                        {message.type === 'user' ? 'You' : aiName}
+                      </span>
+                      <span>{message.timestamp}</span>
                     </div>
-                    
-                    {/* Message Content */}
-                    <div style={{
-                      flex: 1,
-                      background: msg.type === 'ai' 
-                        ? 'rgba(51, 65, 85, 0.6)' 
-                        : 'rgba(59, 130, 246, 0.2)',
-                      color: msg.type === 'ai' ? '#e2e8f0' : '#ffffff',
-                      padding: width < 768 ? '0.75rem' : '1rem',
-                      borderRadius: '12px',
-                      maxWidth: width < 768 ? '85%' : '70%',
-                      border: msg.type === 'ai' 
-                        ? '1px solid rgba(59, 130, 246, 0.2)' 
-                        : '1px solid rgba(59, 130, 246, 0.3)',
-                      backdropFilter: 'blur(10px)',
-                      wordBreak: 'break-word'
+                    <div style={{ 
+                      whiteSpace: 'pre-wrap',
+                      lineHeight: 1.5
                     }}>
-                      <div style={{
-                        whiteSpace: 'pre-wrap',
-                        fontSize: width < 768 ? '0.9rem' : '0.95rem',
-                        lineHeight: '1.6'
-                      }}>
-                        {/* A simple markdown parser could be added here, but for simplicity, we use pre-wrap */}
-                        {msg.content}
-                      </div>
-                      <div style={{
-                        fontSize: width < 768 ? '0.7rem' : '0.75rem',
-                        opacity: 0.6,
-                        marginTop: '0.5rem'
-                      }}>
-                        {msg.timestamp}
-                      </div>
+                      {message.content}
                     </div>
                   </div>
                 ))}
                 <div ref={messagesEndRef} />
               </div>
-              
-              {/* Current Task Indicator */}
-              {currentTask && (
-                <div style={{
-                  background: 'rgba(251, 191, 36, 0.1)',
-                  padding: width < 768 ? '0.6rem 1rem' : '0.75rem 2rem',
-                  borderTop: '1px solid rgba(251, 191, 36, 0.3)',
-                  fontSize: width < 768 ? '0.85rem' : '0.9rem',
-                  color: '#fbbf24',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem'
-                }}>
-                  <Loader className="spin" size={14} />
-                  <span>Processing: {currentTask.substring(0, 50)}{currentTask.length > 50 ? '...' : ''}</span>
-                </div>
-              )}
-              
-              {/* Input Area - Mobile Optimized */}
-              <form onSubmit={handleSubmit} style={{
-                padding: width < 768 ? '1rem' : '1.5rem 2rem',
-                borderTop: '1px solid rgba(59, 130, 246, 0.2)',
-                background: 'rgba(15, 23, 42, 0.8)',
+
+              {/* Input Area */}
+              <div style={{
+                padding: '1rem',
+                borderTop: '1px solid rgba(59, 130, 246, 0.1)',
+                background: 'rgba(15, 23, 42, 0.9)',
                 backdropFilter: 'blur(10px)'
               }}>
-                <div style={{
-                  display: 'flex',
-                  gap: width < 768 ? '0.5rem' : '1rem',
-                  alignItems: 'center'
-                }}>
-                  {/* Mic Button */}
-                  <button
-                    type="button"
-                    onClick={toggleListening}
-                    disabled={isProcessing}
-                    style={{
-                      background: isListening 
-                        ? 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)' 
-                        : 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)',
-                      color: 'white',
-                      border: 'none',
-                      padding: width < 768 ? '0.7rem' : '0.75rem',
-                      borderRadius: '50%',
-                      cursor: isProcessing ? 'not-allowed' : 'pointer',
+                <form 
+                  onSubmit={handleSubmit}
+                  style={{
+                    display: 'flex',
+                    gap: '0.5rem',
+                    alignItems: 'flex-end'
+                  }}
+                >
+                  <div style={{ flex: 1 }}>
+                    <textarea
+                      value={inputValue}
+                      onChange={(e) => setInputValue(e.target.value)}
+                      placeholder={isListening 
+                        ? `Listening for "${aiName}"... Say "${aiName}, create a function"` 
+                        : "Type your message or use voice commands..."}
+                      disabled={isProcessing}
+                      style={{
+                        width: '100%',
+                        minHeight: '60px',
+                        maxHeight: '120px',
+                        padding: '0.75rem',
+                        borderRadius: '8px',
+                        border: '1px solid rgba(59, 130, 246, 0.3)',
+                        background: 'rgba(30, 41, 59, 0.5)',
+                        color: '#f1f5f9',
+                        fontFamily: 'inherit',
+                        fontSize: '0.9rem',
+                        resize: 'vertical',
+                        boxSizing: 'border-box'
+                      }}
+                    />
+                    <div style={{
                       display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      opacity: isProcessing ? 0.5 : 1,
-                      animation: isListening ? 'pulse 2s infinite' : 'none',
-                      boxShadow: isListening 
-                        ? '0 0 20px rgba(239, 68, 68, 0.5)' 
-                        : '0 0 20px rgba(59, 130, 246, 0.3)',
-                      touchAction: 'manipulation',
-                      WebkitTapHighlightColor: 'transparent',
-                      flexShrink: 0
-                    }}
-                  >
-                    {isListening ? <MicOff size={width < 768 ? 18 : 20} /> : <Mic size={width < 768 ? 18 : 20} />}
-                  </button>
-                  
-                  {/* Input Field */}
-                  <input
-                    type="text"
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    placeholder={width < 640 ? `Message ${aiName}...` : `Message ${aiName}... (or say "${aiName}, ...")`}
-                    disabled={isProcessing}
-                    style={{
-                      flex: 1,
-                      padding: width < 768 ? '0.7rem 1rem' : '0.75rem 1rem',
-                      border: '2px solid rgba(59, 130, 246, 0.3)',
-                      borderRadius: '12px',
-                      fontSize: width < 768 ? '0.95rem' : '1rem',
-                      outline: 'none',
-                      transition: 'border-color 0.2s',
-                      opacity: isProcessing ? 0.5 : 1,
-                      background: 'rgba(30, 41, 59, 0.6)',
-                      color: '#e2e8f0',
-                      touchAction: 'manipulation',
-                      WebkitAppearance: 'none'
-                    }}
-                  />
-                  
-                  {/* Send Button */}
+                      justifyContent: 'space-between',
+                      marginTop: '0.5rem',
+                      fontSize: '0.75rem',
+                      color: '#94a3b8'
+                    }}>
+                      <span>
+                        {autopilotMode && (
+                          <span style={{ color: '#10b981' }}>
+                            🤖 Autopilot: {taskQueue.length} tasks queued
+                          </span>
+                        )}
+                      </span>
+                      <span>
+                        Press Enter to send, Shift+Enter for new line
+                      </span>
+                    </div>
+                  </div>
                   <button
                     type="submit"
                     disabled={!inputValue.trim() || isProcessing}
                     style={{
-                      background: !inputValue.trim() || isProcessing 
-                        ? 'rgba(59, 130, 246, 0.3)' 
-                        : 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)',
-                      color: 'white',
-                      border: 'none',
-                      padding: width < 768 ? '0.7rem 1rem' : '0.75rem 1.5rem',
-                      borderRadius: '12px',
-                      cursor: !inputValue.trim() || isProcessing ? 'not-allowed' : 'pointer',
+                      height: '60px',
+                      width: '60px',
+                      background: inputValue.trim() && !isProcessing
+                        ? 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)'
+                        : 'rgba(30, 41, 59, 0.5)',
+                      color: inputValue.trim() && !isProcessing ? 'white' : '#94a3b8',
+                      border: '1px solid rgba(59, 130, 246, 0.3)',
+                      borderRadius: '8px',
+                      cursor: inputValue.trim() && !isProcessing ? 'pointer' : 'not-allowed',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '0.5rem',
-                      fontSize: width < 768 ? '0.9rem' : '1rem',
-                      fontWeight: '600',
-                      opacity: !inputValue.trim() || isProcessing ? 0.5 : 1,
-                      boxShadow: !inputValue.trim() || isProcessing 
-                        ? 'none' 
-                        : '0 0 20px rgba(59, 130, 246, 0.3)',
-                      touchAction: 'manipulation',
-                      WebkitTapHighlightColor: 'transparent',
-                      flexShrink: 0,
-                      whiteSpace: 'nowrap'
+                      justifyContent: 'center'
                     }}
                   >
-                    <Send size={width < 768 ? 16 : 18} />
-                    {width >= 640 && <span>Send</span>}
+                    {isProcessing ? (
+                      <Loader className="spin" size={20} />
+                    ) : (
+                      <Send size={20} />
+                    )}
                   </button>
-                </div>
-                
-                {/* Status Footer */}
-                <div style={{
-                  marginTop: '0.75rem',
-                  fontSize: width < 768 ? '0.75rem' : '0.85rem',
-                  color: '#94a3b8',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  gap: '1rem',
-                  flexWrap: 'wrap'
-                }}>
-                  <span>
-                    {isListening && '🎤 Listening...'}
-                    {isProcessing && '⏳ Processing...'}
-                    {!isListening && !isProcessing && '💬 Ready'}
-                  </span>
-                  <div style={{ display: 'flex', gap: '1rem', fontSize: width < 768 ? '0.7rem' : '0.8rem' }}>
-                    <span>Autopilot: {autopilotMode ? '🟢 Active' : '⚪ Inactive'}</span>
-                    {taskQueue.length > 0 && <span>Queue: {taskQueue.length}</span>}
-                  </div>
-                </div>
-              </form>
-            </div>
+                </form>
+              </div>
+            </main>
           </div>
-          
-          {/* Settings Modal - Mobile Optimized */}
+
+          {/* Settings Modal */}
           {showSettings && (
             <div style={{
               position: 'fixed',
-              inset: 0,
-              background: 'rgba(0, 0, 0, 0.7)',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'rgba(0, 0, 0, 0.5)',
               display: 'flex',
-              alignItems: width < 768 ? 'flex-end' : 'center',
+              alignItems: 'center',
               justifyContent: 'center',
-              zIndex: 1000,
-              backdropFilter: 'blur(4px)',
-              padding: width < 768 ? 0 : '1rem'
+              zIndex: 1000
             }}>
               <div style={{
-                background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
-                borderRadius: width < 768 ? '20px 20px 0 0' : '16px',
-                width: width < 768 ? '100%' : '90%',
-                maxWidth: '600px',
-                maxHeight: width < 768 ? '90vh' : '90vh',
-                overflow: 'hidden',
-                display: 'flex',
-                flexDirection: 'column',
-                boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)',
+                background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+                borderRadius: '12px',
+                width: '90%',
+                maxWidth: '500px',
+                maxHeight: '90vh',
+                overflowY: 'auto',
                 border: '1px solid rgba(59, 130, 246, 0.3)',
-                animation: width < 768 ? 'slideUp 0.3s ease-out' : 'none'
+                boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
               }}>
-                {/* Settings Header */}
                 <div style={{
-                  padding: width < 768 ? '1.25rem' : '1.5rem 2rem',
-                  borderBottom: '1px solid rgba(59, 130, 246, 0.2)',
+                  padding: '1.5rem',
+                  borderBottom: '1px solid rgba(59, 130, 246, 0.1)',
                   display: 'flex',
                   justifyContent: 'space-between',
-                  alignItems: 'center',
-                  background: 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)',
-                  position: 'sticky',
-                  top: 0,
-                  zIndex: 10
+                  alignItems: 'center'
                 }}>
                   <h2 style={{
                     margin: 0,
-                    color: 'white',
-                    fontSize: width < 768 ? '1.25rem' : '1.5rem',
-                    fontWeight: '700',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem'
+                    color: '#f1f5f9',
+                    fontSize: '1.25rem'
                   }}>
-                    <Settings size={width < 768 ? 20 : 24} />
-                    Configuration
+                    <Settings size={20} style={{ 
+                      verticalAlign: 'middle', 
+                      marginRight: '0.5rem' 
+                    }} />
+                    Settings
                   </h2>
                   <button
                     onClick={() => setShowSettings(false)}
                     style={{
-                      background: 'rgba(255, 255, 255, 0.2)',
-                      color: 'white',
+                      background: 'none',
                       border: 'none',
-                      width: width < 768 ? '36px' : '40px',
-                      height: width < 768 ? '36px' : '40px',
-                      borderRadius: '50%',
+                      color: '#94a3b8',
                       cursor: 'pointer',
-                      fontSize: '1.5rem',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontWeight: '300',
-                      touchAction: 'manipulation',
-                      WebkitTapHighlightColor: 'transparent'
+                      padding: '0.25rem'
                     }}
                   >
-                    ×
+                    <X size={20} />
                   </button>
                 </div>
-                
-                {/* Settings Content - Scrollable */}
-                <div style={{
-                  flex: 1,
-                  overflowY: 'auto',
-                  padding: width < 768 ? '1.5rem' : '2rem',
-                  WebkitOverflowScrolling: 'touch'
-                }}>
-                  {/* Basic Settings */}
-                  <div style={{ marginBottom: '2rem' }}>
-                    <h3 style={{
-                      margin: '0 0 1rem 0',
-                      color: '#e2e8f0',
-                      fontSize: width < 768 ? '1rem' : '1.1rem',
-                      fontWeight: '600'
-                    }}>
-                      Basic Settings
-                    </h3>
-                    
-                    <div style={{ marginBottom: '1rem' }}>
-                      <label style={{
-                        display: 'block',
-                        marginBottom: '0.5rem',
-                        color: '#cbd5e1',
-                        fontWeight: '600',
-                        fontSize: width < 768 ? '0.85rem' : '0.9rem'
-                      }}>
-                        AI Assistant Name
-                      </label>
-                      <input
-                        type="text"
-                        value={aiName}
-                        onChange={(e) => setAiName(e.target.value)}
-                        placeholder="Enter AI name"
-                        style={{
-                          width: '100%',
-                          padding: width < 768 ? '0.7rem' : '0.75rem',
-                          border: '2px solid rgba(59, 130, 246, 0.3)',
-                          borderRadius: '8px',
-                          fontSize: width < 768 ? '0.95rem' : '1rem',
-                          outline: 'none',
-                          transition: 'border-color 0.2s',
-                          boxSizing: 'border-box',
-                          background: 'rgba(30, 41, 59, 0.6)',
-                          color: '#e2e8f0',
-                          WebkitAppearance: 'none'
-                        }}
-                      />
-                    </div>
-                    
-                    <div style={{ marginBottom: '1rem' }}>
-                      <label style={{
-                        display: 'block',
-                        marginBottom: '0.5rem',
-                        color: '#cbd5e1',
-                        fontWeight: '600',
-                        fontSize: width < 768 ? '0.85rem' : '0.9rem'
-                      }}>
-                        Gemini API Key
-                        <a 
-                          href="https://aistudio.google.com/app/apikey" 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          style={{
-                            marginLeft: '0.5rem',
-                            color: '#3b82f6',
-                            fontSize: '0.85rem',
-                            textDecoration: 'none'
-                          }}
-                        >
-                          Get API Key →
-                        </a>
-                      </label>
-                      <input
-                        type="password"
-                        value={apiKey}
-                        onChange={(e) => setApiKey(e.target.value)}
-                        placeholder="Enter your Gemini API key"
-                        style={{
-                          width: '100%',
-                          padding: width < 768 ? '0.7rem' : '0.75rem',
-                          border: '2px solid rgba(59, 130, 246, 0.3)',
-                          borderRadius: '8px',
-                          fontSize: width < 768 ? '0.95rem' : '1rem',
-                          outline: 'none',
-                          transition: 'border-color 0.2s',
-                          boxSizing: 'border-box',
-                          background: 'rgba(30, 41, 59, 0.6)',
-                          color: '#e2e8f0',
-                          WebkitAppearance: 'none'
-                        }}
-                      />
-                      <p style={{
-                        margin: '0.5rem 0 0 0',
-                        fontSize: width < 768 ? '0.75rem' : '0.8rem',
-                        color: '#ef4444',
-                        fontWeight: '600'
-                      }}>
-                        ⚠️ Required for AI responses and code generation
-                      </p>
-                    </div>
-                  </div>
-                  
-                  {/* GitHub Settings */}
-                  <div style={{ marginBottom: '2rem' }}>
-                    <h3 style={{
-                      margin: '0 0 1rem 0',
-                      color: '#e2e8f0',
-                      fontSize: width < 768 ? '1rem' : '1.1rem',
-                      fontWeight: '600',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.5rem'
-                    }}>
-                      <Github size={20} />
-                      GitHub Integration
-                    </h3>
-                    
-                    <div style={{ marginBottom: '1rem' }}>
-                      <label style={{
-                        display: 'block',
-                        marginBottom: '0.5rem',
-                        color: '#cbd5e1',
-                        fontWeight: '600',
-                        fontSize: width < 768 ? '0.85rem' : '0.9rem'
-                      }}>
-                        GitHub Personal Access Token
-                        <a 
-                          href="https://github.com/settings/tokens/new?scopes=repo" 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          style={{
-                            marginLeft: '0.5rem',
-                            color: '#3b82f6',
-                            fontSize: '0.85rem',
-                            textDecoration: 'none'
-                          }}
-                        >
-                          Generate →
-                        </a>
-                      </label>
-                      <input
-                        type="password"
-                        value={githubToken}
-                        onChange={(e) => setGithubToken(e.target.value)}
-                        placeholder="ghp_xxxxxxxxxxxx"
-                        style={{
-                          width: '100%',
-                          padding: width < 768 ? '0.7rem' : '0.75rem',
-                          border: '2px solid rgba(59, 130, 246, 0.3)',
-                          borderRadius: '8px',
-                          fontSize: width < 768 ? '0.95rem' : '1rem',
-                          outline: 'none',
-                          transition: 'border-color 0.2s',
-                          boxSizing: 'border-box',
-                          background: 'rgba(30, 41, 59, 0.6)',
-                          color: '#e2e8f0',
-                          WebkitAppearance: 'none'
-                        }}
-                      />
-                    </div>
-                    
-                    <div style={{ marginBottom: '1rem' }}>
-                      <label style={{
-                        display: 'block',
-                        marginBottom: '0.5rem',
-                        color: '#cbd5e1',
-                        fontWeight: '600',
-                        fontSize: width < 768 ? '0.85rem' : '0.9rem'
-                      }}>
-                        Repository (owner/repo)
-                      </label>
-                      <input
-                        type="text"
-                        value={githubRepo}
-                        onChange={(e) => setGithubRepo(e.target.value)}
-                        placeholder="username/repository-name"
-                        style={{
-                          width: '100%',
-                          padding: width < 768 ? '0.7rem' : '0.75rem',
-                          border: '2px solid rgba(59, 130, 246, 0.3)',
-                          borderRadius: '8px',
-                          fontSize: width < 768 ? '0.95rem' : '1rem',
-                          outline: 'none',
-                          transition: 'border-color 0.2s',
-                          boxSizing: 'border-box',
-                          background: 'rgba(30, 41, 59, 0.6)',
-                          color: '#e2e8f0',
-                          WebkitAppearance: 'none'
-                        }}
-                      />
-                    </div>
-                    
-                    <div style={{ marginBottom: '1rem' }}>
-                      <label style={{
-                        display: 'block',
-                        marginBottom: '0.5rem',
-                        color: '#cbd5e1',
-                        fontWeight: '600',
-                        fontSize: width < 768 ? '0.85rem' : '0.9rem'
-                      }}>
-                        Branch
-                      </label>
-                      <input
-                        type="text"
-                        value={githubBranch}
-                        onChange={(e) => setGithubBranch(e.target.value)}
-                        placeholder="main"
-                        style={{
-                          width: '100%',
-                          padding: width < 768 ? '0.7rem' : '0.75rem',
-                          border: '2px solid rgba(59, 130, 246, 0.3)',
-                          borderRadius: '8px',
-                          fontSize: width < 768 ? '0.95rem' : '1rem',
-                          outline: 'none',
-                          transition: 'border-color 0.2s',
-                          boxSizing: 'border-box',
-                          background: 'rgba(30, 41, 59, 0.6)',
-                          color: '#e2e8f0',
-                          WebkitAppearance: 'none'
-                        }}
-                      />
-                    </div>
 
-                    <div style={{
-                      background: 'rgba(59, 130, 246, 0.1)',
-                      border: '1px solid rgba(59, 130, 246, 0.3)',
-                      borderRadius: '8px',
-                      padding: '1rem',
-                      fontSize: width < 768 ? '0.8rem' : '0.85rem',
-                      color: '#94a3b8',
-                      lineHeight: '1.6'
+                <div style={{ padding: '1.5rem' }}>
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <label style={{
+                      display: 'block',
+                      marginBottom: '0.5rem',
+                      color: '#f1f5f9',
+                      fontWeight: 500
                     }}>
-                      <strong style={{ color: '#3b82f6' }}>Setup Instructions:</strong>
-                      <ol style={{ margin: '0.5rem 0 0 0', paddingLeft: '1.5rem' }}>
-                        <li>Generate token with <code style={{ background: 'rgba(0,0,0,0.3)', padding: '2px 6px', borderRadius: '4px' }}>repo</code> scope</li>
-                        <li>Format: <code style={{ background: 'rgba(0,0,0,0.3)', padding: '2px 6px', borderRadius: '4px' }}>username/repo-name</code></li>
-                        <li>Test with "Fetch GitHub repository"</li>
-                      </ol>
+                      AI Assistant Name
+                    </label>
+                    <input
+                      type="text"
+                      value={aiName}
+                      onChange={(e) => setAiName(e.target.value)}
+                      style={{
+                        width: '100%',
+                        padding: '0.75rem',
+                        borderRadius: '6px',
+                        border: '1px solid rgba(59, 130, 246, 0.3)',
+                        background: 'rgba(30, 41, 59, 0.5)',
+                        color: '#f1f5f9',
+                        fontFamily: 'inherit',
+                        fontSize: '0.9rem',
+                        boxSizing: 'border-box'
+                      }}
+                    />
+                  </div>
+
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <label style={{
+                      display: 'block',
+                      marginBottom: '0.5rem',
+                      color: '#f1f5f9',
+                      fontWeight: 500
+                    }}>
+                      Gemini API Key
+                    </label>
+                    <input
+                      type="password"
+                      value={apiKey}
+                      onChange={(e) => setApiKey(e.target.value)}
+                      placeholder="Enter your Gemini API key"
+                      style={{
+                        width: '100%',
+                        padding: '0.75rem',
+                        borderRadius: '6px',
+                        border: '1px solid rgba(59, 130, 246, 0.3)',
+                        background: 'rgba(30, 41, 59, 0.5)',
+                        color: '#f1f5f9',
+                        fontFamily: 'inherit',
+                        fontSize: '0.9rem',
+                        boxSizing: 'border-box'
+                      }}
+                    />
+                    <div style={{
+                      marginTop: '0.5rem',
+                      fontSize: '0.8rem',
+                      color: '#94a3b8'
+                    }}>
+                      Get your API key from{' '}
+                      <a 
+                        href="https://aistudio.google.com/app/apikey" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        style={{ color: '#3b82f6' }}
+                      >
+                        Google AI Studio
+                      </a>
                     </div>
                   </div>
-                  
-                  {/* Voice & Autopilot Info */}
-                  <div style={{ marginBottom: '1rem' }}>
-                    <h3 style={{
-                      margin: '0 0 1rem 0',
-                      color: '#e2e8f0',
-                      fontSize: width < 768 ? '1rem' : '1.1rem',
-                      fontWeight: '600',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.5rem'
+
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <label style={{
+                      display: 'block',
+                      marginBottom: '0.5rem',
+                      color: '#f1f5f9',
+                      fontWeight: 500
                     }}>
-                      <Mic size={20} />
-                      Voice & Autopilot
-                    </h3>
-                    
+                      GitHub Token (Optional)
+                    </label>
+                    <input
+                      type="password"
+                      value={githubToken}
+                      onChange={(e) => setGithubToken(e.target.value)}
+                      placeholder="Enter your GitHub personal access token"
+                      style={{
+                        width: '100%',
+                        padding: '0.75rem',
+                        borderRadius: '6px',
+                        border: '1px solid rgba(59, 130, 246, 0.3)',
+                        background: 'rgba(30, 41, 59, 0.5)',
+                        color: '#f1f5f9',
+                        fontFamily: 'inherit',
+                        fontSize: '0.9rem',
+                        boxSizing: 'border-box'
+                      }}
+                    />
                     <div style={{
-                      background: 'rgba(16, 185, 129, 0.1)',
-                      border: '1px solid rgba(16, 185, 129, 0.3)',
-                      borderRadius: '8px',
-                      padding: '1rem',
-                      fontSize: width < 768 ? '0.8rem' : '0.85rem',
-                      color: '#94a3b8',
-                      lineHeight: '1.6'
+                      marginTop: '0.5rem',
+                      fontSize: '0.8rem',
+                      color: '#94a3b8'
                     }}>
-                      <strong style={{ color: '#10b981' }}>Voice Commands:</strong>
-                      <ul style={{ margin: '0.5rem 0 0 0', paddingLeft: '1.5rem' }}>
-                        <li>Tap 🎤 to start listening</li>
-                        <li>Say "{aiName}, create a component"</li>
-                        <li>Works in Chrome/Edge browsers</li>
-                      </ul>
-                      
-                      <strong style={{ display: 'block', marginTop: '1rem', color: '#10b981' }}>Autopilot Mode:</strong>
-                      <ul style={{ margin: '0.5rem 0 0 0', paddingLeft: '1.5rem' }}>
-                        <li>Toggle ON for continuous processing</li>
-                        <li>Tasks queue automatically</li>
-                        <li>Perfect for batch operations</li>
-                      </ul>
+                      For GitHub integration. Generate at{' '}
+                      <a 
+                        href="https://github.com/settings/tokens" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        style={{ color: '#3b82f6' }}
+                      >
+                        GitHub Settings
+                      </a>
                     </div>
                   </div>
-                </div>
-                
-                {/* Settings Footer - Sticky */}
-                <div style={{
-                  padding: width < 768 ? '1rem 1.5rem' : '1.5rem 2rem',
-                  borderTop: '1px solid rgba(59, 130, 246, 0.2)',
-                  background: 'rgba(15, 23, 42, 0.95)',
-                  backdropFilter: 'blur(10px)',
-                  position: 'sticky',
-                  bottom: 0
-                }}>
-                  <button
-                    onClick={() => {
-                      setShowSettings(false);
-                      addMessage('ai', '✅ Settings saved successfully!');
-                    }}
-                    style={{
-                      width: '100%',
-                      background: 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)',
-                      color: 'white',
-                      border: 'none',
-                      padding: width < 768 ? '0.9rem' : '1rem',
-                      borderRadius: '12px',
-                      cursor: 'pointer',
-                      fontSize: width < 768 ? '0.95rem' : '1rem',
-                      fontWeight: '600',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '0.5rem',
-                      boxShadow: '0 0 20px rgba(59, 130, 246, 0.4)',
-                      touchAction: 'manipulation',
-                      WebkitTapHighlightColor: 'transparent'
-                    }}
-                  >
-                    <Save size={20} />
-                    Save Configuration
-                  </button>
+
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <label style={{
+                      display: 'block',
+                      marginBottom: '0.5rem',
+                      color: '#f1f5f9',
+                      fontWeight: 500
+                    }}>
+                      GitHub Repository
+                    </label>
+                    <input
+                      type="text"
+                      value={githubRepo}
+                      onChange={(e) => setGithubRepo(e.target.value)}
+                      placeholder="owner/repository"
+                      style={{
+                        width: '100%',
+                        padding: '0.75rem',
+                        borderRadius: '6px',
+                        border: '1px solid rgba(59, 130, 246, 0.3)',
+                        background: 'rgba(30, 41, 59, 0.5)',
+                        color: '#f1f5f9',
+                        fontFamily: 'inherit',
+                        fontSize: '0.9rem',
+                        boxSizing: 'border-box'
+                      }}
+                    />
+                  </div>
+
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <label style={{
+                      display: 'block',
+                      marginBottom: '0.5rem',
+                      color: '#f1f5f9',
+                      fontWeight: 500
+                    }}>
+                      GitHub Branch
+                    </label>
+                    <input
+                      type="text"
+                      value={githubBranch}
+                      onChange={(e) => setGithubBranch(e.target.value)}
+                      placeholder="main"
+                      style={{
+                        width: '100%',
+                        padding: '0.75rem',
+                        borderRadius: '6px',
+                        border: '1px solid rgba(59, 130, 246, 0.3)',
+                        background: 'rgba(30, 41, 59, 0.5)',
+                        color: '#f1f5f9',
+                        fontFamily: 'inherit',
+                        fontSize: '0.9rem',
+                        boxSizing: 'border-box'
+                      }}
+                    />
+                  </div>
+
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    gap: '1rem'
+                  }}>
+                    <button
+                      onClick={() => {
+                        // Reset to defaults
+                        setAiName('Assistant');
+                        setApiKey('');
+                        setGithubToken('');
+                        setGithubRepo('');
+                        setGithubBranch('main');
+                      }}
+                      style={{
+                        flex: 1,
+                        padding: '0.75rem',
+                        background: 'rgba(239, 68, 68, 0.1)',
+                        color: '#ef4444',
+                        border: '1px solid rgba(239, 68, 68, 0.3)',
+                        borderRadius: '6px',
+                        cursor: 'pointer',
+                        fontWeight: 500
+                      }}
+                    >
+                      Reset
+                    </button>
+                    <button
+                      onClick={() => setShowSettings(false)}
+                      style={{
+                        flex: 1,
+                        padding: '0.75rem',
+                        background: 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '6px',
+                        cursor: 'pointer',
+                        fontWeight: 500
+                      }}
+                    >
+                      Save Settings
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           )}
-          
-          {/* Global Styles */}
+
+          {/* Autopilot Status Bar */}
+          {autopilotMode && (
+            <div style={{
+              background: 'rgba(16, 185, 129, 0.1)',
+              border: '1px solid rgba(16, 185, 129, 0.3)',
+              color: '#10b981',
+              padding: '0.5rem 1rem',
+              textAlign: 'center',
+              fontSize: '0.8rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.5rem'
+            }}>
+              <Brain size={14} />
+              <span>
+                {currentTask 
+                  ? `🤖 Processing: "${currentTask}"` 
+                  : '🤖 Autopilot Mode Active - Ready for tasks'}
+              </span>
+              {taskQueue.length > 0 && (
+                <span>
+                  ({taskQueue.length} {taskQueue.length === 1 ? 'task' : 'tasks'} queued)
+                </span>
+              )}
+            </div>
+          )}
+
+          {/* Global Styles for Animations */}
           <style>{`
-            * {
-              -webkit-tap-highlight-color: transparent;
-              box-sizing: border-box;
-            }
-            
-            @keyframes pulse {
-              0%, 100% {
-                opacity: 1;
-                transform: scale(1);
-              }
-              50% {
-                opacity: 0.7;
-                transform: scale(0.95);
-              }
-            }
-            
             @keyframes spin {
-              from {
-                transform: rotate(0deg);
-              }
-              to {
-                transform: rotate(360deg);
-              }
-            }
-            
-            @keyframes slideUp {
-              from {
-                transform: translateY(100%);
-              }
-              to {
-                transform: translateY(0);
-              }
+              from { transform: rotate(0deg); }
+              to { transform: rotate(360deg); }
             }
             
             .spin {
@@ -1791,6 +1539,8 @@ Requirements:
             console.log('ServiceWorker registration failed: ', error);
           });
       });
+    } else {
+      console.log('Service workers not supported');
     }
   </script>
 </body>
