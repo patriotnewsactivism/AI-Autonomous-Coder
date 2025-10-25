@@ -1,31 +1,35 @@
-const CACHE_NAME = 'ai-worker-plus-v2';
+const CACHE_NAME = 'ai-worker-plus-v2'; // Incremented cache name to force update
+
+// ONLY cache your local files.
 const URLS_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/favicon.ico',
-  '/icon-192.png',
-  '/icon-192-maskable.png',
-  '/icon-512.png',
-  'https://unpkg.com/react@18/umd/react.development.js',
-  'https://unpkg.com/react-dom@18/umd/react-dom.development.js',
-  'https://unpkg.com/@babel/standalone/babel.min.js',
-  'https://unpkg.com/lucide-react@latest/dist/lucide-react.js'
+  './',
+  './index.html',
+  './manifest.json',
+  './icon-192.png',
+  './icon-512.png'
 ];
 
-// Install the service worker and cache assets
+// Install the service worker and cache local assets
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
-        console.log('Opened cache');
+        console.log('Opened cache and caching local files');
         return cache.addAll(URLS_TO_CACHE);
       })
   );
+  self.skipWaiting(); // Force the new service worker to activate
 });
 
-// Serve cached assets first, then fetch from network
+// Serve cached assets first, but ignore third-party requests
 self.addEventListener('fetch', event => {
+  // If the request is NOT for our own domain, let the browser handle it.
+  // This is the key fix for the CORS error.
+  if (!event.request.url.startsWith(self.location.origin)) {
+    return; // Do not intercept the request.
+  }
+
+  // For our own files, use cache-first strategy
   event.respondWith(
     caches.match(event.request)
       .then(response => {
@@ -34,36 +38,23 @@ self.addEventListener('fetch', event => {
           return response;
         }
 
-        // Not in cache - fetch and cache
+        // Not in cache - fetch, cache, and return
         return fetch(event.request).then(
           response => {
             // Check if we received a valid response
-            if (!response || response.status !== 200) {
-               // Only cache 200-level responses
-               // We don't cache 'basic' type here to avoid caching opaque CDN responses
-               // but we must cache our own app files
+            if (!response || response.status !== 200 || response.type !== 'basic') {
               return response;
             }
 
-            // Clone the response
             const responseToCache = response.clone();
-
             caches.open(CACHE_NAME)
               .then(cache => {
-                // Only cache if it's one of our app's requests or a CDN script
-                // This avoids caching API calls
-                if(event.request.url.startsWith(self.location.origin) || event.request.url.startsWith('https://unpkg.com')) {
-                  cache.put(event.request, responseToCache);
-                }
+                cache.put(event.request, responseToCache);
               });
 
             return response;
           }
-        ).catch(err => {
-            // Network request failed
-            console.error('Fetch failed:', err);
-            // You could return an offline page here if you had one
-        });
+        );
       })
   );
 });
@@ -76,10 +67,12 @@ self.addEventListener('activate', event => {
       return Promise.all(
         cacheNames.map(cacheName => {
           if (cacheWhitelist.indexOf(cacheName) === -1) {
+            console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
       );
     })
   );
+  return self.clients.claim(); // Take control immediately
 });
