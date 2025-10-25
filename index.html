@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>AI Worker Plus</title>
   
-  <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="./manifest.json">
   
   <meta name="theme-color" content="#0f172a">
-  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="apple-touch-icon" href="./icon-192.png">
   
   <style>
     body, html {
@@ -92,7 +92,7 @@
       const [showSidebar, setShowSidebar] = useState(false);
       const [expandedSections, setExpandedSections] = useState({
         files: true,
-        actions: true // Changed to true by default
+        actions: true
       });
 
       // GitHub state
@@ -1783,7 +1783,7 @@ Requirements:
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
+        navigator.serviceWorker.register('./sw.js') // <--- PATH FIXED HERE
           .then(registration => {
             console.log('ServiceWorker registration successful with scope: ', registration.scope);
           })
