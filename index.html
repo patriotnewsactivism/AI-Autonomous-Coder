@@ -377,36 +377,6 @@
       min-width: 44px;
     }
 
-    /* Floating Voice Button */
-    .voice-button-mobile {
-      position: fixed;
-      bottom: 6rem;
-      right: 2rem;
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
-      border: none;
-      color: white;
-      font-size: 1.5rem;
-      cursor: pointer;
-      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
-      z-index: 100;
-      transition: all 0.3s ease;
-      display: none;
-      /* Ensure button stays above input area */
-      margin-bottom: env(safe-area-inset-bottom, 0);
-    }
-
-    .voice-button-mobile:hover {
-      transform: scale(1.1);
-      box-shadow: 0 6px 25px rgba(139, 92, 246, 0.6);
-    }
-
-    .voice-button-mobile.listening {
-      animation: pulse 1s infinite;
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    }
 
     @keyframes pulse {
       0%, 100% { transform: scale(1); }
@@ -611,9 +581,6 @@
         padding: 0.875rem 1rem;
       }
       
-      .voice-button-mobile {
-        display: block;
-      }
       
       .modal-content {
         margin: 1rem;
@@ -653,27 +620,8 @@
         padding: 0.75rem;
       }
       
-      .voice-button-mobile {
-        width: 56px;
-        height: 56px;
-        bottom: 5.5rem;
-        right: 1.5rem;
-        font-size: 1.3rem;
-        /* Additional mobile spacing */
-        margin-bottom: env(safe-area-inset-bottom, 0);
-      }
     }
 
-    /* Extra small screens - ensure button doesn't overlap */
-    @media (max-width: 360px) {
-      .voice-button-mobile {
-        bottom: 6rem;
-        right: 1rem;
-        width: 52px;
-        height: 52px;
-        font-size: 1.2rem;
-      }
-    }
 
     /* Accessibility */
     @media (prefers-reduced-motion: reduce) {
@@ -888,8 +836,6 @@ Ready to work with real AI! 🚀
     </div>
   </div>
 
-  <!-- Floating Voice Button for Mobile -->
-  <button id="floatingVoiceBtn" class="voice-button-mobile">🎤</button>
 
   <!-- Configuration Modal -->
   <div id="configModal" class="config-modal hidden">
@@ -1152,15 +1098,10 @@ Ready to work with real AI! 🚀
         
         // Update mobile voice status
         const mobileVoiceStatus = document.getElementById('mobileVoiceStatus');
-        const floatingVoiceBtn = document.getElementById('floatingVoiceBtn');
         const mobileStartVoiceBtn = document.getElementById('mobileStartVoiceBtn');
         
         if (mobileVoiceStatus) {
           mobileVoiceStatus.innerHTML = '<span>●</span><span>Listening...</span>';
-        }
-        if (floatingVoiceBtn) {
-          floatingVoiceBtn.classList.add('listening');
-          floatingVoiceBtn.innerHTML = '🛑';
         }
         if (mobileStartVoiceBtn) {
           mobileStartVoiceBtn.disabled = true;
@@ -1175,15 +1116,10 @@ Ready to work with real AI! 🚀
         
         // Update mobile voice status
         const mobileVoiceStatus = document.getElementById('mobileVoiceStatus');
-        const floatingVoiceBtn = document.getElementById('floatingVoiceBtn');
         const mobileStartVoiceBtn = document.getElementById('mobileStartVoiceBtn');
         
         if (mobileVoiceStatus) {
           mobileVoiceStatus.innerHTML = '<span>●</span><span>Voice Ready</span>';
-        }
-        if (floatingVoiceBtn) {
-          floatingVoiceBtn.classList.remove('listening');
-          floatingVoiceBtn.innerHTML = '🎤';
         }
         if (mobileStartVoiceBtn) {
           mobileStartVoiceBtn.disabled = false;
@@ -1565,7 +1501,6 @@ Respond in a clear, structured format.`;
     const mobileMenuToggle = document.getElementById('mobileMenuToggle');
     const mobileSidebar = document.getElementById('mobileSidebar');
     const mobileCloseBtn = document.getElementById('mobileCloseBtn');
-    const floatingVoiceBtn = document.getElementById('floatingVoiceBtn');
     const mobileStartVoiceBtn = document.getElementById('mobileStartVoiceBtn');
 
     if (mobileMenuToggle) {
@@ -1577,16 +1512,6 @@ Respond in a clear, structured format.`;
     if (mobileCloseBtn) {
       mobileCloseBtn.addEventListener('click', () => {
         mobileSidebar.classList.remove('open');
-      });
-    }
-
-    if (floatingVoiceBtn) {
-      floatingVoiceBtn.addEventListener('click', () => {
-        if (isListening) {
-          stopVoiceRecognition();
-        } else {
-          startVoiceRecognition();
-        }
       });
     }
 
@@ -1614,11 +1539,9 @@ Respond in a clear, structured format.`;
       const isMobile = window.innerWidth <= 768;
       if (isMobile) {
         if (mobileMenuToggle) mobileMenuToggle.style.display = 'block';
-        if (floatingVoiceBtn) floatingVoiceBtn.style.display = 'block';
         document.querySelector('.sidebar').style.display = 'none';
       } else {
         if (mobileMenuToggle) mobileMenuToggle.style.display = 'none';
-        if (floatingVoiceBtn) floatingVoiceBtn.style.display = 'none';
         document.querySelector('.sidebar').style.display = 'block';
         if (mobileSidebar) mobileSidebar.classList.remove('open');
       }
