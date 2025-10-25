@@ -1,7 +1,7 @@
 {
-  "name": "AI Agent - Mobile Coding Assistant",
-  "short_name": "AI Agent",
-  "description": "Mobile-first AI coding assistant with voice control. Use anywhere, anytime!",
+  "name": "AI Agent System - Mobile Optimized",
+  "short_name": "AI Agents",
+  "description": "Mobile-optimized AI agent system with 4 FREE providers, voice control, and revenue opportunities",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f172a",
@@ -27,9 +27,43 @@
       "purpose": "any maskable"
     }
   ],
-  "categories": ["productivity", "developer", "utilities"],
+  "categories": ["productivity", "developer", "utilities", "business"],
   "lang": "en",
   "dir": "ltr",
   "scope": "/",
-  "prefer_related_applications": false
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Start Voice Control",
+      "short_name": "Voice",
+      "description": "Start voice-controlled AI assistance",
+      "url": "/?action=voice",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Cost Analysis",
+      "short_name": "Cost",
+      "description": "Analyze AI provider costs",
+      "url": "/?action=cost",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ]
 }
