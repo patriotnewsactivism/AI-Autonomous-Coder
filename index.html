@@ -1668,11 +1668,10 @@ Respond in a clear, structured format.`;
         
         // Show error notification
         const errorUI = new EnhancedUISystem();
-        await errorUI.initialize();
+          await errorUI.initialize(null, null);
         errorUI.addNotification('error', 'Initialization Failed', 'Failed to initialize the autonomous agent system. Please refresh the page.');
       }
     });
   </script>
 </body>
-</html>
 </html>
