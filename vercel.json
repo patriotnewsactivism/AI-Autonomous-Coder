@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "name": "autonomous-multi-agent-coding-system",
   "builds": [
     {
       "src": "index.html",
@@ -12,6 +13,13 @@
       "headers": {
         "Service-Worker-Allowed": "/",
         "Cache-Control": "public, max-age=0, must-revalidate"
+      }
+    },
+    {
+      "src": "/security.js",
+      "headers": {
+        "Content-Type": "application/javascript",
+        "Cache-Control": "public, max-age=3600"
       }
     },
     {
@@ -40,6 +48,19 @@
       ]
     },
     {
+      "source": "/security.js",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/javascript"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
+      ]
+    },
+    {
       "source": "/(.*)",
       "headers": [
         {
@@ -53,8 +74,21 @@
         {
           "key": "X-XSS-Protection",
           "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
         }
       ]
     }
-  ]
+  ],
+  "functions": {
+    "index.html": {
+      "maxDuration": 30
+    }
+  }
 }
