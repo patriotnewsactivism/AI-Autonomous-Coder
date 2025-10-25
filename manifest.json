@@ -4,21 +4,21 @@
   "description": "An AI-powered coding assistant with GitHub integration and autopilot.",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "./icon-192.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "any maskable"
     },
     {
-      "src": "icon-512.png",
+      "src": "./icon-512.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any maskable"
     }
   ],
-  "start_url": "/",
+  "start_url": ".",
   "display": "standalone",
-  "scope": "/",
+  "scope": ".",
   "theme_color": "#3b82f6",
   "background_color": "#0f172a"
 }
