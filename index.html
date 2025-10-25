@@ -23,11 +23,10 @@
 
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/lucide-react@latest/dist/lucide-react.js"></script>
 
   <script>
     function checkDependencies() {
-      if (window.React && window.ReactDOM && window.lucide) {
+      if (window.React && window.ReactDOM) {
         // All dependencies are loaded! Run the app.
         runApp();
       } else {
@@ -42,12 +41,39 @@
         const e = React.createElement;
         const { useState, useEffect, useRef } = React;
         
-        // This is the line that was failing. It is now safe to run.
-        const { 
-          Send, Mic, MicOff, Settings, Bot, Code, User, Github, 
-          PlayCircle, PauseCircle, FileCode, Loader, CheckCircle, XCircle, 
-          AlertCircle, Menu, X, Zap, ChevronDown, ChevronUp, Save 
-        } = lucide; 
+        // Lightweight internal emoji-based icon components (no external deps)
+        const makeEmojiIcon = (emoji) => (props = {}) =>
+          e('span', {
+            className: props.className,
+            style: {
+              fontSize: (props.size || 16) + 'px',
+              lineHeight: 1,
+              display: 'inline-flex',
+              color: props.color || 'inherit'
+            }
+          }, emoji);
+
+        const Send = makeEmojiIcon('📤');
+        const Mic = makeEmojiIcon('🎤');
+        const MicOff = makeEmojiIcon('🔇');
+        const Settings = makeEmojiIcon('⚙️');
+        const Bot = makeEmojiIcon('🤖');
+        const Code = makeEmojiIcon('💻');
+        const User = makeEmojiIcon('👤');
+        const Github = makeEmojiIcon('🐙');
+        const PlayCircle = makeEmojiIcon('▶️');
+        const PauseCircle = makeEmojiIcon('⏸️');
+        const FileCode = makeEmojiIcon('📄');
+        const Loader = makeEmojiIcon('⏳');
+        const CheckCircle = makeEmojiIcon('✅');
+        const XCircle = makeEmojiIcon('❌');
+        const AlertCircle = makeEmojiIcon('⚠️');
+        const Menu = makeEmojiIcon('☰');
+        const X = makeEmojiIcon('✖️');
+        const Zap = makeEmojiIcon('⚡');
+        const ChevronDown = makeEmojiIcon('⬇️');
+        const ChevronUp = makeEmojiIcon('⬆️');
+        const Save = makeEmojiIcon('💾');
 
         // --- Start of App Code ---
 
@@ -293,7 +319,7 @@
         // --- End of App Code ---
 
       } catch (err) {
-        // This is the error handler. The typo from before is GONE.
+        // This is the error handler.
         document.getElementById('root').innerHTML = 
           '<div style="color: red; padding: 2rem; font-family: sans-serif;">' +
             '<h3>Application Failed to Load</h3>' +
