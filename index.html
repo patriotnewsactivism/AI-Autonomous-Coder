@@ -679,8 +679,20 @@
 </head>
 <body>
   <div class="container" id="app-container">
-    <!-- Enhanced UI will be rendered here by JavaScript -->
-  </div>
+    <!-- Header -->
+    <header class="header">
+      <h1>🤖 AI Autonomous Agent System</h1>
+      <div class="header-controls">
+        <div class="badge provider-badge" id="providerBadge">⚡ Groq (FREE)</div>
+        <div class="badge status-badge" id="statusBadge">
+          <span>●</span>
+          <span>STOPPED</span>
+        </div>
+        <button class="btn btn-success" id="startBtn">▶ Start</button>
+        <button class="btn btn-primary" id="configBtn">⚙ Config</button>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+      </div>
+    </header>
 
     <!-- Main Content -->
     <div class="main-content">
@@ -1631,47 +1643,80 @@ Respond in a clear, structured format.`;
   <script src="setup-autonomous.js"></script>
   
   <script>
-    // Initialize the Enhanced Autonomous Agent System
-    document.addEventListener('DOMContentLoaded', async () => {
-      console.log('🚀 Initializing Enhanced Autonomous Agent System...');
+    // Initialize the system when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('🚀 Initializing AI Autonomous Agent System...');
       
+      // Initialize the basic system first
       try {
-        // Initialize AI providers
-        const aiProvider = new EnhancedAIProvider();
+        // Make sure all required elements exist
+        const startBtn = document.getElementById('startBtn');
+        const configBtn = document.getElementById('configBtn');
+        const inputForm = document.getElementById('inputForm');
+        const userInput = document.getElementById('userInput');
         
-        // Initialize autonomous agent system
-        const autonomousAgent = new AutonomousAgentSystem();
-        await autonomousAgent.initialize();
-        
-        // Initialize deployment manager
-        const deploymentManager = new DeploymentManager();
-        await deploymentManager.initialize();
-        
-        // Initialize enhanced UI
-        const enhancedUI = new EnhancedUISystem();
-        await enhancedUI.initialize(autonomousAgent, deploymentManager);
-        
-        // Make systems globally available
-        window.autonomousAgent = autonomousAgent;
-        window.deploymentManager = deploymentManager;
-        window.enhancedUI = enhancedUI;
-        window.aiProvider = aiProvider;
-        
-        console.log('✅ Enhanced Autonomous Agent System initialized successfully!');
-        
-        // Show welcome notification
-        enhancedUI.addNotification('success', 'System Ready', 'Autonomous coding agent system is ready to build smart apps!');
+        if (startBtn && configBtn && inputForm && userInput) {
+          console.log('✅ Basic UI elements found, system ready!');
+          
+          // Add click handlers
+          startBtn.addEventListener('click', () => {
+            console.log('Start button clicked');
+            // Basic functionality for now
+            alert('System is ready! Please configure your API key first.');
+          });
+          
+          configBtn.addEventListener('click', () => {
+            console.log('Config button clicked');
+            // Show config modal
+            const modal = document.getElementById('configModal');
+            if (modal) {
+              modal.classList.remove('hidden');
+            }
+          });
+          
+          inputForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const task = userInput.value.trim();
+            if (task) {
+              console.log('Task submitted:', task);
+              // Add message to chat
+              addMessage('user', task);
+              userInput.value = '';
+              
+              // Show response
+              setTimeout(() => {
+                addMessage('assistant', 'Thank you for your input! Please configure your API key to enable AI responses.');
+              }, 1000);
+            }
+          });
+          
+        } else {
+          console.error('❌ Required UI elements not found');
+        }
         
       } catch (error) {
-        console.error('❌ Failed to initialize Enhanced Autonomous Agent System:', error);
-        
-        // Show error notification
-        const errorUI = new EnhancedUISystem();
-        await errorUI.initialize();
-        errorUI.addNotification('error', 'Initialization Failed', 'Failed to initialize the autonomous agent system. Please refresh the page.');
+        console.error('❌ Failed to initialize system:', error);
       }
     });
+    
+    // Helper function to add messages
+    function addMessage(type, content) {
+      const messages = document.getElementById('messages');
+      if (messages) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${type}`;
+        
+        const avatar = type === 'user' ? '👤' : type === 'assistant' ? '🤖' : '⚙️';
+        
+        messageDiv.innerHTML = `
+          <div class="message-avatar">${avatar}</div>
+          <div class="message-content">${content}</div>
+        `;
+        
+        messages.appendChild(messageDiv);
+        messages.scrollTop = messages.scrollHeight;
+      }
+    }
   </script>
 </body>
-</html>
 </html>
