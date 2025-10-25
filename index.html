@@ -15,20 +15,34 @@
   </style>
 </head>
 <body>
-  <div id="root"></div>
+  <div id="root">
+    <div style="color: #94a3b8; padding: 2rem; font-family: sans-serif; text-align: center;">
+      <h2>Loading AI Worker Plus...</h2>
+    </div>
+  </div>
 
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js" defer></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" defer></script>
-  <script src="https://unpkg.com/lucide-react@latest/dist/lucide-react.js" defer></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/lucide-react@latest/dist/lucide-react.js"></script>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    function checkDependencies() {
+      if (window.React && window.ReactDOM && window.lucide) {
+        // All dependencies are loaded! Run the app.
+        runApp();
+      } else {
+        // One or more dependencies are not ready. Check again in 50ms.
+        console.log('Waiting for dependencies...');
+        setTimeout(checkDependencies, 50);
+      }
+    }
+
+    function runApp() {
       try {
-        // All deferred scripts are loaded. We can now safely run the app.
         const e = React.createElement;
         const { useState, useEffect, useRef } = React;
         
-        // This is the line that was failing. It should now work.
+        // This is the line that was failing. It is now safe to run.
         const { 
           Send, Mic, MicOff, Settings, Bot, Code, User, Github, 
           PlayCircle, PauseCircle, FileCode, Loader, CheckCircle, XCircle, 
@@ -279,7 +293,7 @@
         // --- End of App Code ---
 
       } catch (err) {
-        // THIS IS THE CATCH BLOCK I FIXED. The typo 'Two-Up (Marked)' is GONE.
+        // This is the error handler. The typo from before is GONE.
         document.getElementById('root').innerHTML = 
           '<div style="color: red; padding: 2rem; font-family: sans-serif;">' +
             '<h3>Application Failed to Load</h3>' +
@@ -289,7 +303,10 @@
           '</div>';
         console.error("Application failed:", err);
       }
-    });
+    }
+    
+    // Start checking for dependencies immediately
+    checkDependencies();
   </script>
 
   <script>
