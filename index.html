@@ -270,6 +270,32 @@
       align-items: flex-end;
     }
 
+    .input-buttons {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    #voiceBtn {
+      background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+      border: none;
+      color: white;
+      min-width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      font-size: 1.2rem;
+    }
+
+    #voiceBtn:hover {
+      background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%);
+      transform: translateY(-1px);
+    }
+
+    #voiceBtn:disabled {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      opacity: 0.8;
+    }
+
     .input-form input {
       flex: 1;
       padding: 1rem 1.25rem;
@@ -567,6 +593,16 @@
         flex-direction: column;
         gap: 0.75rem;
       }
+
+      .input-buttons {
+        justify-content: center;
+        gap: 1rem;
+      }
+
+      .input-buttons .btn {
+        min-width: 60px;
+        padding: 0.75rem 1rem;
+      }
       
       .input-form input {
         font-size: 16px; /* Prevents zoom on iOS */
@@ -778,10 +814,15 @@ Ready to work with real AI! 🚀
         
         <div class="input-area">
           <form class="input-form" id="inputForm">
-            <input type="text" id="userInput" placeholder="Describe your coding task or use voice control..." autocomplete="off">
-            <button type="submit" class="btn btn-primary" id="sendBtn">
-              <span>Send</span>
-            </button>
+            <input type="text" id="userInput" placeholder="Describe your coding task..." autocomplete="off">
+            <div class="input-buttons">
+              <button type="button" class="btn btn-secondary" id="voiceBtn" title="Voice Input">
+                <span>🎤</span>
+              </button>
+              <button type="submit" class="btn btn-primary" id="sendBtn">
+                <span>Send</span>
+              </button>
+            </div>
           </form>
         </div>
       </div>
@@ -1008,6 +1049,7 @@ Ready to work with real AI! 🚀
       statusBadge: document.getElementById('statusBadge'),
       startVoiceBtn: document.getElementById('startVoiceBtn'),
       stopVoiceBtn: document.getElementById('stopVoiceBtn'),
+      voiceBtn: document.getElementById('voiceBtn'),
       voiceStatus: document.getElementById('voiceStatus')
     };
 
@@ -1053,6 +1095,8 @@ Ready to work with real AI! 🚀
         elements.voiceStatus.innerHTML = '<span>●</span><span>Listening...</span>';
         elements.startVoiceBtn.disabled = true;
         elements.stopVoiceBtn.disabled = false;
+        elements.voiceBtn.disabled = true;
+        elements.voiceBtn.innerHTML = '<span>🛑</span>';
         
         // Update mobile voice status
         const mobileVoiceStatus = document.getElementById('mobileVoiceStatus');
@@ -1074,6 +1118,8 @@ Ready to work with real AI! 🚀
         elements.voiceStatus.innerHTML = '<span>●</span><span>Voice Ready</span>';
         elements.startVoiceBtn.disabled = false;
         elements.stopVoiceBtn.disabled = true;
+        elements.voiceBtn.disabled = false;
+        elements.voiceBtn.innerHTML = '<span>🎤</span>';
         
         // Update mobile voice status
         const mobileVoiceStatus = document.getElementById('mobileVoiceStatus');
@@ -1415,9 +1461,25 @@ Respond in a clear, structured format.`;
       elements.userInput.value = '';
       addMessage('user', task);
       
+      // Auto-start the system if not running
       if (!STATE.isRunning) {
-        addMessage('system', '⚠️ Please start the system first by clicking the "Start" button.');
-        return;
+        // Validate API configuration before starting
+        if (CONFIG.provider !== 'ollama' && (!CONFIG.apiKey || CONFIG.apiKey.trim() === '')) {
+          addMessage('system', '❌ ERROR: API key is required for operation.\\n\\n⚠️ This platform only works with REAL DATA. No demo mode available.\\n\\nPlease configure your API key in Settings or install Ollama for local operation.');
+          return;
+        }
+        
+        // Auto-start the system
+        addMessage('system', '🔄 Auto-starting system...');
+        try {
+          await validateApiKey(CONFIG.provider, CONFIG.apiKey);
+          STATE.isRunning = true;
+          updateUI();
+          addMessage('system', '🚀 System started automatically! Processing your request...');
+        } catch (error) {
+          addMessage('system', `❌ Cannot auto-start: ${error.message}\\n\\n⚠️ Please configure your API key in Settings first.`);
+          return;
+        }
       }
       
       // Validate API configuration before processing
@@ -1445,6 +1507,7 @@ Respond in a clear, structured format.`;
 
     elements.startVoiceBtn.addEventListener('click', startVoiceRecognition);
     elements.stopVoiceBtn.addEventListener('click', stopVoiceRecognition);
+    elements.voiceBtn.addEventListener('click', startVoiceRecognition);
 
     // Mobile Event Listeners
     const mobileMenuToggle = document.getElementById('mobileMenuToggle');
