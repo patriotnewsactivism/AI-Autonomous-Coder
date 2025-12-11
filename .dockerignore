@@ -1,0 +1,22 @@
+# Node and dependency directories
+node_modules
+npm-debug.log
+.yarn
+pnpm-lock.yaml
+
+# Git and build artifacts
+.git
+.gitignore
+
+# IDE and OS files
+.DS_Store
+*.swp
+*.swo
+
+# Test and coverage output
+coverage
+*.log
+
+# Local environment files
+.env
+.env.*
