@@ -103,22 +103,52 @@ aws s3 sync . s3://your-bucket-name --exclude "node_modules/*"
 
 **Best for**: Containerized environments, Kubernetes
 
-#### Dockerfile
+#### Dockerfile (included in repo)
 ```dockerfile
-FROM nginx:alpine
+# Use a lightweight Nginx image to serve the static site
+FROM nginx:1.27-alpine
+
+# Replace the default server configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy static assets
 COPY . /usr/share/nginx/html
-EXPOSE 80
+
+EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]
 ```
 
-#### Deploy
+#### Build & Run Locally
 ```bash
-# Build image
+# Build image (uses .dockerignore to skip dev files)
 docker build -t ai-agent-system .
 
-# Run container
-docker run -p 80:80 ai-agent-system
+# Run container on port 8080
+docker run -p 8080:8080 ai-agent-system
 ```
+
+### 7. Google Cloud Run (with Cloud Build)
+
+**Best for**: Serverless containers on Google Cloud
+
+#### Prerequisites
+- Enable the Cloud Run and Cloud Build APIs
+- Install and authenticate the Google Cloud CLI (`gcloud auth login` and `gcloud config set project <PROJECT_ID>`)
+
+#### Deploy with Cloud Build
+```bash
+# Submit build using the provided cloudbuild.yaml
+gcloud builds submit --config cloudbuild.yaml \
+  --substitutions=_SERVICE_NAME=ai-autonomous-coder,_REGION=us-central1
+
+# The build will:
+# 1) Build and push gcr.io/$PROJECT_ID/${_SERVICE_NAME}
+# 2) Deploy it to Cloud Run in the specified region
+```
+
+> Notes:
+> - The Cloud Build config sets `options.logging` to `CLOUD_LOGGING_ONLY` so you can view logs in Cloud Logging even when specifying a custom build service account.
+> - The Dockerfile and nginx.conf in the repository are configured to listen on port 8080 and to serve the SPA with `try_files` routing for client-side navigation.
 
 ## 🔧 Configuration
 
