@@ -146,7 +146,9 @@ gcloud builds submit --config cloudbuild.yaml \
 # 2) Deploy it to Cloud Run in the specified region
 ```
 
-> The Dockerfile and nginx.conf in the repository are configured to listen on port 8080 and to serve the SPA with `try_files` routing for client-side navigation.
+> Notes:
+> - The Cloud Build config sets `options.logging` to `CLOUD_LOGGING_ONLY` so you can view logs in Cloud Logging even when specifying a custom build service account.
+> - The Dockerfile and nginx.conf in the repository are configured to listen on port 8080 and to serve the SPA with `try_files` routing for client-side navigation.
 
 ## 🔧 Configuration
 
