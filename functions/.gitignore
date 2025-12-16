@@ -1,0 +1,14 @@
+node_modules
+lib
+.eslintcache
+.firebase
+.storage
+.cache
+
+# Firebase emulator data
+firebase-debug.log
+storage-debug.log
+
+# Local environment files
+.env*
+
