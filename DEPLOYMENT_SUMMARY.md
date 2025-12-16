@@ -97,33 +97,38 @@ Your app has been **completely rebuilt from scratch** as a mobile-first applicat
 5. **Offline capable** - PWA features
 6. **Touch optimized** - 44px+ targets
 
-## 🚀 How to Deploy
+## 🚀 How to Deploy (Fast Path)
 
-### Option 1: Local Testing
+### Local Smoke Test
 ```bash
 cd /workspace
 python3 -m http.server 8000
-# Open http://localhost:8000 on your phone
+# Visit http://localhost:8000
 ```
 
-### Option 2: Vercel (Recommended)
+### Vercel (Recommended)
 ```bash
-cd /workspace
+npm install
 vercel --prod
-# Get URL, open on phone
+# Verify URL, mic button, and provider selection
 ```
 
-### Option 3: Netlify
+### Netlify
 ```bash
-cd /workspace
+npm install
 netlify deploy --prod
 ```
 
-### Option 4: GitHub Pages
-1. Push to GitHub
-2. Settings → Pages
-3. Deploy from main branch
-4. Open URL on phone
+### GitHub Pages
+1. Push to `main`
+2. Settings → Pages → Deploy from branch → `main` / `(root)`
+3. Open the published URL
+
+### Firebase Hosting
+```bash
+firebase login
+firebase deploy --only hosting
+```
 
 ## 📱 Testing Checklist
 
@@ -223,36 +228,51 @@ netlify deploy --prod
 - **DEPLOYMENT.md** - Deployment guide
 - **SECURITY.md** - Security info
 
+## 🔄 Rollback Quick Reference
+
+- **Vercel:** `vercel ls` → `vercel rollback <deployment-url>` → re-test.
+- **Netlify:** In dashboard, select previous deploy → **Restore** → smoke test.
+- **GitHub Pages:** Revert bad commit → push to `main` → wait for rebuild.
+- **Firebase Hosting:** `firebase hosting:channel:deploy rollback-<ts>` → promote if stable.
+- **Cloud Run:** `gcloud run revisions list` → `gcloud run services update-traffic <svc> --to-revisions <rev>=100`.
+- **Kubernetes/Containers:** Point deployment image to previous tag → `kubectl rollout status`.
+
+## 🧰 Environment Setup (Essentials)
+
+1. `npm install`
+2. Create `.env.local` with `GEMINI_API_KEY`, `CLAUDE_API_KEY`, `OPENAI_API_KEY`, `APP_URL`, `ENVIRONMENT`.
+3. Store the same values in your hosting platform’s secret manager (never commit them).
+4. Optional sanity checks: `npm run lint || true`, `npm run build || true`.
+
 ## 🆘 Troubleshooting
 
-### "Can't access on phone"
-- Deploy first (Vercel/Netlify/GitHub Pages)
-- Use HTTPS (required for voice)
-- Open in Chrome or Safari
+- **"Can't access on phone"**: Verify deploy URL, enforce HTTPS, test in Chrome/Safari.
+- **"Voice not working"**: Check mic permissions, use HTTPS, try Chrome/Safari/Edge.
+- **"API errors"**: Validate API key, provider status pages, or switch to a free provider.
+- **"App looks weird"**: Hard refresh, clear cache, retry in incognito, ensure CDN invalidation completed.
 
-### "Voice not working"
-- Use Chrome, Safari, or Edge
-- Allow microphone permissions
-- Or just use text input!
+## 🧭 Runbooks (Fast Actions)
 
-### "API errors"
-- Check API key is valid
-- Verify internet connection
-- Try different FREE provider
-- Check provider's status page
+### Rotate Secrets
+1. Generate a new key in the provider console.
+2. Update secrets in CI and hosting (Vercel/Netlify/Firebase/etc.).
+3. Redeploy the site.
+4. Invalidate CDN caches if used.
+5. Revoke the old key and note the rotation date.
 
-### "App looks weird"
-- Clear browser cache
-- Hard refresh (Ctrl+Shift+R)
-- Try in incognito mode
-- Update browser
+### Recover from a Failed Deploy
+1. Trigger rollback using the platform’s quick action (see rollback reference).
+2. Inspect build/deploy logs for root cause.
+3. Run local checks: `npm run lint || true`, `npm run build || true`.
+4. Apply fix → redeploy → smoke test (landing page, mic button, provider selection).
+5. Document the incident and resolution.
 
 ## 🎯 Next Steps
 
-1. **Deploy** - Choose Vercel, Netlify, or GitHub Pages
+1. **Deploy** - Choose Vercel, Netlify, GitHub Pages, or Firebase
 2. **Test** - Open on your phone
-3. **Setup** - Use FREE provider (30 seconds)
-4. **Try** - Use voice or text
+3. **Setup** - Use a FREE provider (30 seconds)
+4. **Try** - Voice or text
 5. **Install** - Add to home screen
 6. **Enjoy** - Code anywhere!
 
@@ -293,4 +313,3 @@ Need help?
 **Made with ❤️ for mobile developers**
 
 **Version 2.0 - Mobile-First Edition**
-

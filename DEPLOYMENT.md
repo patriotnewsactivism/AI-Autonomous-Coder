@@ -1,6 +1,6 @@
 # 🚀 Deployment Guide
 
-This guide covers multiple deployment options for the AI Autonomous Agent System.
+This guide provides step-by-step deployment, rollback, and environment setup instructions for the AI Autonomous Agent System across the supported hosting options.
 
 ## 📋 Prerequisites
 
@@ -8,102 +8,131 @@ This guide covers multiple deployment options for the AI Autonomous Agent System
 - API keys for AI providers (Gemini, Claude, OpenAI)
 - Domain name (optional)
 - GitHub account
+- Local tooling: `node`/`npm`, Docker (for container builds), and the relevant platform CLI (Vercel/Netlify/Firebase/GCloud/AWS) installed
 
-## 🌐 Deployment Options
+## 🧰 Environment Setup (Local and CI)
 
-### 1. Vercel (Recommended)
+1. **Install dependencies**
+   ```bash
+   npm install
+   ```
+2. **Create `.env.local` for local testing (not committed)**
+   ```env
+   GEMINI_API_KEY=your_gemini_api_key_here
+   CLAUDE_API_KEY=your_claude_api_key_here
+   OPENAI_API_KEY=your_openai_api_key_here
+   APP_URL=http://localhost:8080
+   ENVIRONMENT=development
+   DEBUG=false
+   ```
+3. **Sanity check**
+   ```bash
+   npm run lint || true   # lint is optional for static site but ensures HTML/JS quality
+   npm run build || true  # if a build step exists
+   ```
+4. **Configure CI secrets**
+   - Add `GEMINI_API_KEY`, `CLAUDE_API_KEY`, `OPENAI_API_KEY` to the platform’s secret store (GitHub Actions, Vercel, Netlify, Cloud Build, etc.).
+   - Never commit keys; prefer short-lived tokens where possible.
+5. **Verify production variables**
+   - Ensure production variables match the intended environment (e.g., staging vs prod keys).
 
-**Best for**: Production deployment, automatic HTTPS, global CDN
+## 🌐 Deployment Options (Step-by-Step)
 
-#### Quick Deploy
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/ai-autonomous-agent-system)
+### 1) Vercel (Recommended)
 
-#### Manual Deploy
-```bash
-# Install Vercel CLI
-npm i -g vercel
+**Use when:** You want automatic HTTPS, preview deployments, and global CDN.
 
-# Deploy
-vercel --prod
+1. Install CLI: `npm i -g vercel`
+2. Login: `vercel login`
+3. Link project (one time): `vercel link`
+4. Set env vars in the Vercel dashboard or via CLI:
+   ```bash
+   vercel env add GEMINI_API_KEY
+   vercel env add CLAUDE_API_KEY
+   vercel env add OPENAI_API_KEY
+   ```
+5. Deploy production: `vercel --prod`
+6. Verify: open the provided URL and test voice input + AI providers.
 
-# Set environment variables in Vercel dashboard
-VERCEL_URL=https://your-app.vercel.app
-```
+**Rollback (Vercel)**  
+- Run `vercel ls` to view previous deployments.  
+- Promote a previous deployment: `vercel rollback <deployment-url>` or redeploy the last known good commit with `vercel --prod --archive <deployment-id>`.
+- Verify after rollback and revoke any leaked keys if the rollback was triggered by security issues.
 
-#### Environment Variables
-Set these in your Vercel dashboard:
-- `GEMINI_API_KEY` - Your Google Gemini API key
-- `CLAUDE_API_KEY` - Your Anthropic Claude API key (optional)
-- `OPENAI_API_KEY` - Your OpenAI API key (optional)
+### 2) Netlify
 
-### 2. Netlify
+**Use when:** You prefer Netlify’s CDN and form handling.
 
-**Best for**: Static sites, form handling, serverless functions
+1. Install CLI: `npm i -g netlify-cli`
+2. Login: `netlify login`
+3. Initialize (one time): `netlify init`
+4. Set env vars (UI or CLI):
+   ```bash
+   netlify env:set GEMINI_API_KEY ****
+   netlify env:set CLAUDE_API_KEY ****
+   netlify env:set OPENAI_API_KEY ****
+   ```
+5. Deploy: `netlify deploy --prod`
+6. Verify site and PWA install flow.
 
-#### Quick Deploy
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/yourusername/ai-autonomous-agent-system)
+**Rollback (Netlify)**  
+- In the Netlify dashboard, select a previous deploy and click **Restore deploy**.  
+- Alternatively, redeploy the last good commit: `netlify deploy --prod --dir=.` (after checking out the commit).  
+- Re-run smoke tests (landing page load, voice button, provider selection).
 
-#### Manual Deploy
-```bash
-# Install Netlify CLI
-npm i -g netlify-cli
+### 3) GitHub Pages
 
-# Deploy
-netlify deploy --prod
-```
+**Use when:** You need a free, simple static hosting option.
 
-### 3. GitHub Pages
+1. Push to `main`.
+2. In GitHub repo **Settings → Pages**, select **Deploy from a branch**, choose `main` and `/ (root)`.
+3. Save and wait for the Pages build to finish.
+4. Verify via the published URL.
 
-**Best for**: Free hosting, simple setup
+**Rollback (GitHub Pages)**  
+- Revert the offending commit locally and push to `main`.  
+- Wait for the Pages workflow to republish.
 
-#### Setup
-1. Go to repository Settings
-2. Scroll to "Pages" section
-3. Select "Deploy from a branch"
-4. Choose "main" branch and "/ (root)" folder
-5. Save
+### 4) Firebase Hosting
 
-Your site will be available at: `https://yourusername.github.io/ai-autonomous-agent-system`
+**Use when:** You want Firebase ecosystem integration (Auth/Firestore extensions later).
 
-### 4. Firebase Hosting
+1. Install CLI: `npm i -g firebase-tools`
+2. Login: `firebase login`
+3. Select project: `firebase use --add` (choose or create one in the console)
+4. Deploy hosting: `firebase deploy --only hosting`
+5. Verify at the provided hosting URL.
 
-**Best for**: Google ecosystem integration
+**Rollback (Firebase Hosting)**  
+- Use versioned releases: `firebase hosting:channel:deploy rollback-<timestamp>` for a temporary rollback channel, then promote if stable with `firebase hosting:clone <project-id>:rollback-<timestamp> <project-id>:live`.
+- Alternatively, redeploy the last good commit using `firebase deploy --only hosting` after checking out the known-good revision.
 
-```bash
-# Install Firebase CLI
-npm i -g firebase-tools
+### 5) AWS S3 + CloudFront
 
-# Login and initialize
-firebase login
-firebase init hosting
+**Use when:** You need enterprise controls and custom caching.
 
-# Deploy
-firebase deploy
-```
+1. Configure AWS CLI: `aws configure`
+2. Create bucket: `aws s3 mb s3://your-bucket-name`
+3. Sync site: `aws s3 sync . s3://your-bucket-name --exclude "node_modules/*"`
+4. Create/attach CloudFront distribution pointing at the bucket.
+5. Invalidate cache after changes:
+   ```bash
+   aws cloudfront create-invalidation --distribution-id <DIST_ID> --paths "/*"
+   ```
 
-### 5. AWS S3 + CloudFront
+**Rollback (S3/CloudFront)**  
+- Restore previous versioned objects if versioning is enabled:
+  ```bash
+  aws s3 cp s3://your-bucket-name/path/to/object --version-id <VERSION_ID> s3://your-bucket-name/path/to/object
+  aws cloudfront create-invalidation --distribution-id <DIST_ID> --paths "/*"
+  ```
+- If versioning is not enabled, re-sync from the last known good build artifact.
 
-**Best for**: Enterprise, custom domains, advanced caching
+### 6) Docker Deployment
 
-```bash
-# Install AWS CLI
-aws configure
+**Use when:** You target Kubernetes or need parity between environments.
 
-# Create S3 bucket
-aws s3 mb s3://your-bucket-name
-
-# Upload files
-aws s3 sync . s3://your-bucket-name --exclude "node_modules/*"
-
-# Set up CloudFront distribution
-# (Use AWS Console for CloudFront setup)
-```
-
-### 6. Docker Deployment
-
-**Best for**: Containerized environments, Kubernetes
-
-#### Dockerfile (included in repo)
+Dockerfile (included in repo):
 ```dockerfile
 # Use a lightweight Nginx image to serve the static site
 FROM nginx:1.27-alpine
@@ -118,24 +147,35 @@ EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]
 ```
 
-#### Build & Run Locally
+**Build & Run Locally**
 ```bash
-# Build image (uses .dockerignore to skip dev files)
 docker build -t ai-agent-system .
-
-# Run container on port 8080
 docker run -p 8080:8080 ai-agent-system
 ```
 
-### 7. Google Cloud Run (with Cloud Build)
+**Deploy to your registry**
+```bash
+docker tag ai-agent-system <registry>/<project>/ai-agent-system:$(git rev-parse --short HEAD)
+docker push <registry>/<project>/ai-agent-system:$(git rev-parse --short HEAD)
+```
 
-**Best for**: Serverless containers on Google Cloud
+**Rollback (Containers/Kubernetes)**
+- In Kubernetes: update the deployment image to the previous tag and apply:
+  ```bash
+  kubectl set image deployment/ai-agent web=<registry>/<project>/ai-agent-system:<prev-tag>
+  kubectl rollout status deployment/ai-agent
+  ```
+- For plain Docker hosts: stop the current container and start the previous tag.
 
-#### Prerequisites
-- Enable the Cloud Run and Cloud Build APIs
-- Install and authenticate the Google Cloud CLI (`gcloud auth login` and `gcloud config set project <PROJECT_ID>`)
+### 7) Google Cloud Run (with Cloud Build)
 
-#### Deploy with Cloud Build
+**Use when:** You want serverless containers with autoscaling on Google Cloud.
+
+Prerequisites:
+- Enable Cloud Run and Cloud Build APIs
+- Authenticate: `gcloud auth login` and `gcloud config set project <PROJECT_ID>`
+
+**Deploy with Cloud Build**
 ```bash
 # Submit build using the provided cloudbuild.yaml
 gcloud builds submit --config cloudbuild.yaml \
@@ -146,9 +186,17 @@ gcloud builds submit --config cloudbuild.yaml \
 # 2) Deploy it to Cloud Run in the specified region
 ```
 
+**Rollback (Cloud Run)**
+- List revisions: `gcloud run revisions list --service ai-autonomous-coder`
+- Route 100% traffic to a stable revision:
+  ```bash
+  gcloud run services update-traffic ai-autonomous-coder --to-revisions <rev>=100
+  ```
+- If the issue is image-related, redeploy the previous image digest with the same command used above but substituting the digest.
+
 > Notes:
 > - The Cloud Build config sets `options.logging` to `CLOUD_LOGGING_ONLY` so you can view logs in Cloud Logging even when specifying a custom build service account.
-> - The Dockerfile and nginx.conf in the repository are configured to listen on port 8080 and to serve the SPA with `try_files` routing for client-side navigation.
+> - The Dockerfile and nginx.conf are configured to listen on port 8080 and to serve the SPA with `try_files` routing for client-side navigation.
 
 ## 🔧 Configuration
 
@@ -319,6 +367,39 @@ Users can install it on their devices like a native app.
 - Custom domain and branding
 - Advanced analytics and reporting
 - Dedicated support channels
+
+## 🧭 Runbooks (Common Tasks)
+
+### Rotate Secrets (All Platforms)
+1. Identify the impacted secret (e.g., `GEMINI_API_KEY`).
+2. Generate a new key in the provider console.
+3. Update secrets in:
+   - CI/CD secret store (GitHub Actions, Cloud Build, etc.)
+   - Hosting platform (Vercel/Netlify/Firebase/AWS/GCP)
+4. Redeploy from a clean workspace to ensure no stale cache:
+   ```bash
+   npm run build || true
+   vercel --prod # or equivalent command per platform
+   ```
+5. Invalidate caches/CDN where applicable (CloudFront, Firebase Hosting cache).
+6. Revoke the old key in the provider console and note the rotation date.
+
+### Recover from a Failed Deploy
+1. **Detect**: Check deployment logs (Vercel/Netlify dashboards, `gcloud builds log`, `firebase deploy` output, `aws cloudfront` invalidation status).
+2. **Contain**: If production is degraded, execute the platform-specific rollback procedure (see rollback steps above).
+3. **Diagnose**:
+   - Review build logs and console errors.
+   - Validate environment variables and CSP headers.
+   - Confirm assets were uploaded (e.g., `aws s3 ls s3://bucket` or Firebase Hosting versions).
+4. **Fix**: Patch the issue locally and run smoke tests:
+   ```bash
+   npm run lint || true
+   npm run build || true
+   npm test || true
+   ```
+5. **Redeploy**: Push the fix and redeploy using the normal flow for your platform.
+6. **Verify**: Perform smoke tests (home page load, mic button, provider selection, PWA install).
+7. **Document**: Record root cause, rollback time, and fix in your incident log.
 
 ---
 

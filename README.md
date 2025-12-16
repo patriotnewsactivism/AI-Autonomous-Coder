@@ -242,6 +242,12 @@ netlify deploy --prod
 2. Select main branch
 3. Save
 
+### Firebase Console & CI Dashboards
+- **Firebase Console (project dashboard):** https://console.firebase.google.com/ (select your project → Hosting to view deploys, Storage/Firestore as applicable). Requires authenticated access; replace with your project if direct links are restricted.
+- **GitHub Actions runs:** https://github.com/<org>/<repo>/actions (CI status, logs, and artifacts).
+- **Google Cloud Build history (if using Cloud Run/Build):** https://console.cloud.google.com/cloud-build/builds?project=<project-id> (replace `<project-id>` with your GCP project).
+- **Netlify Deploys:** https://app.netlify.com/sites (choose your site → Deploys tab).
+
 ### Environment Setup
 
 No environment variables needed! Everything runs client-side.
@@ -310,4 +316,3 @@ MIT License - Use freely for any purpose!
 **🎉 Start coding on the go today!**
 
 **Made with ❤️ for mobile developers everywhere**
-
