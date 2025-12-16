@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "ai-autonomous-agent-system"
+    "default": "ai-autonomous-coder-dev",
+    "staging": "ai-autonomous-coder-staging",
+    "production": "ai-autonomous-coder-prod"
   }
 }
