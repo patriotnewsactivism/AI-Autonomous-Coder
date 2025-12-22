@@ -297,16 +297,26 @@ class AutonomousSetup {
   }
 
   async testFileSystem() {
-    // Test file system operations
-    try {
-      const testData = { test: 'data', timestamp: Date.now() };
-      localStorage.setItem('autonomous_test', JSON.stringify(testData));
-      const retrieved = JSON.parse(localStorage.getItem('autonomous_test'));
-      localStorage.removeItem('autonomous_test');
-      return retrieved.test === 'data';
-    } catch (error) {
-      throw new Error('File system test failed: ' + error.message);
-    }
+      // Test file system operations
+      try {
+        const testData = { test: 'data', timestamp: Date.now() };
+        localStorage.setItem('autonomous_test', JSON.stringify(testData));
+        const retrievedRaw = localStorage.getItem('autonomous_test');
+        let retrieved = {};
+
+        try {
+          retrieved = retrievedRaw ? JSON.parse(retrievedRaw) : {};
+        } catch (error) {
+          console.warn('Autonomous test data became corrupted:', error);
+          localStorage.removeItem('autonomous_test');
+          throw new Error('Stored test data was corrupted');
+        }
+
+        localStorage.removeItem('autonomous_test');
+        return retrieved.test === 'data';
+      } catch (error) {
+        throw new Error('File system test failed: ' + error.message);
+      }
   }
 
   async testUIComponents() {

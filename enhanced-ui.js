@@ -1050,9 +1050,19 @@ class EnhancedUISystem {
       autoDeploy: false,
       notifications: true
     };
-    
+
     const stored = localStorage.getItem('enhancedUISettings');
-    return stored ? { ...defaultSettings, ...JSON.parse(stored) } : defaultSettings;
+    if (!stored) {
+      return defaultSettings;
+    }
+
+    try {
+      return { ...defaultSettings, ...JSON.parse(stored) };
+    } catch (error) {
+      console.warn('Corrupted UI settings detected. Resetting to defaults.', error);
+      localStorage.removeItem('enhancedUISettings');
+      return defaultSettings;
+    }
   }
 
   saveSettings() {
