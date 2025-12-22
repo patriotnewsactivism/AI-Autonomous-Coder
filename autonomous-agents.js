@@ -156,15 +156,7 @@ class ProjectPlannerAgent {
     `;
     
     const response = await this.aiProvider.generate(prompt);
-    try {
-      return JSON.parse(response);
-    } catch (error) {
-      console.error('Invalid JSON returned during requirements analysis:', {
-        responseSnippet: response?.slice?.(0, 200),
-        error
-      });
-      throw new Error('AI provider returned invalid JSON for requirements analysis');
-    }
+    return this.parseJsonResponse(response, 'requirements analysis');
   }
 
   async selectTechnologyStack(analysis) {
@@ -186,15 +178,7 @@ class ProjectPlannerAgent {
     `;
     
     const response = await this.aiProvider.generate(prompt);
-    try {
-      return JSON.parse(response);
-    } catch (error) {
-      console.error('Invalid JSON returned while selecting technology stack:', {
-        responseSnippet: response?.slice?.(0, 200),
-        error
-      });
-      throw new Error('AI provider returned invalid JSON for technology stack selection');
-    }
+    return this.parseJsonResponse(response, 'technology stack selection');
   }
 
   async createProjectStructure(analysis, techStack) {
@@ -394,6 +378,52 @@ class ProjectPlannerAgent {
 
   generateProjectId() {
     return 'proj_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  }
+
+  parseJsonResponse(response, context) {
+    if (typeof response !== 'string') {
+      console.error('AI provider returned a non-string response.', {
+        context,
+        responseType: typeof response
+      });
+      throw new Error(`AI provider returned invalid JSON for ${context}`);
+    }
+
+    let cleaned = response.trim();
+
+    const fenced = cleaned.match(/```(?:json)?\s*([\s\S]*?)```/i);
+    if (fenced && fenced[1]) {
+      cleaned = fenced[1].trim();
+    }
+
+    const attemptParse = (input) => {
+      try {
+        return { data: JSON.parse(input) };
+      } catch (error) {
+        return { error };
+      }
+    };
+
+    const primary = attemptParse(cleaned);
+    if (!primary.error) {
+      return primary.data;
+    }
+
+    const firstBrace = cleaned.indexOf('{');
+    const lastBrace = cleaned.lastIndexOf('}');
+    if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+      const sliced = cleaned.slice(firstBrace, lastBrace + 1);
+      const secondary = attemptParse(sliced);
+      if (!secondary.error) {
+        return secondary.data;
+      }
+    }
+
+    console.error(`Invalid JSON returned during ${context}:`, {
+      responsePreview: cleaned.slice(0, 5000),
+      parseError: primary.error?.message
+    });
+    throw new Error(`AI provider returned invalid JSON for ${context}`);
   }
 }
 
