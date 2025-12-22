@@ -156,7 +156,15 @@ class ProjectPlannerAgent {
     `;
     
     const response = await this.aiProvider.generate(prompt);
-    return JSON.parse(response);
+    try {
+      return JSON.parse(response);
+    } catch (error) {
+      console.error('Invalid JSON returned during requirements analysis:', {
+        responseSnippet: response?.slice?.(0, 200),
+        error
+      });
+      throw new Error('AI provider returned invalid JSON for requirements analysis');
+    }
   }
 
   async selectTechnologyStack(analysis) {
@@ -178,7 +186,15 @@ class ProjectPlannerAgent {
     `;
     
     const response = await this.aiProvider.generate(prompt);
-    return JSON.parse(response);
+    try {
+      return JSON.parse(response);
+    } catch (error) {
+      console.error('Invalid JSON returned while selecting technology stack:', {
+        responseSnippet: response?.slice?.(0, 200),
+        error
+      });
+      throw new Error('AI provider returned invalid JSON for technology stack selection');
+    }
   }
 
   async createProjectStructure(analysis, techStack) {
@@ -1525,7 +1541,18 @@ class KnowledgeBase {
     // Load from localStorage or external storage
     const stored = localStorage.getItem('knowledgeBase');
     if (stored) {
-      this.data = JSON.parse(stored);
+      try {
+        this.data = JSON.parse(stored);
+      } catch (error) {
+        console.warn('Corrupted knowledge base data detected. Resetting to defaults.', error);
+        localStorage.removeItem('knowledgeBase');
+        this.data = {
+          successes: [],
+          failures: [],
+          patterns: [],
+          recommendations: []
+        };
+      }
     }
   }
 
