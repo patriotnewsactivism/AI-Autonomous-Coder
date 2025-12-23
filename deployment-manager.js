@@ -3,6 +3,100 @@
  * Handles automated deployment, CI/CD, and infrastructure management
  */
 
+if (typeof parseJsonLoose !== 'function') {
+  function stripJsonCodeFence(text) {
+    let cleaned = String(text ?? '').trim();
+    const fenced = cleaned.match(/```(?:json)?\s*([\s\S]*?)```/i);
+    if (fenced && fenced[1]) {
+      cleaned = fenced[1].trim();
+    }
+    return cleaned.replace(/^\uFEFF/, '');
+  }
+
+  function extractFirstJsonValue(text) {
+    const str = String(text ?? '');
+    const firstObject = str.indexOf('{');
+    const firstArray = str.indexOf('[');
+    if (firstObject === -1 && firstArray === -1) {
+      return null;
+    }
+
+    const start =
+      firstObject === -1 ? firstArray : firstArray === -1 ? firstObject : Math.min(firstObject, firstArray);
+
+    const stack = [];
+    let inString = false;
+    let escaped = false;
+
+    for (let idx = start; idx < str.length; idx++) {
+      const ch = str[idx];
+
+      if (inString) {
+        if (escaped) {
+          escaped = false;
+          continue;
+        }
+        if (ch === '\\\\') {
+          escaped = true;
+          continue;
+        }
+        if (ch === '"') {
+          inString = false;
+        }
+        continue;
+      }
+
+      if (ch === '"') {
+        inString = true;
+        continue;
+      }
+
+      if (ch === '{') {
+        stack.push('}');
+        continue;
+      }
+      if (ch === '[') {
+        stack.push(']');
+        continue;
+      }
+
+      if (ch === '}' || ch === ']') {
+        if (stack.length === 0) {
+          return null;
+        }
+        const expected = stack.pop();
+        if (ch !== expected) {
+          return null;
+        }
+        if (stack.length === 0) {
+          return str.slice(start, idx + 1);
+        }
+      }
+    }
+
+    return null;
+  }
+
+  function parseJsonLoose(rawBody) {
+    const cleaned = stripJsonCodeFence(rawBody);
+
+    try {
+      return JSON.parse(cleaned);
+    } catch {
+      const extracted = extractFirstJsonValue(cleaned);
+      if (!extracted) {
+        throw new Error('Response was not valid JSON');
+      }
+      return JSON.parse(extracted);
+    }
+  }
+}
+
+async function readJsonResponse(response) {
+  const rawBody = await response.text();
+  return parseJsonLoose(rawBody);
+}
+
 class DeploymentManager {
   constructor() {
     this.platforms = {
@@ -231,7 +325,7 @@ class VercelDeployment {
       throw new Error(`Failed to create Vercel project: ${response.statusText}`);
     }
     
-    return await response.json();
+    return await readJsonResponse(response);
   }
 
   async uploadFiles(project, vercelProject) {
@@ -257,7 +351,7 @@ class VercelDeployment {
       throw new Error(`Failed to deploy to Vercel: ${response.statusText}`);
     }
     
-    return await response.json();
+    return await readJsonResponse(response);
   }
 
   detectFramework(techStack) {
@@ -332,7 +426,7 @@ class NetlifyDeployment {
       throw new Error(`Failed to create Netlify site: ${response.statusText}`);
     }
     
-    return await response.json();
+    return await readJsonResponse(response);
   }
 
   async deployFiles(project, site) {
@@ -589,7 +683,7 @@ class GitHubDeployment {
       throw new Error(`Failed to create GitHub repository: ${response.statusText}`);
     }
     
-    return await response.json();
+    return await readJsonResponse(response);
   }
 
   async pushCode(project, repo) {

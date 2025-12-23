@@ -217,8 +217,8 @@
             
             // Test a simple API call
             fetch('https://httpbin.org/get')
-                .then(response => response.json())
-                .then(data => {
+                .then(response => response.text())
+                .then(() => {
                     updateSystemStatus('✅ API connection test passed', 'success');
                 })
                 .catch(error => {

@@ -3,6 +3,123 @@
  * Multi-provider support with intelligent fallback and optimization
  */
 
+function stripJsonCodeFence(text) {
+  let cleaned = String(text ?? '').trim();
+  const fenced = cleaned.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  if (fenced && fenced[1]) {
+    cleaned = fenced[1].trim();
+  }
+  return cleaned.replace(/^\uFEFF/, '');
+}
+
+function extractFirstJsonValue(text) {
+  const str = String(text ?? '');
+  const firstObject = str.indexOf('{');
+  const firstArray = str.indexOf('[');
+  if (firstObject === -1 && firstArray === -1) {
+    return null;
+  }
+
+  const start =
+    firstObject === -1 ? firstArray : firstArray === -1 ? firstObject : Math.min(firstObject, firstArray);
+
+  const stack = [];
+  let inString = false;
+  let escaped = false;
+
+  for (let idx = start; idx < str.length; idx++) {
+    const ch = str[idx];
+
+    if (inString) {
+      if (escaped) {
+        escaped = false;
+        continue;
+      }
+      if (ch === '\\\\') {
+        escaped = true;
+        continue;
+      }
+      if (ch === '"') {
+        inString = false;
+      }
+      continue;
+    }
+
+    if (ch === '"') {
+      inString = true;
+      continue;
+    }
+
+    if (ch === '{') {
+      stack.push('}');
+      continue;
+    }
+    if (ch === '[') {
+      stack.push(']');
+      continue;
+    }
+
+    if (ch === '}' || ch === ']') {
+      if (stack.length === 0) {
+        return null;
+      }
+      const expected = stack.pop();
+      if (ch !== expected) {
+        return null;
+      }
+      if (stack.length === 0) {
+        return str.slice(start, idx + 1);
+      }
+    }
+  }
+
+  return null;
+}
+
+function parseJsonLoose(rawBody) {
+  const cleaned = stripJsonCodeFence(rawBody);
+
+  try {
+    return JSON.parse(cleaned);
+  } catch {
+    const extracted = extractFirstJsonValue(cleaned);
+    if (!extracted) {
+      throw new Error('Response was not valid JSON');
+    }
+    return JSON.parse(extracted);
+  }
+}
+
+function parseOllamaResponse(rawBody) {
+  const trimmed = String(rawBody ?? '').trim();
+  if (!trimmed) {
+    throw new Error('Empty response body from Ollama');
+  }
+
+  try {
+    return JSON.parse(trimmed);
+  } catch (error) {
+    const chunks = [];
+    const lines = trimmed.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+
+    for (const line of lines) {
+      try {
+        chunks.push(JSON.parse(line));
+      } catch {
+        // ignore non-JSON lines
+      }
+    }
+
+    if (chunks.length === 0) {
+      throw error;
+    }
+
+    const combinedResponse = chunks.map((chunk) => chunk.response || '').join('');
+    const lastChunk = chunks[chunks.length - 1];
+    return { ...lastChunk, response: combinedResponse };
+  }
+}
+
 class EnhancedAIProvider {
   constructor() {
     this.providers = {
@@ -229,10 +346,21 @@ class GeminiProvider {
       });
 
       if (!response.ok) {
-        throw new Error(`Gemini API error: ${response.status} ${response.statusText}`);
+        const errorBody = await response.text();
+        let detail = response.statusText;
+        try {
+          const errorData = parseJsonLoose(errorBody);
+          detail = errorData.error?.message || errorData.message || detail;
+        } catch {
+          if (errorBody && errorBody.trim()) {
+            detail = errorBody.trim().slice(0, 300);
+          }
+        }
+        throw new Error(`Gemini API error: ${response.status} ${detail}`);
       }
 
-      const data = await response.json();
+      const rawBody = await response.text();
+      const data = parseJsonLoose(rawBody);
       
       if (data.candidates && data.candidates[0] && data.candidates[0].content) {
         return data.candidates[0].content.parts[0].text;
@@ -295,11 +423,21 @@ class OpenAIProvider {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(`OpenAI API error: ${response.status} ${errorData.error?.message || response.statusText}`);
+        const errorBody = await response.text();
+        let detail = response.statusText;
+        try {
+          const errorData = parseJsonLoose(errorBody);
+          detail = errorData.error?.message || errorData.message || detail;
+        } catch {
+          if (errorBody && errorBody.trim()) {
+            detail = errorBody.trim().slice(0, 300);
+          }
+        }
+        throw new Error(`OpenAI API error: ${response.status} ${detail}`);
       }
 
-      const data = await response.json();
+      const rawBody = await response.text();
+      const data = parseJsonLoose(rawBody);
       
       if (data.choices && data.choices[0] && data.choices[0].message) {
         return data.choices[0].message.content;
@@ -357,11 +495,21 @@ class ClaudeProvider {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(`Claude API error: ${response.status} ${errorData.error?.message || response.statusText}`);
+        const errorBody = await response.text();
+        let detail = response.statusText;
+        try {
+          const errorData = parseJsonLoose(errorBody);
+          detail = errorData.error?.message || errorData.message || detail;
+        } catch {
+          if (errorBody && errorBody.trim()) {
+            detail = errorBody.trim().slice(0, 300);
+          }
+        }
+        throw new Error(`Claude API error: ${response.status} ${detail}`);
       }
 
-      const data = await response.json();
+      const rawBody = await response.text();
+      const data = parseJsonLoose(rawBody);
       
       if (data.content && data.content[0] && data.content[0].text) {
         return data.content[0].text;
@@ -421,11 +569,21 @@ class GroqProvider {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(`Groq API error: ${response.status} ${errorData.error?.message || response.statusText}`);
+        const errorBody = await response.text();
+        let detail = response.statusText;
+        try {
+          const errorData = parseJsonLoose(errorBody);
+          detail = errorData.error?.message || errorData.message || detail;
+        } catch {
+          if (errorBody && errorBody.trim()) {
+            detail = errorBody.trim().slice(0, 300);
+          }
+        }
+        throw new Error(`Groq API error: ${response.status} ${detail}`);
       }
 
-      const data = await response.json();
+      const rawBody = await response.text();
+      const data = parseJsonLoose(rawBody);
       
       if (data.choices && data.choices[0] && data.choices[0].message) {
         return data.choices[0].message.content;
@@ -480,11 +638,21 @@ class HuggingFaceProvider {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(`Hugging Face API error: ${response.status} ${errorData.error || response.statusText}`);
+        const errorBody = await response.text();
+        let detail = response.statusText;
+        try {
+          const errorData = parseJsonLoose(errorBody);
+          detail = errorData.error || errorData.message || detail;
+        } catch {
+          if (errorBody && errorBody.trim()) {
+            detail = errorBody.trim().slice(0, 300);
+          }
+        }
+        throw new Error(`Hugging Face API error: ${response.status} ${detail}`);
       }
 
-      const data = await response.json();
+      const rawBody = await response.text();
+      const data = parseJsonLoose(rawBody);
       
       if (Array.isArray(data) && data[0] && data[0].generated_text) {
         return data[0].generated_text;
@@ -532,10 +700,13 @@ class OllamaProvider {
       });
 
       if (!response.ok) {
-        throw new Error(`Ollama API error: ${response.status} ${response.statusText}`);
+        const errorBody = await response.text();
+        const detail = errorBody && errorBody.trim() ? errorBody.trim().slice(0, 300) : response.statusText;
+        throw new Error(`Ollama API error: ${response.status} ${detail}`);
       }
 
-      const data = await response.json();
+      const rawBody = await response.text();
+      const data = parseOllamaResponse(rawBody);
       
       if (data.response) {
         return data.response;

@@ -189,8 +189,8 @@
         function testAPI() {
             // Test if we can make a simple API call
             fetch('https://httpbin.org/get')
-                .then(response => response.json())
-                .then(data => {
+                .then(response => response.text())
+                .then(() => {
                     addMessage('api-test', '✅ API connectivity test passed', 'success');
                 })
                 .catch(error => {

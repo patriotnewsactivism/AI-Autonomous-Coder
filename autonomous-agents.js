@@ -409,11 +409,73 @@ class ProjectPlannerAgent {
       return primary.data;
     }
 
-    const firstBrace = cleaned.indexOf('{');
-    const lastBrace = cleaned.lastIndexOf('}');
-    if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
-      const sliced = cleaned.slice(firstBrace, lastBrace + 1);
-      const secondary = attemptParse(sliced);
+    const extractFirstJsonValue = (text) => {
+      const str = String(text ?? '');
+      const firstObject = str.indexOf('{');
+      const firstArray = str.indexOf('[');
+      if (firstObject === -1 && firstArray === -1) {
+        return null;
+      }
+
+      const start =
+        firstObject === -1 ? firstArray : firstArray === -1 ? firstObject : Math.min(firstObject, firstArray);
+
+      const stack = [];
+      let inString = false;
+      let escaped = false;
+
+      for (let idx = start; idx < str.length; idx++) {
+        const ch = str[idx];
+
+        if (inString) {
+          if (escaped) {
+            escaped = false;
+            continue;
+          }
+          if (ch === '\\\\') {
+            escaped = true;
+            continue;
+          }
+          if (ch === '"') {
+            inString = false;
+          }
+          continue;
+        }
+
+        if (ch === '"') {
+          inString = true;
+          continue;
+        }
+
+        if (ch === '{') {
+          stack.push('}');
+          continue;
+        }
+        if (ch === '[') {
+          stack.push(']');
+          continue;
+        }
+
+        if (ch === '}' || ch === ']') {
+          if (stack.length === 0) {
+            return null;
+          }
+          const expected = stack.pop();
+          if (ch !== expected) {
+            return null;
+          }
+          if (stack.length === 0) {
+            return str.slice(start, idx + 1);
+          }
+        }
+      }
+
+      return null;
+    };
+
+    const extracted = extractFirstJsonValue(cleaned);
+    if (extracted) {
+      const secondary = attemptParse(extracted);
       if (!secondary.error) {
         return secondary.data;
       }
