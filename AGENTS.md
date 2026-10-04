@@ -54,3 +54,11 @@ CI also runs `npx html-validate index.html` (see `.github/workflows/deploy.yml`)
 
 - Do not edit `node_modules/`.
 - Prefer small, reviewable patches and keep generated output deterministic.
+
+## Cursor Cloud specific instructions
+
+- Install with `npm ci`. Node on the default image satisfies `engines` (`>=14`); CI pins Node 18.
+- The app is a static PWA. `npm start` serves it on `0.0.0.0:3000` (`serve` listens there by default). `npm run dev` is the same server with live reload. There is no compile step (`npm run build` only prints that the site is static).
+- Provider API keys are typed into the in-app Config modal and stored in browser `localStorage`. They are not required to boot the server. Submitting a task with no key shows the real-data configuration error; that is expected. Clicking Start with no key also opens a browser alert: "System is ready! Please configure your API key first."
+- `npm test` and `npm run lint` are placeholders. `npx html-validate index.html` matches CI, and the current `index.html` fails that check on existing markup (implicit button types, inline styles, trailing whitespace, password autocomplete).
+- `functions/` is a separate package. `firebase.json` only configures hosting, so the functions emulator is not part of the static app boot.
